@@ -1,0 +1,35 @@
+composer require symfony/webpack-encore-bundle
+npm -v
+npm install
+npm run dev
+npm run watch
+php bin/console server:run
+
+Insert into base.html.twig [~including .css and .js in .html] (https://symfony.com/doc/current/frontend/encore/simple-example.html):
+
+         {{ encore_entry_link_tags('app') }}
+
+{{ encore_entry_script_tags('app') }}
+
+Create assets/css/style.css
+In assets/js/app.js: require('../css/style.css');
+SASS
+In webpack.config.js: uncomment .enableSassLoader() and .autoProvidejQuery()
+Create assets/css/happy-style.scss, include it in assets/js/app.js: require('../css/happy-style.scss');
+npm install bootstrap jquery popper.js
+In assets/js/app.js: 
+const $ = require(‘jquery’);
+require(‘bootstrap’);
+     -  In happy-style.scss:  @import “~bootstrap” 
+     - npm run dev (compile)
+    - npm install sass-loader node-sass --save-dev
+  [  - install sass-loader@8.0.0 --save-dev
+    - npm install sass@^1.3.0 --save-dev ]
+    - npm install sass-loader@7.0.1 --save-dev
+    - npm run dev
+(don’t forget to test it in a page with a route - create a Controller first)
+php bin/console make:controller
+http://127.0.0.1:8000/default (check inspect console, you should see “Hello Webpack Encore! Edit me in assets/js/app.js”)
+Style.css - ok; Bootstrap - ok (try <div class=”bg-warning”> in twig)
+
+err .scss @import

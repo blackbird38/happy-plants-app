@@ -1,0 +1,10 @@
+
+> fibers@4.0.1 install C:\Users\otyco\Desktop\projects\symfony\happy-plants-app\node_modules\fibers
+> node build.js || nodejs build.js
+
+`win32-x64-64` exists; testing
+Binary is fine; exiting
++ fibers@4.0.1
+added 2 packages from 3 contributors and audited 12050 packages in 8.818s
+found 0 vulnerabilities
+
