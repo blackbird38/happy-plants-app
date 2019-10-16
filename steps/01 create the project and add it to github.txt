@@ -1,0 +1,10 @@
+composer create-project symfony/website-skeleton happy-plants-app
+cd happy-plants-app
+git init
+-> add .idea in .gitignore
+git add .
+git commit -m "Created project"
+git remote add origin https://github.com/blackbird38/happy-plants-app.git
+git remote -v
+git push -u origin master
+
