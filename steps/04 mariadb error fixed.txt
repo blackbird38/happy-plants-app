@@ -1,0 +1,24 @@
+1064 Mariadb error
+
+JSON was introduced in MySQL 5.7
+JSON was added in MariaDB 10.2.7
+(https://stackoverflow.com/questions/53366186/syntax-error-or-access-violation-1064-you-have-an-error-in-your-sql-in-symfony)
+
+http://localhost/phpmyadmin/ - export dbs
+
+sudo systemctl stop mariadb.service
+sudo apt remove mariadb-server
+
+sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirrors.ovh.net/MariaDB/repo/10.4/ubuntu bionic main'
+
+sudo apt-get update
+sudo apt-get install mariadb-server mariadb-client
+sudo mysql_upgrade
+sudo service apache2 restart
+
+(https://websiteforstudents.com/upgrading-mariadb-from-10-0-to-10-1-to-10-2-on-ubuntu-16-04-17-10/)
+
+
+
