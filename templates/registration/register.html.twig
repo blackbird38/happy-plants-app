@@ -16,6 +16,9 @@
                 </div>
                 <div class="col-md-6">
                     {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.name) }}
+                    {{ form_row(registrationForm.lastname) }}
+                    {{ form_row(registrationForm.phone) }}
                     {{ form_row(registrationForm.email) }}
                     {{ form_row(registrationForm.plainPassword) }}
                     {{ form_row(registrationForm.agreeTerms) }}
