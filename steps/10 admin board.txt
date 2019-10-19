@@ -1,0 +1,1 @@
+php bin/console make:controller

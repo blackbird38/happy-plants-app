@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminBoardController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h2>Admin panel > Users</h2>
+
+    {% if message %}
+        {{ message }}
+    {% endif %}
+    <table>
+        <tr><th></th><th>email</th><th>name</th><th>lastname</th><th>phone</th><th>photo</th><tr>
+        {% for user in users %}
+            <tr>
+                <td><input type="checkbox" name="user{{user.id}}" value="user.id"> </td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.photo }}</td>
+                <td><a href="{{ path('admin-edit-user', {'id' : user.id})}}">Edit</a></td>
+                <td><a href="{{ path('admin-delete-user', {'id' : user.id})}}">Delete</a></td>
+            </tr>
+        {% endfor %}
+        <tr><td colspan="3"><a href="">Delete selected</a></td></tr>
+    </table>
+
+</div>
+{% endblock %}
