@@ -1,0 +1,4 @@
+delete database
+//commented $this->addSql('CREATE TABLE ...) in the 1st migration (make:user)
+php binconsole d:d:c
+php binconsole d:m:m
