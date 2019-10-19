@@ -8,51 +8,31 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <a class="navbar-brand ml-4" href="#">Happy Plant</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('default')}}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login')}}">Login</a>
-                    </li>
-                {% endif %}
-            </ul>
-
-        </div>
-    </nav>
-
-            {% block body %}
-               <div class="container">
+    {% block body %}
+        {% include('navbar.html.twig') %}
+               <div class="container mt-5">
                 <div class="jumbotron">
-                    <h1 class="display-3">Hello, world!</h1>
-                    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                    <h1 class="display-3">Welcome here! </h1>
+                    <p class="lead">We're coming with a solution that will keep your <span class="badge badge-success">plants</span> alive! </p>
                     <hr class="my-4">
-                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                    <p>Not only that, but your plants will always be <span class="badge badge-success">happy</span>!</p>
                     <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                        <a class="btn btn-success btn-lg" href="{{ path('app_register')}}" role="button">Register</a>
                     </p>
+
                 </div>
+
                </div>
+
+                <footer class="mx-0 bg-dark text-center text-light">
+                    <p>Happy Plants App created with <a href="https://symfony.com/">Symfony</a> and &#10084; by <a href="https://twitter.com/">blackbird</a>.</p>
+                    <p>
+                        <a href="#">Back to top</a>
+                    </p>
+                </footer>
             {% endblock %}
-                 {% block javascripts %}
+             {% block javascripts %}
                         {{ encore_entry_script_tags('app') }}
-                {% endblock %}
+            {% endblock %}
 
-
-
-
-    </body>
 </html>
