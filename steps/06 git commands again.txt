@@ -1,0 +1,12 @@
+before creating a new branch, pull the changes from upstream. Your master needs to be up to date:
+git pull
+git checkout -b [name_of_your_new_branch]
+git push origin [name_of_your_new_branch]
+switch branch:
+git checkout [name_of_your_new_branch]
+
+to see all branches
+git branch -a 
+
+git checkout master
+git merge [name_of_your_new_branch]

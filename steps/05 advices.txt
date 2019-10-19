@@ -1,0 +1,12 @@
+Problem:
+make:user User + make:auth + make:registration-form + register a user with only email and password (defaults for make:user) => should not be not null conflict when updating User with make:entity and setting not null columns (!)
+fixed: delete database (recordings) and redo migrations
+
+
+Problem: An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack: the file "...\happy-plants-app/public/build/entrypoints.json" does not exist.").
+=> npm run dev
+
+
+
+
+
