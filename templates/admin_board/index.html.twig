@@ -28,7 +28,7 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" data-toggle="tab" href="#mediums2">Mediums</a>
                 <a class="dropdown-item" data-toggle="tab" href="#stages2">Stages</a>
-                <a class="dropdown-item" data-toggle="tab" href="#species2">Species</a>
+                <a class="dropdown-item" data-toggle="tab" href="#species2">Types</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" data-toggle="tab" href="#actions2">Actions</a>
             </div>
@@ -115,21 +115,28 @@
             </div>
         </div>
         <div class="tab-pane" id="species2" role="tabpanel" aria-labelledby="settings-tab">
-            <p>Species</p>
+            <p>Types</p>
             <hr class="my-4">
-            <table>
-                <tr><th></th><th>Name</th><tr>
-                    {#           {% for spec in species %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr><th>select</th><th>Name</th><th>Photo</th><th>edit</th><th>delete</th></tr>
+                    </thead>
+                    <tbody>
+                             {% for spec in species %}
                           <tr>
                               <td><input type="checkbox" name="species{{spec.id}}" value="spec.id"> </td>
                               <td>{{ spec.name }}</td>
-                                <td><a href="{{ path('admin-edit-species', {'id' : species.id})}}">Edit</a></td>
-                                    <td><a href="{{ path('admin-delete-species', {'id' : species.id})}}">Delete</a></td>
+                              <td> <img src="{{asset('build/'~ spec.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 40%;"></td>
+                                <td><a href="{{ path('admin-edit-species', {'id' : spec.id})}}">Edit</a></td>
+                                    <td><a href="{{ path('admin-delete-species', {'id' : spec.id})}}">Delete</a></td>
 
                 </tr>
                 {% endfor %}
-                <tr><td colspan="3"><a href="">Delete selected</a></td></tr>#}
+                <tr><td colspan="3"><a href="">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-species')}}">Add new</a></td></tr>
+                    </tbody>
             </table>
+            </div>
         </div>
         <div class="tab-pane" id="actions2" role="tabpanel" aria-labelledby="settings-tab">
             <p>Actions</p>

@@ -5,14 +5,17 @@ namespace App\Controller;
 use App\Entity\Medium;
 use App\Entity\Stage;
 use App\Entity\Action;
+use App\Entity\Species;
 use App\Repository\ActionRepository;
 use App\Repository\MediumRepository;
 use App\Repository\StageRepository;
 use App\Repository\UserRepository;
+use App\Repository\SpeciesRepository;
 use App\Form\UserType;
 use App\Form\MediumType;
 use App\Form\StageType;
 use App\Form\ActionType;
+use App\Form\SpeciesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,17 +28,20 @@ class AdminBoardController extends AbstractController
     private $mediumRepository;
     private $stageRepository;
     private $actionRepository;
+    private $speciesRepository;
 
     public function __construct(UserRepository $userRepository,
                                 MediumRepository $mediumRepository,
                                 StageRepository $stageRepository,
                                 ActionRepository $actionRepository,
+                                SpeciesRepository $speciesRepository,
                                 EntityManagerInterface $entityManager){
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->mediumRepository = $mediumRepository;
         $this->stageRepository = $stageRepository;
         $this->actionRepository = $actionRepository;
+        $this->speciesRepository = $speciesRepository;
     }
 
     /**
@@ -61,13 +67,15 @@ class AdminBoardController extends AbstractController
         $mediums = $this->mediumRepository->findAll();
         $stages = $this->stageRepository->findAll();
         $actions = $this->actionRepository->findAll();
+        $species = $this->speciesRepository->findAll();
 
         return $this->render('admin_board/index.html.twig', [
             'users' => $users,
             'message' => $message,
             'mediums' => $mediums,
             'stages' => $stages,
-            'actions' => $actions
+            'actions' => $actions,
+            'species' => $species
         ]);
 
 
@@ -289,6 +297,69 @@ class AdminBoardController extends AbstractController
         }
         return $this->render('admin_board/action.html.twig', [
             'actionForm' => $form->createView(),
+            'edit' => false,
+        ]);
+    }
+
+
+
+    //-----------------------------------Species-----------------------------------------------//
+    /**
+     * @Route("/admin/edit/species/{id}", name="admin-edit-species")
+     */
+    public function editSpecies(Request $request, $id)
+    {
+        $species  = $this->speciesRepository->find($id);
+        $form = $this->createForm(SpeciesType::class, $species);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $this->entityManager->persist($species);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('admin', array('message'=> "The info for the species was updated."));
+        }
+
+        return $this->render('admin_board/species.html.twig', [
+            'speciesForm' => $form->createView(),
+            'edit' => true
+        ]);
+
+        // TODO : send a message
+    }
+
+    /**
+     * @Route("/admin/delete/species/{id}", name="admin-delete-species")
+     */
+    public function deleteSpecies($id)
+    {
+        $speciesToDelete  = $this->speciesRepository->find($id);
+        $this->entityManager->remove($speciesToDelete);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('admin', array('message'=> "Species deleted."));
+
+        // TODO : send a message
+    }
+
+
+    /**
+     * @Route("/admin/add/species", name="admin-add-species")
+     */
+    public function addNewSpecies(Request $request)
+    {
+        $species = new Species();
+        $form = $this->createForm(SpeciesType::class, $species);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $species->setName($form->get('name')->getData());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($species);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin');
+
+            // TODO : send a message
+
+        }
+        return $this->render('admin_board/species.html.twig', [
+            'speciesForm' => $form->createView(),
             'edit' => false,
         ]);
     }

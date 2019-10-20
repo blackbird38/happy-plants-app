@@ -28,6 +28,11 @@ class Species
      */
     private $plants;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo;
+
     public function __construct()
     {
         $this->plants = new ArrayCollection();
@@ -77,6 +82,18 @@ class Species
                 $plant->setIdSpecies(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }
