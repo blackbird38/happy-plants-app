@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Medium{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    {% include('navbar.html.twig') %}
+    <div class="example-wrapper">
+        <h4>Admin panel > Plants > Stages > Edit/Add new action</h4>
+        {% form_theme actionForm'bootstrap_4_layout.html.twig' %}
+        {{ form_start(actionForm) }}
+        {{ form_row(actionForm.name) }}
+        {% if edit == false %}
+            <button class="btn btn-success">Add new</button>
+        {% else %}
+            <button class="btn btn-success">Update</button>
+        {% endif %}
+        {{ form_end(actionForm) }}
+    </div>
+{% endblock %}

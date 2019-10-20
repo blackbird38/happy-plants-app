@@ -1,3 +1,4 @@
+(php bin/console create:entity) <- use this to update the entity
 delete database
 //commented $this->addSql('CREATE TABLE ...) in the 1st migration (make:user)
 php binconsole d:d:c

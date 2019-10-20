@@ -9,27 +9,155 @@
 </style>
     {% include('navbar.html.twig') %}
 <div class="example-wrapper">
-    <h2>Admin panel > Users</h2>
+    <h2><a href="{{ path('admin')}}">Admin panel</a></h2>
 
     {% if message %}
-        {{ message }}
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>  {{ message }}</strong>
+    </div>
     {% endif %}
-    <table>
-        <tr><th></th><th>email</th><th>name</th><th>lastname</th><th>phone</th><th>photo</th><tr>
-        {% for user in users %}
-            <tr>
-                <td><input type="checkbox" name="user{{user.id}}" value="user.id"> </td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.phone }}</td>
-                <td>{{ user.photo }}</td>
-                <td><a href="{{ path('admin-edit-user', {'id' : user.id})}}">Edit</a></td>
-                <td><a href="{{ path('admin-delete-user', {'id' : user.id})}}">Delete</a></td>
-            </tr>
-        {% endfor %}
-        <tr><td colspan="3"><a href="">Delete selected</a></td></tr>
-    </table>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#users2" role="tab" aria-controls="home" aria-selected="true">Users</a>
+        </li>
+        <li class="nav-item dropdown dropright">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-boundary="viewport" href="#" role="button">Plants</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" data-toggle="tab" href="#mediums2">Mediums</a>
+                <a class="dropdown-item" data-toggle="tab" href="#stages2">Stages</a>
+                <a class="dropdown-item" data-toggle="tab" href="#species2">Species</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" data-toggle="tab" href="#actions2">Actions</a>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+
+    <div class="tab-content ">
+        <div class="tab-pane active" id="users2" role="tabpanel" aria-labelledby="home-tab">
+            <p>Users</p>
+            <hr class="my-4">
+            <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr><th scope="col"></th><th scope="col">email</th><th scope="col">name</th><th scope="col">lastname</th><th scope="col">phone</th><th scope="col">photo</th><th scope="col"> edit</th> <th scope="col"> delete</th></tr>
+                        {% for user in users %}
+
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox" name="user{{user.id}}" value="user.id"> </td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.photo }}</td>
+                    <td><a href="{{ path('admin-edit-user', {'id' : user.id})}}">Edit</a></td>
+                    <td><a href="{{ path('admin-delete-user', {'id' : user.id})}}">Delete</a></td>
+                </tr>
+                {% endfor %}
+                <tr><td colspan="3"><a href="">Delete selected</a></td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <div class="tab-pane" id="mediums2" role="tabpanel" aria-labelledby="profile-tab">
+            <p>Mediums</p>
+            <hr class="my-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr><th scope="col">select</th><th scope="col">Name</th><th scope="col">edit</th><th scope="col">delete</th></tr>
+                    </thead>
+                    <tbody>
+                    {% for medium in mediums %}
+                <tr>
+                    <td><input type="checkbox" name="medium{{medium.id}}" value="medium.id"> </td>
+                    <td>{{ medium.name }}</td>
+                      <td><a href="{{ path('admin-edit-medium', {'id' : medium.id})}}">Edit</a></td>
+                          <td><a href="{{ path('admin-delete-medium', {'id' : medium.id})}}">Delete</a></td>
+
+                </tr>
+                {% endfor %}
+                <tr><td colspan="2"><a href="">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-medium')}}">Add new</a></td></tr>
+
+               </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="stages2" role="tabpanel" aria-labelledby="messages-tab">
+            <p>Stages</p>
+            <hr class="my-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr><th>select</th><th>Name</th><th>edit</th><th>delete</th></tr>
+                    </thead>
+                    <tbody>
+                            {% for stage in stages %}
+                         <tr>
+                            <td><input type="checkbox" name="stage{{stage.id}}" value="stage.id"> </td>
+                            <td>{{ stage.name }}</td>
+                      <td><a href="{{ path('admin-edit-stage', {'id' : stage.id})}}">Edit</a></td>
+                          <td><a href="{{ path('admin-delete-stage', {'id' : stage.id})}}">Delete</a></td>
+
+                        </tr>
+                {% endfor %}
+                <tr><td colspan="2"><a href="">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-stage')}}">Add new</a></td></tr>
+
+                    </tbody>
+            </table>
+            </div>
+        </div>
+        <div class="tab-pane" id="species2" role="tabpanel" aria-labelledby="settings-tab">
+            <p>Species</p>
+            <hr class="my-4">
+            <table>
+                <tr><th></th><th>Name</th><tr>
+                    {#           {% for spec in species %}
+                          <tr>
+                              <td><input type="checkbox" name="species{{spec.id}}" value="spec.id"> </td>
+                              <td>{{ spec.name }}</td>
+                                <td><a href="{{ path('admin-edit-species', {'id' : species.id})}}">Edit</a></td>
+                                    <td><a href="{{ path('admin-delete-species', {'id' : species.id})}}">Delete</a></td>
+
+                </tr>
+                {% endfor %}
+                <tr><td colspan="3"><a href="">Delete selected</a></td></tr>#}
+            </table>
+        </div>
+        <div class="tab-pane" id="actions2" role="tabpanel" aria-labelledby="settings-tab">
+            <p>Actions</p>
+            <hr class="my-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr><th>select</th><th>Name</th><th>edit</th><th>delete</th></tr>
+                    </thead>
+                    <tbody>
+                    {% for action in actions %}
+                        <tr>
+                            <td><input type="checkbox" name="action{{action.id}}" value="action.id"> </td>
+                            <td>{{ action.name }}</td>
+                      <td><a href="{{ path('admin-edit-action', {'id' : action.id})}}">Edit</a></td>
+                          <td><a href="{{ path('admin-delete-action', {'id' : action.id})}}">Delete</a></td>
+
+                        </tr>
+                    {% endfor %}
+                            <tr><td colspan="2"><a href="">Delete selected</a></td>
+                                <td colspan="2"><a href="{{ path('admin-add-action')}}">Add new</a></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">..ss.</div>
+    </div>
 
 </div>
+
 {% endblock %}
