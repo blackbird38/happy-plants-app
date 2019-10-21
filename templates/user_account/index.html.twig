@@ -24,6 +24,12 @@
                     <h4 class="card-title">Hi, {{ app.user.name }}, you can go to the admin dashboard, <a href="{{ path('admin') }}">here!</a></h4>
                 {% elseif is_granted("ROLE_USER") %}
                     <h4 class="card-title">Hi, {{ app.user.name }}!</h4>
+
+                        {% if numberOfPlants == 0 %}
+                            <p> It seems that you don't have any plants yet.</p>
+                            <p>    Let's start by adding a place where you keep them: </p>
+
+                        {% endif %}
                 {% endif %}
             </p>
 

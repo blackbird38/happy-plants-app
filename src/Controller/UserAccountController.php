@@ -11,6 +11,7 @@ use App\Repository\PlantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserAccountController extends AbstractController
 {
@@ -37,13 +38,20 @@ class UserAccountController extends AbstractController
     /**
      * @Route("/user/account", name="user_account")
      */
-    public function index()
+    public function index(UserInterface $user)
     {
         //checking to see if the user has any plants, if it doesn't have, encourage them to upload
-      //  $users = $this->userRepository->findAll();
+        $userID = $user->getId();
+      /*  echo '<pre>';
+        var_dump($userID); die;*/
+         $plants = $this->userRepository->find($userID)->getPlants();
+         $nPlants = count($plants);
+
+
 
         return $this->render('user_account/index.html.twig', [
             'controller_name' => 'UserAccountController',
+            'numberOfPlants' =>  $nPlants,
         ]);
     }
 }

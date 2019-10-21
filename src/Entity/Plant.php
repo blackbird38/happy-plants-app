@@ -56,6 +56,12 @@ class Plant
      */
     private $actionHistories;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="plants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner_id;
+
     public function __construct()
     {
         $this->stageHistories = new ArrayCollection();
@@ -185,6 +191,18 @@ class Plant
                 $actionHistory->setIdPlant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwnerId(): ?User
+    {
+        return $this->owner_id;
+    }
+
+    public function setOwnerId(?User $owner_id): self
+    {
+        $this->owner_id = $owner_id;
 
         return $this;
     }

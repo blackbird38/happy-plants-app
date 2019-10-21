@@ -67,9 +67,21 @@ class User implements UserInterface
      */
     private $actionHistories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Plant", mappedBy="owner_id", orphanRemoval=true)
+     */
+    private $plants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Place", mappedBy="owner", orphanRemoval=true)
+     */
+    private $places;
+
     public function __construct()
     {
         $this->actionHistories = new ArrayCollection();
+        $this->plants = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,6 +247,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($actionHistory->getIdUser() === $this) {
                 $actionHistory->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Plant[]
+     */
+    public function getPlants(): Collection
+    {
+        return $this->plants;
+    }
+
+    public function addPlant(Plant $plant): self
+    {
+        if (!$this->plants->contains($plant)) {
+            $this->plants[] = $plant;
+            $plant->setOwnerId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlant(Plant $plant): self
+    {
+        if ($this->plants->contains($plant)) {
+            $this->plants->removeElement($plant);
+            // set the owning side to null (unless already changed)
+            if ($plant->getOwnerId() === $this) {
+                $plant->setOwnerId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Place[]
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places[] = $place;
+            $place->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        if ($this->places->contains($place)) {
+            $this->places->removeElement($place);
+            // set the owning side to null (unless already changed)
+            if ($place->getOwner() === $this) {
+                $place->setOwner(null);
             }
         }
 

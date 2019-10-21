@@ -48,6 +48,12 @@ class Place
      */
     private $plants;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="places")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
     public function __construct()
     {
         $this->plants = new ArrayCollection();
@@ -145,6 +151,18 @@ class Place
                 $plant->setIdPlace(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
