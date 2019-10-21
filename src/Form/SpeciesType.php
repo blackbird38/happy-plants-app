@@ -6,6 +6,7 @@ use App\Entity\Species;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class SpeciesType extends AbstractType
 {
@@ -13,7 +14,10 @@ class SpeciesType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('photo')
+            ->add('photoFile', FileType::class, [
+                    'mapped' => false,
+                    'label' => 'Please upload an image of the species:'
+    ])
         ;
     }
 

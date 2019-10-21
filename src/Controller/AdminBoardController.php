@@ -20,6 +20,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class AdminBoardController extends AbstractController
 {
@@ -77,7 +79,6 @@ class AdminBoardController extends AbstractController
             'actions' => $actions,
             'species' => $species
         ]);
-
 
     }
 
@@ -310,9 +311,40 @@ class AdminBoardController extends AbstractController
     public function editSpecies(Request $request, $id)
     {
         $species  = $this->speciesRepository->find($id);
+        $oldfile = $species->getPhoto();
+
         $form = $this->createForm(SpeciesType::class, $species);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
+            $file = $request->files->get('species');
+            $file = $file['photoFile'];
+            $uploads_directory = $this->getParameter('uploads_directory'); //defined in services.yaml
+            $filename = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+
+            //---delete the old file---------------------------------
+            $filesystem = new Filesystem();
+            try {
+                $uploads_directory = $this->getParameter('uploads_directory');
+
+                /*   echo '<pre>';
+                   var_dump($uploads_directory.'/'.$oldfile); die;*/
+                $filesystem->remove($uploads_directory.'/'.$oldfile);
+                //https://symfony.com/doc/current/components/filesystem.html#remove
+
+            } catch (IOExceptionInterface $exception) {
+                echo "An error occurred while creating your directory at ".$exception->getPath();
+            }
+            //-----------------------------------------
+
+            $species->setPhoto($filename);
+            $species->setName($form->get('name')->getData());
+
+
+            $species->setCreatedAt(new \DateTime('now'));
             $this->entityManager->persist($species);
             $this->entityManager->flush();
             return $this->redirectToRoute('admin', array('message'=> "The info for the species was updated."));
@@ -332,11 +364,27 @@ class AdminBoardController extends AbstractController
     public function deleteSpecies($id)
     {
         $speciesToDelete  = $this->speciesRepository->find($id);
+
+        $filesystem = new Filesystem();
+
+        try {
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = $speciesToDelete->getPhoto();
+         /*   echo '<pre>';
+            var_dump($uploads_directory.'/'.$filename); die;*/
+            $filesystem->remove($uploads_directory.'/'.$filename);
+            //https://symfony.com/doc/current/components/filesystem.html#remove
+
+        } catch (IOExceptionInterface $exception) {
+            echo "An error occurred while creating your directory at ".$exception->getPath();
+        }
+
         $this->entityManager->remove($speciesToDelete);
         $this->entityManager->flush();
         return $this->redirectToRoute('admin', array('message'=> "Species deleted."));
 
         // TODO : send a message
+        // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)
     }
 
 
@@ -349,13 +397,42 @@ class AdminBoardController extends AbstractController
         $form = $this->createForm(SpeciesType::class, $species);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //https://www.youtube.com/watch?v=zTv0UFkAKFA
+         /*   echo '<pre>';
+            var_dump($request); die; */
+            $file = $request->files->get('species');
+          /*   echo '<pre>';
+            var_dump($file); die; */
+           /*    echo '<pre>';
+            var_dump($file); die;*/
+            $file = $file['photoFile'];
+          /*    echo '<pre>';
+            var_dump($file); die;*/
+
+            $uploads_directory = $this->getParameter('uploads_directory'); //defined in services.yaml
+            $filename = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $species->setPhoto($filename);
             $species->setName($form->get('name')->getData());
+/*
+            echo '<pre>';
+            var_dump($species);
+            echo '<pre>';
+            var_dump($form->get('name')->getData());
+            die;
+*/
+
+            $species->setCreatedAt(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($species);
             $entityManager->flush();
-            return $this->redirectToRoute('admin');
+             return $this->redirectToRoute('admin');
 
             // TODO : send a message
+            //TODO : modify here
 
         }
         return $this->render('admin_board/species.html.twig', [

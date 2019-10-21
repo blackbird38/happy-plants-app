@@ -13,7 +13,7 @@
         {% form_theme speciesForm'bootstrap_4_layout.html.twig' %}
         {{ form_start(speciesForm) }}
         {{ form_row(speciesForm.name) }}
-        {{ form_row(speciesForm.photo) }}
+        {{ form_row(speciesForm.photoFile) }}
         {% if edit == false %}
             <button class="btn btn-success">Add new</button>
         {% else %}
