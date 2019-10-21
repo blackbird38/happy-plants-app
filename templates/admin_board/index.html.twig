@@ -9,6 +9,8 @@
 </style>
     {% include('navbar.html.twig') %}
 <div class="example-wrapper">
+    {% if is_granted('ROLE_ADMIN') %}
+
     <h2><a href="{{ path('admin')}}">Admin panel</a></h2>
 
     {% if message %}
@@ -164,6 +166,9 @@
         </div>
         <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">..ss.</div>
     </div>
+    {% else %}
+        <p>To access this area, login first, <a href="{{ path('app_login') }}">here.</a></p>
+    {% endif %}
 
 </div>
 

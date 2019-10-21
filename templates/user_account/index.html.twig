@@ -8,13 +8,33 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% include('navbar.html.twig') %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/otyco/Desktop/projects/symfony/HAPPY-PLANTS/New folder (2)/happy-plants-app/src/Controller/UserAccountController.php'|file_link(0) }}">src/Controller/UserAccountController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/otyco/Desktop/projects/symfony/HAPPY-PLANTS/New folder (2)/happy-plants-app/templates/user_account/index.html.twig'|file_link(0) }}">templates/user_account/index.html.twig</a></code></li>
-    </ul>
-</div>
+  {#
+  - check by searching if a user has any plant, if it doesn', display a message
+  to encourage them adding, and a form
+  - if it doesn't have a place, start by adding place
+  #}
+
+
+    <div class="card container mt-3 bg-light mb-3">
+        <div class="card-body">
+            <p>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <h4 class="card-title">Hi, {{ app.user.name }}, you can go to the admin dashboard, <a href="{{ path('admin') }}">here!</a></h4>
+                {% elseif is_granted("ROLE_USER") %}
+                    <h4 class="card-title">Hi, {{ app.user.name }}!</h4>
+                {% endif %}
+            </p>
+
+            <div class="container card-text">
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}
