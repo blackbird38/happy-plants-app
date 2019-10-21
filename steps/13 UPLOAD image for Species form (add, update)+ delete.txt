@@ -1,0 +1,18 @@
+services.yaml
+
+parameters:
+    uploads_directory: '%kernel.project_dir/public/build%'
+    
+-------
+ $uploads_directory = $this->getParameter('uploads_directory');
+ ------    
+   
+   ----------------------------
+     echo '<pre>';
+     var_dump($variable)
+   ----------------------------
+   
+   Symfony 4 Beginners: File uploading (about 10 lines of code): 
+   	https://www.youtube.com/watch?v=zTv0UFkAKFA 
+   https://symfony.com/doc/current/components/filesystem.html#remove
+ 
