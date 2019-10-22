@@ -50,9 +50,9 @@
                             <ul class="list-unstyled">
                                 {% for plant in plants %}
                                     {{  dump(plant) }}
-                                    {#      {{  dump(plant.idMedium) }} #} {#  // it doesn't work without fetch="EAGER"#}
-                                    <li><img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ plant.name|e }}  is a {{ plant.idSpecies.name|e }}, planted in <i> {{ plant.idMedium.name|e }} </i></li>
-                                      {#   <li>{{ dump(place) }}  </li> #}
+                                          {{  dump(plant.idMedium) }}  {#  // it doesn't work without fetch="EAGER"# !! it does!!}
+                                      <li><img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ plant.name|e }}  is a {{ plant.idSpecies.name|e }}, planted in <i> {{ plant.idMedium.name|e }} </i></li>
+                                       {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>
 

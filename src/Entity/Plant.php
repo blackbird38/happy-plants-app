@@ -24,7 +24,7 @@ class Plant
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Species", inversedBy="plants", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Species", inversedBy="plants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $id_species;
@@ -41,13 +41,13 @@ class Plant
     private $id_place;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Medium", inversedBy="plants", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Medium", inversedBy="plants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $id_medium;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StageHistory", mappedBy="id_plant", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\StageHistory", mappedBy="id_plant")
      */
     private $stageHistories;
 
