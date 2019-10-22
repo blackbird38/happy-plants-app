@@ -1,0 +1,8 @@
+npm install --save-dev @fortawesome/fontawesome-free
+
+add in assets/js/app.js
+require('@fortawesome/fontawesome-free/css/all.min.css');
+require('@fortawesome/fontawesome-free/js/all.js');
+
+npm run dev 
+(will delete all the uploaded images in public)

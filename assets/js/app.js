@@ -9,7 +9,8 @@
 require('../css/happy-style.scss');
 require('../css/app.css');
 require('../css/style.css');
-
+require('@fortawesome/fontawesome-free/css/all.min.css');
+require('@fortawesome/fontawesome-free/js/all.js');
 
 
 const $ = require('jquery');

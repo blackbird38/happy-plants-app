@@ -30,7 +30,7 @@
                             {% if numberOfPlaces == 0 %}
                             <p>    Let's start by adding the places where you keep them: </p>
                                 {% include('user_account/place-form.html.twig') %}
-                            {% else %}
+                            {% else %} {# numberOfPlaces > 0 #}
                                 <p>    But you already have  {{ numberOfPlaces }} locations  added and you can start adding plants or continue adding new locations: </p>
                                 <p>    Display places: </p>
                                 <p>
@@ -44,19 +44,31 @@
                                 </p>
                                 {% include('user_account/place-form.html.twig') %}
                             {% endif %} {# numberOfPlaces #}
-                        {% else %}
+                        {% else %} {# numberOfPlants > 0 #}
                             <p>Your plants:</p>
                             <p>
                             <ul class="list-unstyled">
                                 {% for plant in plants %}
-                                    {{  dump(plant) }}
-                                          {{  dump(plant.idMedium) }}  {#  // it doesn't work without fetch="EAGER" !! it does!! #}
-                                      <li><img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ plant.name|e }}  is a {{ plant.idSpecies.name|e }}, planted in <i> {{ plant.idMedium.name|e }} </i></li>
+                                    {#    {{  dump(plant) }} #}
+                                      {#   {{  dump(plant.idMedium) }}  #} {#  // it doesn't work without fetch="EAGER" !! it does!! #}
+                                    <li><img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  <span class="badge badge-success">{{ plant.name|e }}</span>  is of type <span class="badge badge-success">{{ plant.idSpecies.name|e }}</span>, it's planted in <i class="badge badge-success"> {{ plant.idMedium.name|e }}</i>, placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>, and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.   <a href=""><i class="fas fa-edit"></i></a>   <a href=""><i class="far fa-trash-alt" style="color:red;"></i></a><a href="">   <i class="fas fa-water"></i></a></li>
                                        {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>
 
                             </p>
+                            <p>    Your places: </p>
+                            <p>
+                            <ul class="list-unstyled">
+                                {% for place in places %}
+                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}">Add a new plant here</a> <a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="far fa-trash-alt" style="color:red;"></i></a></li>
+                                    {#   <li>{{ dump(place) }}  </li> #}
+                                {% endfor %}
+                            </ul>
+
+                            </p>
+                            <p>Add new place:<p>
+                            {% include('user_account/place-form.html.twig') %}
 
                         {% endif %}  {# numberOfPlants #}
                  {% endif %} {#ROLE#}

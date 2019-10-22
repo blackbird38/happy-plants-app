@@ -15,15 +15,18 @@
         <div class="card-body">
             <p>
           {%  if is_granted("ROLE_USER") %}
-                <h4 class="card-title"><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 10%;"> Add a new plant to the {{ place.name }}!</h4>
+                <h4 class="card-title">
+                    <img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 10%;">
+                Add a new plant to the <span class="badge badge-success">{{ place.name }}</span>!
+                </h4>
 
                 {% if nOfPlantsInThisPlace == 0 %}
                     <p> It seems that you don't have any plants here yet. Add plants:</p>
-                    <p>{% include('user_account/plant-form.html.twig') %}</p>
-                {% else %}
-                    <p>Add plants</p>
-
                 {% endif %}  {# nOfPlantsInThisPlace #}
+
+                <p>{% include('user_account/plant-form.html.twig') %}</p>
+
+
             {% endif %} {#ROLE#}
             </p>
 

@@ -58,8 +58,8 @@
                     <td>{{ user.lastname }}</td>
                     <td>{{ user.phone }}</td>
                     <td>{{ user.photo }}</td>
-                    <td><a href="{{ path('admin-edit-user', {'id' : user.id})}}">Edit</a></td>
-                    <td><a href="{{ path('admin-delete-user', {'id' : user.id})}}">Delete</a></td>
+                    <td><a href="{{ path('admin-edit-user', {'id' : user.id})}}"><i class="fas fa-user-edit"></i></a></td>
+                    <td><a href="{{ path('admin-delete-user', {'id' : user.id})}}"><i class="fas fa-user-minus"></i></a></td>
                 </tr>
                 {% endfor %}
                 <tr><td colspan="3"><a href="">Delete selected</a></td></tr>
@@ -80,8 +80,8 @@
                 <tr>
                     <td><input type="checkbox" name="medium{{medium.id}}" value="medium.id"> </td>
                     <td>{{ medium.name }}</td>
-                      <td><a href="{{ path('admin-edit-medium', {'id' : medium.id})}}">Edit</a></td>
-                          <td><a href="{{ path('admin-delete-medium', {'id' : medium.id})}}">Delete</a></td>
+                      <td><a href="{{ path('admin-edit-medium', {'id' : medium.id})}}"><i class="fas fa-edit"></i></a></td>
+                          <td><a href="{{ path('admin-delete-medium', {'id' : medium.id})}}"><i class="fas fa-trash-alt"></i></a></td>
 
                 </tr>
                 {% endfor %}
@@ -105,8 +105,8 @@
                          <tr>
                             <td><input type="checkbox" name="stage{{stage.id}}" value="stage.id"> </td>
                             <td>{{ stage.name }}</td>
-                      <td><a href="{{ path('admin-edit-stage', {'id' : stage.id})}}">Edit</a></td>
-                          <td><a href="{{ path('admin-delete-stage', {'id' : stage.id})}}">Delete</a></td>
+                      <td><a href="{{ path('admin-edit-stage', {'id' : stage.id})}}"><i class="fas fa-edit"></i></a></td>
+                          <td><a href="{{ path('admin-delete-stage', {'id' : stage.id})}}"><i class="fas fa-trash-alt"></i></a></td>
 
                         </tr>
                 {% endfor %}
@@ -130,8 +130,8 @@
                               <td><input type="checkbox" name="species{{spec.id}}" value="spec.id"> </td>
                               <td>{{ spec.name }}</td>
                               <td> <img src="{{asset('build/images/plants/species/'~ spec.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 40%;"></td>
-                                <td><a href="{{ path('admin-edit-species', {'id' : spec.id})}}">Edit</a></td>
-                                    <td><a href="{{ path('admin-delete-species', {'id' : spec.id})}}">Delete</a></td>
+                                <td><a href="{{ path('admin-edit-species', {'id' : spec.id})}}"><i class="fas fa-edit"></i></a></td>
+                                    <td><a href="{{ path('admin-delete-species', {'id' : spec.id})}}"><i class="fas fa-trash-alt"></i></a></td>
 
                 </tr>
                 {% endfor %}
@@ -153,8 +153,8 @@
                         <tr>
                             <td><input type="checkbox" name="action{{action.id}}" value="action.id"> </td>
                             <td>{{ action.name }}</td>
-                      <td><a href="{{ path('admin-edit-action', {'id' : action.id})}}">Edit</a></td>
-                          <td><a href="{{ path('admin-delete-action', {'id' : action.id})}}">Delete</a></td>
+                      <td><a href="{{ path('admin-edit-action', {'id' : action.id})}}"><i class="fas fa-edit"></i></a></td>
+                          <td><a href="{{ path('admin-delete-action', {'id' : action.id})}}"><i class="fas fa-trash-alt"></i></a></td>
 
                         </tr>
                     {% endfor %}
