@@ -14,6 +14,12 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class RegistrationController extends AbstractController
 {
+    private $mailer;
+    public function __construct(\Swift_Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
     /**
      * @Route("/register", name="app_register")
      */
@@ -43,6 +49,12 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            $message = new \Swift_Message();
+            $message->setSubject('Welcome on Happy-Plants.app, '.$user->getName().'!');
+            $message->setTo($user->getEmail());
+            $message->setFrom('the.hapiest@happy-plants.com');
+            $message->setBody('You\'re all set up and can start using our app. Keep your plants happy!');
+            $this->mailer->send($message);
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,

@@ -1,0 +1,2 @@
+create an account on mailtrap.io
+Demo inbox -> SMTP Settings -> Integrations -> Symfony 4+ -> MAILER_URL=smtp://smtp.mailtrap.io:2525?encryption=tls&auth_mode=login&username=...&password=... (add to .env)
