@@ -1,0 +1,1 @@
+user account: if the user doesn't have any place saved, it displays the form to add one; then showing the list of places + the form to add a new place; for each place, a link to add a plant to it; list all plants"
