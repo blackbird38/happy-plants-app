@@ -129,7 +129,7 @@
                           <tr>
                               <td><input type="checkbox" name="species{{spec.id}}" value="spec.id"> </td>
                               <td>{{ spec.name }}</td>
-                              <td> <img src="{{asset('build/'~ spec.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 40%;"></td>
+                              <td> <img src="{{asset('build/images/plants/species/'~ spec.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 40%;"></td>
                                 <td><a href="{{ path('admin-edit-species', {'id' : spec.id})}}">Edit</a></td>
                                     <td><a href="{{ path('admin-delete-species', {'id' : spec.id})}}">Delete</a></td>
 

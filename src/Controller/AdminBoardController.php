@@ -318,7 +318,7 @@ class AdminBoardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $file = $request->files->get('species');
             $file = $file['photoFile'];
-            $uploads_directory = $this->getParameter('uploads_directory'); //defined in services.yaml
+            $uploads_directory = $this->getParameter('species_upload_directory'); //defined in services.yaml
             $filename = md5(uniqid()).'.'.$file->guessExtension();
             $file->move(
                 $uploads_directory,
@@ -328,7 +328,7 @@ class AdminBoardController extends AbstractController
             //---delete the old file---------------------------------
             $filesystem = new Filesystem();
             try {
-                $uploads_directory = $this->getParameter('uploads_directory');
+                $uploads_directory = $this->getParameter('species_upload_directory');
 
                 /*   echo '<pre>';
                    var_dump($uploads_directory.'/'.$oldfile); die;*/
@@ -368,7 +368,7 @@ class AdminBoardController extends AbstractController
         $filesystem = new Filesystem();
 
         try {
-            $uploads_directory = $this->getParameter('uploads_directory');
+            $uploads_directory = $this->getParameter('species_upload_directory');
             $filename = $speciesToDelete->getPhoto();
          /*   echo '<pre>';
             var_dump($uploads_directory.'/'.$filename); die;*/
@@ -409,7 +409,7 @@ class AdminBoardController extends AbstractController
           /*    echo '<pre>';
             var_dump($file); die;*/
 
-            $uploads_directory = $this->getParameter('uploads_directory'); //defined in services.yaml
+            $uploads_directory = $this->getParameter('species_upload_directory'); //defined in services.yaml
             $filename = md5(uniqid()).'.'.$file->guessExtension();
             $file->move(
                 $uploads_directory,
