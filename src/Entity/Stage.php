@@ -28,9 +28,15 @@ class Stage
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Plant", mappedBy="id_stage")
+     */
+    private $plants;
+
     public function __construct()
     {
         $this->stageHistories = new ArrayCollection();
+        $this->plants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +83,37 @@ class Stage
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Plant[]
+     */
+    public function getPlants(): Collection
+    {
+        return $this->plants;
+    }
+
+    public function addPlant(Plant $plant): self
+    {
+        if (!$this->plants->contains($plant)) {
+            $this->plants[] = $plant;
+            $plant->setIdStage($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlant(Plant $plant): self
+    {
+        if ($this->plants->contains($plant)) {
+            $this->plants->removeElement($plant);
+            // set the owning side to null (unless already changed)
+            if ($plant->getIdStage() === $this) {
+                $plant->setIdStage(null);
+            }
+        }
 
         return $this;
     }

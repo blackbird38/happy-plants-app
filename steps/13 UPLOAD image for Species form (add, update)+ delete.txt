@@ -1,4 +1,4 @@
-services.yaml
+config/services.yaml
 
 parameters:
     uploads_directory: '%kernel.project_dir/public/build%'

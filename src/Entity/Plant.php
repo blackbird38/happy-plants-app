@@ -24,7 +24,7 @@ class Plant
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Species", inversedBy="plants")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Species", inversedBy="plants", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $id_species;
@@ -41,26 +41,37 @@ class Plant
     private $id_place;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Medium", inversedBy="plants")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Medium", inversedBy="plants", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $id_medium;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StageHistory", mappedBy="id_plant")
+     * @ORM\OneToMany(targetEntity="App\Entity\StageHistory", mappedBy="id_plant", fetch="EAGER")
      */
     private $stageHistories;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ActionHistory", mappedBy="id_plant")
+     * @ORM\OneToMany(targetEntity="App\Entity\ActionHistory", mappedBy="id_plant", fetch="EAGER")
      */
     private $actionHistories;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="plants")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="plants", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Stage", inversedBy="plants", fetch="EAGER")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $id_stage;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo;
 
     public function __construct()
     {
@@ -203,6 +214,30 @@ class Plant
     public function setOwnerId(?User $owner_id): self
     {
         $this->owner_id = $owner_id;
+
+        return $this;
+    }
+
+    public function getIdStage(): ?Stage
+    {
+        return $this->id_stage;
+    }
+
+    public function setIdStage(?Stage $id_stage): self
+    {
+        $this->id_stage = $id_stage;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

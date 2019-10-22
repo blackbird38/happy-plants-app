@@ -1,0 +1,15 @@
+<div class="col-md-12">
+    {% form_theme placeForm'bootstrap_4_layout.html.twig' %}
+    {{ form_start(placeForm) }}
+    {{ form_row(placeForm.name) }}
+    {{ form_row(placeForm.orientation) }}
+    {{ form_row(placeForm.medium_temperature) }}
+    {{ form_row(placeForm.humidity) }}
+    {{ form_row(placeForm.photoFile) }}
+    {% if edit == false %}
+        <button class="btn btn-success">Add new</button>
+    {% else %}
+        <button class="btn btn-success">Update</button>
+    {% endif %}
+    {{ form_end(placeForm) }}
+</div>
