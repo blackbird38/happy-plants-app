@@ -1,0 +1,9 @@
+php bin/console debug:router   -shows all the routes
+php bin/console doctrine:database:drop --force  -deletes the database
+
+
+got the profiler back!!! added  <!DOCTYPE html>   as the first line in the twig
+
+
+echo'<pre>';
+var_dump($variable); exit;

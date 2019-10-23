@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% include('navbar.html.twig') %}
+    <div class="card container mt-3 bg-light mb-3">
+        <div class="card-body">
+            {% include('user_account/plant-add-record.html.twig') %}
+        </div>
+    </div>
+{% endblock %}

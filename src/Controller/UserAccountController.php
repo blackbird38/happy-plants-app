@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Place;
 use App\Entity\Plant;
+use App\Entity\StageHistory;
 use App\Form\PlaceType;
 use App\Form\PlantType;
+use App\Form\StageHistoryType;
 use App\Repository\ActionRepository;
 use App\Repository\MediumRepository;
 use App\Repository\SpeciesRepository;
@@ -30,6 +32,7 @@ class UserAccountController extends AbstractController
     private $placeRepository;
     private $mediumRepository;
     private $speciesRepository;
+    private $stageRepository;
 
     public function __construct(UserRepository $userRepository,
                                 PlantRepository $plantRepository,
@@ -38,7 +41,8 @@ class UserAccountController extends AbstractController
                                 SpeciesRepository $speciesRepository,
                                 StageRepository $stageRepository,
                                 ActionRepository $actionRepository,
-                                EntityManagerInterface $entityManager){
+                                EntityManagerInterface $entityManager
+                                ){
         $this->userRepository = $userRepository;
         $this->plantRepository = $plantRepository;
         $this->placeRepository = $placeRepository;
@@ -58,6 +62,14 @@ class UserAccountController extends AbstractController
         //checking to see if the user has any plants, if it doesn't have, encourage them to upload
         $userID = $user->getId();
         $plants = $this->userRepository->find($userID)->getPlants();
+     /*   echo'<pre>';
+        var_dump($plants); exit;*/
+        foreach ($plants as $plant){
+            foreach ($plant->getStageHistories() as $rec){
+
+            }
+
+        }
    /*     foreach ($plants as $plant) {
             dump($plant->getIdMedium());
         }*/
@@ -254,42 +266,25 @@ class UserAccountController extends AbstractController
      * @Route("/user/add/plant/to/the/place/with/{id}", name="user-add-plant")
      */
     function addNewPlant(UserInterface $user, Request $request, $id){
-
-
         $userID = $user->getId();
         $plants = $this->userRepository->find($userID)->getPlants();
         $places = $this->userRepository->find($userID)->getPlaces();
-
-
         $nPlants = count($plants);
         $nPlaces = count($places);
 
         //the place where to add a plant, to be sent in the twig
         $place = $this->placeRepository->find($id);
-
-
         $allThePlantsInThisPlace = $place->getPlants();
         $nOfPlantsInThisPlace = count( $allThePlantsInThisPlace);
-
-        //prepare the species and the plants to send to the twig
-     //   $species = $this->speciesRepository->findAll();
-     //   $mediums = $this->mediumRepository->findAll();
-      //  $stages = $this->stageRepository->findAll();
-
-
             $plant= new Plant();
             $form = $this->createForm(PlantType::class, $plant);
             $form->handleRequest($request);
-
-
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $file = $request->files->get('plant');
                 $file = $file['photoFile'];
                 $medium = $form->get('id_medium')->getData();
                /* echo '<pre>';
                 var_dump($medium.id); exit;*/
-
                 //saving the photo to disk
                 $uploads_directory = $this->getParameter('plants_upload_directory'); //defined in services.yaml
                 $filename = md5(uniqid()).'.'.$file->guessExtension();
@@ -297,7 +292,6 @@ class UserAccountController extends AbstractController
                     $uploads_directory,
                     $filename
                 );
-
                 $plant->setPhoto($filename);
                 $plant->setName($form->get('name')->getData());
                 $plant->setIdSpecies($form->get('id_species')->getData());
@@ -306,14 +300,24 @@ class UserAccountController extends AbstractController
                 $plant->setOwnerId($user);
                 $plant->setIdPlace($place);
              //   $plant->setCreatedAt(new \DateTime('now'));
+
+                //prepare a StageHistory object to save in the stage_history table the photo and the stage + date
+                $record = new StageHistory();
+                $record->setIdStage($form->get('id_stage')->getData());
+                $record->setDate(new \DateTime('now'));
+                $record->setPhoto($filename);
+                //will save the plant into the database and then get the id
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($plant);
                 $entityManager->flush();
+                $plantId = $plant->getId();
+                $record->setIdPlant($plant);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($record);
+                $entityManager->flush();
                 return $this->redirectToRoute('user_account');
-
                 // TODO : send a message
                 //TODO : modify here
-
             }
         return $this->render('user_account/plant.html.twig', [
             'plantForm' => $form->createView(),
@@ -324,12 +328,52 @@ class UserAccountController extends AbstractController
             'place' => $place,
             'allThePlantsHere' => $allThePlantsInThisPlace,
             'nOfPlantsInThisPlace' => $nOfPlantsInThisPlace,
-         //   'species' => $species,
-          //  'mediums' => $mediums,
-          //  'stages' => $stages
         ]);
     }
 
+    /**
+     * @Route("/user/add/photo/and/stage/of/the/plant/with/{id}", name="user-plant-add-photos-and-stage")
+     */
+    function addPhotoAndStageForAPlant(Request $request, $id)
+    {
+        $record = new StageHistory();
+        $record->setIdPlant($this->plantRepository->find($id));
+        $form = $this->createForm(StageHistoryType::class, $record);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /*echo '<pre>';
+            var_dump($form); exit; */
+             $file = $request->files->get('stage_history');
+             $file = $file['photoFile'];
+             $stage = $form->get('id_stage')->getData();
+             $record->setIdStage($stage);
+             $record->setDate(new \DateTime('now'));
+
+              //saving the photo to disk
+               $uploads_directory = $this->getParameter('plants_upload_directory'); //defined in services.yaml
+               $filename = md5(uniqid()).'.'.$file->guessExtension();
+               $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+
+               $record->setPhoto($filename);
+               $entityManager = $this->getDoctrine()->getManager();
+               $entityManager->persist($record);
+               $entityManager->flush();
+               return $this->redirectToRoute('user_account');
+        }
+            return $this->render('user_account/plant-add-record-full.html.twig', [
+                'stageHistoryForm' => $form->createView(),
+                'edit' => false,
+                //   'numberOfPlants' => $nPlants,
+                //  'numberOfPlaces' => $nPlaces,
+                // 'idOfThePlace' =>$id,
+                //'place' => $place,
+                //'allThePlantsHere' => $allThePlantsInThisPlace,
+                //'nOfPlantsInThisPlace' => $nOfPlantsInThisPlace,
+            ]);
+    }
 
     /**
      * @Route("/user/water/the/plant/with/{id}", name="user-water-plant")

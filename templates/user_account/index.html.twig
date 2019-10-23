@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserAccountController!{% endblock %}
+{% block title %}{{ parent() }}{% endblock %}
 
 {% block body %}
 <style>
@@ -61,9 +61,20 @@
                                         placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>,
                                         and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.
                                         <a href=""><i class="fas fa-edit text-success"></i></a>
-                                        <a href=""><i class="far fa-images text-success"></i></a>
+                                        <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}"><i class="far fa-images text-success"></i></a>
                                         <a href=""><i class="far fa-trash-alt text-danger"></i></a>
-                                        <a href="{{ path('user-water-plant', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a> </li>
+                                        <a href="{{ path('user-water-plant', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a>
+
+                                    <div>
+                                        <p>Photos of the {{ plant.name }}</p>
+                                        {% for record in plant.stageHistories %} {#{{ dump(stage)}}#}
+                                              <img src="{{asset('build/images/plants/'~record.photo~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 10%;">
+                                              {# <span >{{  record.getIdStage.name }}</span>#}
+                                        {% endfor %}
+                                    </div>
+                                    </li>
+
+
                                        {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>

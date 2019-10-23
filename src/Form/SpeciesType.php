@@ -15,9 +15,9 @@ class SpeciesType extends AbstractType
         $builder
             ->add('name')
             ->add('photoFile', FileType::class, [
-                    'mapped' => false,
-                    'label' => 'Please upload an image of the species:'
-    ])
+                        'mapped' => false,
+                        'label' => 'Please upload an image of the species:'
+        ])
         ;
     }
 

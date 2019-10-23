@@ -1,0 +1,12 @@
+<div class="col-md-12">
+    {% form_theme stageHistoryForm'bootstrap_4_layout.html.twig' %}
+    {{ form_start(stageHistoryForm) }}
+    {{ form_row(stageHistoryForm.id_stage) }}
+    {{ form_row(stageHistoryForm.photoFile) }}
+    {% if edit == false %}
+        <button class="btn btn-success">Add new</button>
+    {% else %}
+        <button class="btn btn-success">Update</button>
+    {% endif %}
+    {{ form_end(stageHistoryForm) }}
+</div>

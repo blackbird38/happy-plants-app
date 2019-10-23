@@ -1,2 +1,0 @@
-php bin/console debug:router   -shows all the routes
-php bin/console doctrine:database:drop --force  -deletes the database
