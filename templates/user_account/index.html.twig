@@ -61,8 +61,9 @@
                                         placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>,
                                         and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.
                                         <a href=""><i class="fas fa-edit text-success"></i></a>
+                                        <a href=""><i class="far fa-images text-success"></i></a>
                                         <a href=""><i class="far fa-trash-alt text-danger"></i></a>
-                                        <a href="{{ path('user-water-plant', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a></li>
+                                        <a href="{{ path('user-water-plant', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a> </li>
                                        {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>
