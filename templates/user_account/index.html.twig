@@ -38,7 +38,7 @@
                                     {% for place in places %}
                                         <li>
                                             <img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}
-                                            <a href="{{ path ('user-add-plant', { 'id': place.id }) }}">Add a new plant here</a>
+                                            <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a>
                                         </li>
                                         {#   <li>{{ dump(place) }}  </li> #}
                                     {% endfor %}
@@ -60,8 +60,8 @@
                                         it's planted in <i class="badge badge-success"> {{ plant.idMedium.name|e }}</i>,
                                         placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>,
                                         and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.
-                                        <a href=""><i class="fas fa-edit"></i></a>
-                                        <a href=""><i class="far fa-trash-alt" style="color:red;"></i></a>
+                                        <a href=""><i class="fas fa-edit text-success"></i></a>
+                                        <a href=""><i class="far fa-trash-alt text-danger"></i></a>
                                         <a href="{{ path('user-water-plant', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a></li>
                                        {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
@@ -72,7 +72,7 @@
                             <p>
                             <ul class="list-unstyled">
                                 {% for place in places %}
-                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}">Add a new plant here</a> <a href=""><i class="fas fa-edit"></i></a> <a href=""><i class="far fa-trash-alt" style="color:red;"></i></a></li>
+                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href=""><i class="fas fa-edit text-success"></i></a> <a href=""><i class="far fa-trash-alt text-danger"></i></a></li>
                                     {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>

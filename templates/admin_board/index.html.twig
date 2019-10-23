@@ -11,14 +11,12 @@
 <div class="example-wrapper">
     {% if is_granted('ROLE_ADMIN') %}
 
-    <h2><a href="{{ path('admin')}}">Admin panel</a></h2>
-
-    {% if message %}
-    <div class="alert alert-dismissible alert-success">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>  {{ message }}</strong>
-    </div>
-    {% endif %}
+    <h2><a href="{{ path('admin')}}" class="text-secondary">Admin panel</a></h2>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success text-white">
+                {{ message }}
+            </div>
+        {% endfor %}
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -58,11 +56,11 @@
                     <td>{{ user.lastname }}</td>
                     <td>{{ user.phone }}</td>
                     <td>{{ user.photo }}</td>
-                    <td><a href="{{ path('admin-edit-user', {'id' : user.id})}}"><i class="fas fa-user-edit"></i></a></td>
-                    <td><a href="{{ path('admin-delete-user', {'id' : user.id})}}"><i class="fas fa-user-minus"></i></a></td>
+                    <td><a href="{{ path('admin-edit-user', {'id' : user.id})}}"><i class="fas fa-user-edit text-success"></i></a></td>
+                    <td><a href="{{ path('admin-delete-user', {'id' : user.id})}}"><i class="fas fa-user-minus text-danger"></i></a></td>
                 </tr>
                 {% endfor %}
-                <tr><td colspan="3"><a href="">Delete selected</a></td></tr>
+                <tr><td colspan="3"><a href="" class="text-danger">Delete selected</a></td></tr>
                 </tbody>
             </table>
             </div>
@@ -80,12 +78,12 @@
                 <tr>
                     <td><input type="checkbox" name="medium{{medium.id}}" value="medium.id"> </td>
                     <td>{{ medium.name }}</td>
-                      <td><a href="{{ path('admin-edit-medium', {'id' : medium.id})}}"><i class="fas fa-edit"></i></a></td>
-                          <td><a href="{{ path('admin-delete-medium', {'id' : medium.id})}}"><i class="fas fa-trash-alt"></i></a></td>
+                      <td><a href="{{ path('admin-edit-medium', {'id' : medium.id})}}"><i class="fas fa-edit text-success"></i></a></td>
+                          <td><a href="{{ path('admin-delete-medium', {'id' : medium.id})}}"><i class="fas fa-trash-alt text-danger"></i></a></td>
 
                 </tr>
                 {% endfor %}
-                <tr><td colspan="2"><a href="">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-medium')}}">Add new</a></td></tr>
+                <tr><td colspan="2"><a href="" class="text-danger">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-medium')}}" class="text-success">Add new</a></td></tr>
 
                </tbody>
             </table>
@@ -105,12 +103,12 @@
                          <tr>
                             <td><input type="checkbox" name="stage{{stage.id}}" value="stage.id"> </td>
                             <td>{{ stage.name }}</td>
-                      <td><a href="{{ path('admin-edit-stage', {'id' : stage.id})}}"><i class="fas fa-edit"></i></a></td>
-                          <td><a href="{{ path('admin-delete-stage', {'id' : stage.id})}}"><i class="fas fa-trash-alt"></i></a></td>
+                      <td><a href="{{ path('admin-edit-stage', {'id' : stage.id})}}"><i class="fas fa-edit text-success"></i></a></td>
+                          <td><a href="{{ path('admin-delete-stage', {'id' : stage.id})}}"><i class="fas fa-trash-alt text-danger"></i></a></td>
 
                         </tr>
                 {% endfor %}
-                <tr><td colspan="2"><a href="">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-stage')}}">Add new</a></td></tr>
+                <tr><td colspan="2"><a href="" class="text-danger">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-stage')}}" class="text-success">Add new</a></td></tr>
 
                     </tbody>
             </table>
@@ -130,12 +128,12 @@
                               <td><input type="checkbox" name="species{{spec.id}}" value="spec.id"> </td>
                               <td>{{ spec.name }}</td>
                               <td> <img src="{{asset('build/images/plants/species/'~ spec.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 40%;"></td>
-                                <td><a href="{{ path('admin-edit-species', {'id' : spec.id})}}"><i class="fas fa-edit"></i></a></td>
-                                    <td><a href="{{ path('admin-delete-species', {'id' : spec.id})}}"><i class="fas fa-trash-alt"></i></a></td>
+                                <td><a href="{{ path('admin-edit-species', {'id' : spec.id})}}"><i class="fas fa-edit text-success"></i></a></td>
+                                    <td><a href="{{ path('admin-delete-species', {'id' : spec.id})}}"><i class="fas fa-trash-alt text-danger"></i></a></td>
 
                 </tr>
                 {% endfor %}
-                <tr><td colspan="3"><a href="">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-species')}}">Add new</a></td></tr>
+                <tr><td colspan="3"><a href="" class="text-danger">Delete selected</a></td><td colspan="2"><a href="{{ path('admin-add-species')}}" class="text-success">Add new</a></td></tr>
                     </tbody>
             </table>
             </div>
@@ -153,13 +151,13 @@
                         <tr>
                             <td><input type="checkbox" name="action{{action.id}}" value="action.id"> </td>
                             <td>{{ action.name }}</td>
-                      <td><a href="{{ path('admin-edit-action', {'id' : action.id})}}"><i class="fas fa-edit"></i></a></td>
-                          <td><a href="{{ path('admin-delete-action', {'id' : action.id})}}"><i class="fas fa-trash-alt"></i></a></td>
+                      <td><a href="{{ path('admin-edit-action', {'id' : action.id})}}"><i class="fas fa-edit text-success"></i></a></td>
+                          <td><a href="{{ path('admin-delete-action', {'id' : action.id})}}"><i class="fas fa-trash-alt text-danger"></i></a></td>
 
                         </tr>
                     {% endfor %}
-                            <tr><td colspan="2"><a href="">Delete selected</a></td>
-                                <td colspan="2"><a href="{{ path('admin-add-action')}}">Add new</a></td></tr>
+                            <tr><td colspan="2"><a href="" class="text-danger">Delete selected</a></td>
+                                <td colspan="2"><a href="{{ path('admin-add-action')}}" class="text-success">Add new</a></td></tr>
                     </tbody>
                 </table>
             </div>

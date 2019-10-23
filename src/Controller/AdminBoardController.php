@@ -61,10 +61,10 @@ class AdminBoardController extends AbstractController
      */
     public function showUsers(Request $request)
     {
-        $message = "";
+     /*   $message = "";
         if($request->query->get('message')) {
             $message = $request->query->get('message');
-        };
+        };*/
         $users = $this->userRepository->findAll();
         $mediums = $this->mediumRepository->findAll();
         $stages = $this->stageRepository->findAll();
@@ -73,7 +73,7 @@ class AdminBoardController extends AbstractController
 
         return $this->render('admin_board/index.html.twig', [
             'users' => $users,
-            'message' => $message,
+           // 'message' => $message,
             'mediums' => $mediums,
             'stages' => $stages,
             'actions' => $actions,
@@ -95,13 +95,15 @@ class AdminBoardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin', array('message'=> "The user info was updated."));
+            $this->addFlash('success', 'The user info was updated.');
+            // TODO : send a different message for error
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin_board/edit.html.twig', [
             'userForm' => $form->createView(),
         ]);
-        // TODO : send a message
+
     }
 
     /**
@@ -112,8 +114,9 @@ class AdminBoardController extends AbstractController
         $userToDelete  = $this->userRepository->find($id);
         $this->entityManager->remove($userToDelete);
         $this->entityManager->flush();
-        return $this->redirectToRoute('admin', array('message'=> "User deleted."));
-        // TODO : send a message
+        $this->addFlash('success', 'User deleted.');
+        // TODO : send a different message for error
+        return $this->redirectToRoute('admin');
      }
 
     //-----------------------------------Mediums-----------------------------------------------//
@@ -130,10 +133,9 @@ class AdminBoardController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($medium);
             $entityManager->flush();
-
+            $this->addFlash('success', 'New medium added.');
+            // TODO : send a different message for error
             return $this->redirectToRoute('admin');
-
-            // TODO : send a success message
 
         }
         return $this->render('admin_board/medium.html.twig', [
@@ -155,14 +157,15 @@ class AdminBoardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $this->entityManager->persist($medium);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin', array('message'=> "The info for the medium was updated."));
+            $this->addFlash('success', 'The info for the medium was updated.');
+            // TODO : send a different message for error
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin_board/medium.html.twig', [
             'mediumForm' => $form->createView(),
             'edit' => true
         ]);
-        // TODO : send a message
     }
 
     /**
@@ -173,9 +176,9 @@ class AdminBoardController extends AbstractController
         $mediumToDelete  = $this->mediumRepository->find($id);
         $this->entityManager->remove($mediumToDelete);
         $this->entityManager->flush();
-        return $this->redirectToRoute('admin', array('message'=> "Medium deleted."));
-
-        // TODO : send a message
+        $this->addFlash('success', 'Medium deleted.');
+        // TODO : send a different message for error
+        return $this->redirectToRoute('admin');
     }
 
     //-----------------------------------Stages-----------------------------------------------//
@@ -190,15 +193,15 @@ class AdminBoardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $this->entityManager->persist($stage);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin', array('message'=> "The info for the  stage was updated."));
+            $this->addFlash('success', 'The info for the stage was updated.');
+            // TODO : send a different message for error
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin_board/stage.html.twig', [
             'stageForm' => $form->createView(),
             'edit' => true
         ]);
-
-        // TODO : send a message
     }
 
     /**
@@ -209,9 +212,9 @@ class AdminBoardController extends AbstractController
         $stageToDelete  = $this->stageRepository->find($id);
         $this->entityManager->remove($stageToDelete);
         $this->entityManager->flush();
-        return $this->redirectToRoute('admin', array('message'=> "Stage deleted."));
-
-        // TODO : send a message
+        $this->addFlash('success', 'Stage deleted.');
+        // TODO : send a different message for error
+        return $this->redirectToRoute('admin');
     }
 
 
@@ -228,11 +231,9 @@ class AdminBoardController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($stage);
             $entityManager->flush();
-
+            $this->addFlash('success', 'The new stage was added.');
+            // TODO : send a different message for error
             return $this->redirectToRoute('admin');
-
-            // TODO : send a message
-
         }
         return $this->render('admin_board/stage.html.twig', [
             'stageForm' => $form->createView(),
@@ -253,15 +254,15 @@ class AdminBoardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $this->entityManager->persist($action);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin', array('message'=> "The info for the action was updated."));
+            $this->addFlash('success', 'The info for the action was updated');
+            // TODO : send a different message for error
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin_board/stage.html.twig', [
             'actionForm' => $form->createView(),
             'edit' => true
         ]);
-
-        // TODO : send a message
     }
 
     /**
@@ -272,9 +273,9 @@ class AdminBoardController extends AbstractController
         $actionToDelete  = $this->actionRepository->find($id);
         $this->entityManager->remove($actionToDelete);
         $this->entityManager->flush();
-        return $this->redirectToRoute('admin', array('message'=> "Action deleted."));
-
-        // TODO : send a message
+        $this->addFlash('success', 'Action deleted.');
+        // TODO : send a different message for error
+        return $this->redirectToRoute('admin');
     }
 
 
@@ -291,10 +292,9 @@ class AdminBoardController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($action);
             $entityManager->flush();
+            $this->addFlash('success', 'The new action was added.');
+            // TODO : send a different message for error
             return $this->redirectToRoute('admin');
-
-            // TODO : send a message
-
         }
         return $this->render('admin_board/action.html.twig', [
             'actionForm' => $form->createView(),
@@ -347,15 +347,15 @@ class AdminBoardController extends AbstractController
             $species->setCreatedAt(new \DateTime('now'));
             $this->entityManager->persist($species);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin', array('message'=> "The info for the species was updated."));
+            $this->addFlash('success', 'The info for the species was updated.');
+            // TODO : send a different message for errors
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin_board/species.html.twig', [
             'speciesForm' => $form->createView(),
             'edit' => true
         ]);
-
-        // TODO : send a message
     }
 
     /**
@@ -381,9 +381,9 @@ class AdminBoardController extends AbstractController
 
         $this->entityManager->remove($speciesToDelete);
         $this->entityManager->flush();
-        return $this->redirectToRoute('admin', array('message'=> "Species deleted."));
-
-        // TODO : send a message
+        $this->addFlash('success', 'Species deleted.');
+        // TODO : send a different message for errors
+        return $this->redirectToRoute('admin');
         // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)
     }
 
@@ -431,7 +431,8 @@ class AdminBoardController extends AbstractController
             $entityManager->flush();
              return $this->redirectToRoute('admin');
 
-            // TODO : send a message
+            $this->addFlash('success', 'New species added');
+            // TODO : send a different message for errors
             //TODO : modify here
 
         }
