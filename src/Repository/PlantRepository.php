@@ -47,4 +47,16 @@ class PlantRepository extends ServiceEntityRepository
         ;
     }
     */
+
+/*
+SELECT *
+FROM `plant`as p
+INNER JOIN `action_history` as ah
+ON p.id = ah.id_plant_id
+INNER JOIN `action` as a
+ON a.id = ah.id_action_id
+WHERE p.id = 25 AND a.name LIKE 'water%'
+ORDER BY ah.date DESC
+LIMIT 1;
+*/
 }
