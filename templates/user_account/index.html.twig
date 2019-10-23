@@ -48,14 +48,14 @@
                                 {% include('user_account/place-form.html.twig') %}
                             {% endif %} {# numberOfPlaces #}
                         {% else %} {# numberOfPlants > 0 #}
-                            <p>Your plants:</p>
+                            <p>Here are your plants:</p>
                             <p>
                             <ul class="list-unstyled">
                                 {% for plant in plants %}
                                     {#    {{  dump(plant) }} #}
                                       {#   {{  dump(plant.idMedium) }}  #} {#  // it doesn't work without fetch="EAGER" !! it does!! #}
-                                    <li><img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">
-                                        <span class="badge badge-success">{{ plant.name|e }}</span>
+                                    <li><h1><img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">
+                                        <span class="badge badge-success">{{ plant.name|e }}</span></h1>
                                         is of type <span class="badge badge-success">{{ plant.idSpecies.name|e }}</span>,
                                         it's planted in <i class="badge badge-success"> {{ plant.idMedium.name|e }}</i>,
                                         placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>,
@@ -63,18 +63,29 @@
                                         <a href=""><i class="fas fa-edit text-success"></i></a>
                                         <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}"><i class="far fa-images text-success"></i></a>
                                         <a href=""><i class="far fa-trash-alt text-danger"></i></a>
-                                        <a href="{{ path('user-water-plant', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a>
+                                        <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a>
 
                                     <div>
-                                        <p>Photos of the {{ plant.name }}</p>
+                                        <p>Visual evolution of the {{ plant.name }}:</p>
                                         {% for record in plant.stageHistories %} {#{{ dump(stage)}}#}
                                               <img src="{{asset('build/images/plants/'~record.photo~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 10%;">
                                               {# <span >{{  record.getIdStage.name }}</span>#}
                                         {% endfor %}
                                     </div>
+                                    <p>Care journal for the  {{ plant.name }}:</p>
+                                    <div>
+                                        <ul>
+                                        {% for recordAction in plant.actionHistories %} {#{{ dump(stage)}}#}
+                                            {# <span>{{ dump(recordAction) }}</span>#}
+                                            <li><span >{{  recordAction.getIdAction.name }} {{  recordAction.date| date("m/d/Y") }} quantity: {{ recordAction.quantity }} </span></li>
+                                        {% endfor %}
+                                        </ul>
+                                    </div>
                                     </li>
 
-
+        <div class="form-group col-12">
+            <hr>
+        </div>
                                        {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>

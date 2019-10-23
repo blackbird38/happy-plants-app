@@ -259,7 +259,7 @@ class AdminBoardController extends AbstractController
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('admin_board/stage.html.twig', [
+        return $this->render('admin_board/action.html.twig', [
             'actionForm' => $form->createView(),
             'edit' => true
         ]);

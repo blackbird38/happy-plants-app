@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Action;
+use App\Entity\ActionHistory;
 use App\Entity\Place;
 use App\Entity\Plant;
 use App\Entity\StageHistory;
 use App\Form\PlaceType;
 use App\Form\PlantType;
 use App\Form\StageHistoryType;
+use App\Form\ActionHistoryType;
 use App\Repository\ActionRepository;
 use App\Repository\MediumRepository;
 use App\Repository\SpeciesRepository;
@@ -366,14 +369,36 @@ class UserAccountController extends AbstractController
             return $this->render('user_account/plant-add-record-full.html.twig', [
                 'stageHistoryForm' => $form->createView(),
                 'edit' => false,
-                //   'numberOfPlants' => $nPlants,
-                //  'numberOfPlaces' => $nPlaces,
-                // 'idOfThePlace' =>$id,
-                //'place' => $place,
-                //'allThePlantsHere' => $allThePlantsInThisPlace,
-                //'nOfPlantsInThisPlace' => $nOfPlantsInThisPlace,
             ]);
     }
+
+    /**
+     * @Route("/user/add/action/on/the/plant/with/{id}", name="user-plant-add-action")
+     */
+    function addActionOnAPlant(UserInterface $user, Request $request, $id)
+    {
+        $actionRecord = new ActionHistory();
+        $actionRecord->setIdPlant($this->plantRepository->find($id));
+        $form = $this->createForm(ActionHistoryType::class, $actionRecord);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $action= $form->get('id_action')->getData();
+            $actionRecord->setIdAction($action);
+            $actionRecord->setQuantity($form->get('quantity')->getData());
+            $actionRecord->setDate(new \DateTime('now'));
+            $actionRecord->setIdUser($user);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($actionRecord);
+            $entityManager->flush();
+            return $this->redirectToRoute('user_account');
+        }
+        return $this->render('user_account/plant-add-action-full.html.twig', [
+            'actionHistoryForm' => $form->createView(),
+            'edit' => false,
+        ]);
+    }
+
 
     /**
      * @Route("/user/water/the/plant/with/{id}", name="user-water-plant")
