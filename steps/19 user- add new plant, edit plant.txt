@@ -1,0 +1,40 @@
+how to hide in the twig a field of a form:
+ {% do plantForm.id_place.setRendered() %} {#https://stackoverflow.com/a/48147298#} 
+
+- {{ form_end(plantForm, , {'render_rest': false}) }} (error)
+
+
+----------------------------
+how to get the current user in buildForm (+ places for the current user):
+
+class PlantType extends AbstractType
+{
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        // Avoid calling getUser() in the constructor: auth may not
+        // be complete yet. Instead, store the entire Security object.
+        $this->security = $security;
+    }
+public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $userLoggedIn = $this->security->getUser();
+        $user = new User();
+        $user= $userLoggedIn;
+        $userID = $user->getId();
+	$builder  
+	   ->add('id_place', EntityType::class, [
+                'class' => Place::class,
+                'query_builder' => function (EntityRepository $er) use ($userID) {
+                    return $er->createQueryBuilder('place')
+                        ->innerJoin('App\Entity\User', 'user', 'with', 'place.owner = user.id')
+                        ->andWhere('user.id = :idUser')
+                        ->setParameter('idUser', $userID)
+                        ->orderBy('place.name', 'ASC')
+                        ;
+                },
+                'choice_label' => 'name',
+                'label' => 'Place',
+            ])
+

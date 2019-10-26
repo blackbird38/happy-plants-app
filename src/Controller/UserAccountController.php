@@ -401,10 +401,55 @@ class UserAccountController extends AbstractController
 
 
     /**
-     * @Route("/user/water/the/plant/with/{id}", name="user-water-plant")
+     * @Route("/user/edit/the/plant/with/{id}", name="user-edit-plant")
      */
-    function waterPlant(Request $request, $id){
+    function editPlant(UserInterface $user, Request $request, $id){
+        $plant= $this->plantRepository->find($id);
+        $place = $this->placeRepository->find($id);
+        $oldfile = $plant->getPhoto();
+        //TODO : if user doesn't select a photo, leave the old photo
+        $form = $this->createForm(PlantType::class, $plant);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $request->files->get('plant');
+      /*      if ($file){
+                $file = $file['photoFile'];
+                $medium = $form->get('id_medium')->getData();
+                //saving the photo to disk
+                $uploads_directory = $this->getParameter('plants_upload_directory'); //defined in services.yaml
+                $filename = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+
+                //---delete the old file---------------------------------
+                $filesystem = new Filesystem();
+                try {
+                    $uploads_directory = $this->getParameter('plants_upload_directory');
+                    $filesystem->remove($uploads_directory.'/'.$oldfile);
+                    //https://symfony.com/doc/current/components/filesystem.html#remove
+                } catch (IOExceptionInterface $exception) {
+                    echo "An error occurred while creating your directory at ".$exception->getPath();
+                }
+                //-----------------------------------------
+            }
+            $plant->setPhoto($filename);
+            $plant->setName($form->get('name')->getData());
+            $plant->setIdSpecies($form->get('id_species')->getData());
+            $plant->setIdMedium($form->get('id_medium')->getData());
+            $plant->setIdStage($form->get('id_stage')->getData());
+            $plant->setOwnerId($user);
+            $plant->setIdPlace($place);*/
+            return $this->redirectToRoute('user_account');
+        }
+
+        return $this->render('user_account/plant-edit.html.twig', [
+            'plantForm' => $form->createView(),
+            'edit' => false,
+        ]);
         //TODO : continue
     }
+
 
 }

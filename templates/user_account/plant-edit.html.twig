@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    {% include('navbar.html.twig') %}
+
+    <div class="card container mt-3 bg-light mb-3">
+        <div class="card-body">
+            <p>
+                {%  if is_granted("ROLE_USER") %}
+                {#          <h4 class="card-title">
+                              <img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 10%;">
+                              Add a new plant to the <span class="badge badge-success">{{ place.name }}</span>!
+                          </h4>
+                          #}
+            <p>{% include('user_account/plant-form-with-place.html.twig') %}</p>
+
+            {% endif %} {#ROLE#}
+            </p>
+
+        </div>
+    </div>
+
+{% endblock %}
