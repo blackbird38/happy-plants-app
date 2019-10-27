@@ -48,15 +48,33 @@ class PlantRepository extends ServiceEntityRepository
     }
     */
 
-/*
-SELECT *
-FROM `plant`as p
-INNER JOIN `action_history` as ah
-ON p.id = ah.id_plant_id
-INNER JOIN `action` as a
-ON a.id = ah.id_action_id
-WHERE p.id = 25 AND a.name LIKE 'water%'
-ORDER BY ah.date DESC
-LIMIT 1;
-*/
+    /*
+    SELECT *
+    FROM `plant`as p
+    INNER JOIN `action_history` as ah
+    ON p.id = ah.id_plant_id
+    INNER JOIN `action` as a
+    ON a.id = ah.id_action_id
+    WHERE p.id = 25 AND a.name LIKE 'water%'
+    ORDER BY ah.date DESC
+    LIMIT 1;
+    */
+
+    public function getLastTimeWatered($idPlant){
+        $actionName = 'Watering';
+
+        $query = $this->createQueryBuilder('p')
+            ->select('ah.date')
+            ->innerJoin(ActionHistory::class, 'ah', 'WITH', 'p.id = ah.id_plant')
+            ->innerJoin(Action::class, 'a', 'WITH', 'a.id = ah.id_action')
+            ->orderBy('ah.date', 'DESC')
+            ->where('p.id = :plantid AND a.name = :actionname')
+            ->setParameter('actionname',  $actionName)
+            ->setParameter('plantid', $idPlant)
+            ->setMaxResults(1)
+            ->getQuery();
+        //return  $query;
+        $result= $query->getResult();
+        return  $result;
+    }
 }
