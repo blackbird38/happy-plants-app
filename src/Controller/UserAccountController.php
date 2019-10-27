@@ -62,9 +62,17 @@ class UserAccountController extends AbstractController
      */
     public function index(UserInterface $user, Request $request)
     {
-        //checking to see if the user has any plants, if it doesn't have, encourage them to upload
+
+        //checking to see if the user has any plants, if they don't have, encourage them to upload
         $userID = $user->getId();
         $plants = $this->userRepository->find($userID)->getPlants();
+        //saving the time last watered in an array
+        foreach ($plants as $plant){
+             $timeLastWatered = $this->plantRepository->getLastTimeWatered($plant->getId());
+             $timesLastWatered[$plant->getId()] = $timeLastWatered;
+         }
+        dump($timesLastWatered);
+
      /*   echo'<pre>';
         var_dump($plants); exit;*/
         foreach ($plants as $plant){
@@ -121,7 +129,8 @@ class UserAccountController extends AbstractController
             'numberOfPlants' =>  $nPlants,
             'numberOfPlaces' =>  $nPlaces,
             'places' => $places,
-            'plants' => $plants
+            'plants' => $plants,
+            'timesLastWatered' => $timesLastWatered
         ]);
     }
 

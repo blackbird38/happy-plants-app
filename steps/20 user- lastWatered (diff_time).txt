@@ -1,0 +1,10 @@
+composer require twig/extensions ->diff_time
+
+in app/config/packages/twig_extensions.yaml, uncomment Twig\Extensions\DateExtension: null
+
+add app/translations/date.en.xliff (https://stackoverflow.com/a/53156580) with the translation
+
+[composer require knplabs/knp-time-bundle
+composer require symfony/translation]
+
+

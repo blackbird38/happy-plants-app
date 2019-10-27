@@ -8,6 +8,7 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
+    <body>
     {% block body %}
         {% include('navbar.html.twig') %}
                <div class="container mt-5">
@@ -34,5 +35,5 @@
              {% block javascripts %}
                         {{ encore_entry_script_tags('app') }}
             {% endblock %}
-
+    </body>
 </html>

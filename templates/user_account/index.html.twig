@@ -77,8 +77,12 @@
                                         <ul>
                                         {% for recordAction in plant.actionHistories %} {#{{ dump(stage)}}#}
                                             {# <span>{{ dump(recordAction) }}</span>#}
-                                            <li><span >{{  recordAction.getIdAction.name }} {{  recordAction.date| date("m/d/Y") }} quantity: {{ recordAction.quantity }} </span></li>
+                                            <li><span >{{  recordAction.getIdAction.name }} {{  recordAction.date| date }} quantity: {{ recordAction.quantity }} </span></li>
                                         {% endfor %}
+                                            {% if timesLastWatered[plant.id] %}
+                                                {#<li>{{ dump(timesLastWatered[plant.id][0].date) }}</li>#}
+                                                <li>last time watered <span class="badge bg-success text-white">{{ timesLastWatered[plant.id][0].date | time_diff }} </span></li>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                     </li>

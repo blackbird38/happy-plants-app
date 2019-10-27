@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Plant;
+use App\Entity\ActionHistory;
+use App\Entity\Action;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -61,7 +63,7 @@ class PlantRepository extends ServiceEntityRepository
     */
 
     public function getLastTimeWatered($idPlant){
-        $actionName = 'Watering';
+        $actionName = 'watering';
 
         $query = $this->createQueryBuilder('p')
             ->select('ah.date')
