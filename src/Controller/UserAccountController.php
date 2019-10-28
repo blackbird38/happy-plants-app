@@ -67,10 +67,13 @@ class UserAccountController extends AbstractController
         $userID = $user->getId();
         $plants = $this->userRepository->find($userID)->getPlants();
         //saving the time last watered in an array
-        foreach ($plants as $plant){
-             $timeLastWatered = $this->plantRepository->getLastTimeWatered($plant->getId());
-             $timesLastWatered[$plant->getId()] = $timeLastWatered;
-         }
+        $timesLastWatered = [];
+       // if ($plants) {
+            foreach ($plants as $plant) {
+                $timeLastWatered = $this->plantRepository->getLastTimeWatered($plant->getId());
+                $timesLastWatered[$plant->getId()] = $timeLastWatered;
+            }
+     //   }
         dump($timesLastWatered);
 
      /*   echo'<pre>';
@@ -274,6 +277,7 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+    //-----------------------------------Plant-----------------------------------------------//
     /**
      * @Route("/user/add/plant/to/the/place/with/{id}", name="user-add-plant")
      */
@@ -294,7 +298,7 @@ class UserAccountController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $file = $request->files->get('plant');
                 $file = $file['photoFile'];
-                $medium = $form->get('id_medium')->getData();
+             //   $medium = $form->get('id_medium')->getData();
                /* echo '<pre>';
                 var_dump($medium.id); exit;*/
                 //saving the photo to disk
@@ -408,22 +412,23 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+//TODO : can add: only change photo, only change other info; if stage was wrongly added (?=>) can delete
+// in the stage_history
 
     /**
      * @Route("/user/edit/the/plant/with/{id}", name="user-edit-plant")
      */
     function editPlant(UserInterface $user, Request $request, $id){
         $plant= $this->plantRepository->find($id);
-        $place = $this->placeRepository->find($id);
+       // $place = $this->placeRepository->find($id);
         $oldfile = $plant->getPhoto();
         //TODO : if user doesn't select a photo, leave the old photo
         $form = $this->createForm(PlantType::class, $plant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $request->files->get('plant');
-      /*      if ($file){
+             if ($file){
                 $file = $file['photoFile'];
-                $medium = $form->get('id_medium')->getData();
                 //saving the photo to disk
                 $uploads_directory = $this->getParameter('plants_upload_directory'); //defined in services.yaml
                 $filename = md5(uniqid()).'.'.$file->guessExtension();
@@ -431,16 +436,18 @@ class UserAccountController extends AbstractController
                     $uploads_directory,
                     $filename
                 );
-
+                //leave the old file, it will be recorded in the stages
+                 // TODO : check here
+                 //problem: may exist a record in the stage_history that is wrong (?)
                 //---delete the old file---------------------------------
-                $filesystem = new Filesystem();
+              /*  $filesystem = new Filesystem();
                 try {
                     $uploads_directory = $this->getParameter('plants_upload_directory');
                     $filesystem->remove($uploads_directory.'/'.$oldfile);
                     //https://symfony.com/doc/current/components/filesystem.html#remove
                 } catch (IOExceptionInterface $exception) {
                     echo "An error occurred while creating your directory at ".$exception->getPath();
-                }
+                }*/
                 //-----------------------------------------
             }
             $plant->setPhoto($filename);
@@ -448,8 +455,28 @@ class UserAccountController extends AbstractController
             $plant->setIdSpecies($form->get('id_species')->getData());
             $plant->setIdMedium($form->get('id_medium')->getData());
             $plant->setIdStage($form->get('id_stage')->getData());
+            $plant->setIdPlace($form->get('id_place')->getData());
             $plant->setOwnerId($user);
-            $plant->setIdPlace($place);*/
+            //$plant->setIdPlace($place);
+
+            //prepare a StageHistory object to save in the stage_history table the photo and the stage + date
+            $record = new StageHistory();
+            $record->setIdStage($form->get('id_stage')->getData());
+            $record->setDate(new \DateTime('now'));
+            $record->setPhoto($filename);
+            //will save the plant into the database and then get the id
+           $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($plant);
+            $entityManager->flush();
+            $plantId = $plant->getId();
+            $record->setIdPlant($plant);
+
+          /*  var_dump($plant);
+            var_dump($record);*/
+          $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($record);
+            $entityManager->flush();
+
             return $this->redirectToRoute('user_account');
         }
 
@@ -460,5 +487,28 @@ class UserAccountController extends AbstractController
         //TODO : continue
     }
 
+    /**
+     * @Route("/user/delete/the/plant/with/{id}", name="user-delete-plant")
+     */
+    public function deletePlant($id)
+    {
+        $plantToDelete  = $this->plantRepository->find($id);
+        //must delete the plant from all the records: stage_history, action_history
+        $filesystem = new Filesystem();
+        try {
+            $uploads_directory = $this->getParameter('plants_upload_directory');
+            $filename = $plantToDelete->getPhoto();
+            $filesystem->remove($uploads_directory.'/'.$filename);
+        } catch (IOExceptionInterface $exception) {
+            echo "An error occurred while creating your directory at ".$exception->getPath();
+        }
+
+        $this->entityManager->remove($plantToDelete);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('user_account', array('message'=> "Plant deleted."));
+
+        // TODO : send a message
+        // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)
+    }
 
 }

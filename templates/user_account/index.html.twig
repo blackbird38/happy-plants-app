@@ -62,7 +62,7 @@
                                         and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.
                                         <a href="{{ path('user-edit-plant', { 'id': plant.id }) }}"><i class="fas fa-edit text-success"></i></a>
                                         <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}"><i class="far fa-images text-success"></i></a>
-                                        <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+                                        <a href="{{ path('user-delete-plant', { 'id': plant.id }) }}"><i class="far fa-trash-alt text-danger"></i></a>
                                         <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a>
 
                                     <div>
@@ -73,6 +73,7 @@
                                         {% endfor %}
                                     </div>
                                     <p>Care journal for the  {{ plant.name }}:</p>
+                                    {% if plant.actionHistories is not empty %}
                                     <div>
                                         <ul>
                                         {% for recordAction in plant.actionHistories %} {#{{ dump(stage)}}#}
@@ -85,6 +86,9 @@
                                             {% endif %}
                                         </ul>
                                     </div>
+                                    {% else %}
+                                        <div>You have no records in the journal. Start adding:  <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a> </div>
+                                    {% endif %}
                                     </li>
 
         <div class="form-group col-12">
