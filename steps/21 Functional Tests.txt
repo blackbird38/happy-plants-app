@@ -1,0 +1,4 @@
+php bin/console make:functional-test
+> SecurityController
+
+php bin/phpunit tests/SecurityControllerTest.php
