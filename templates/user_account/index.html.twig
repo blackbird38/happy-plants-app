@@ -42,7 +42,7 @@
                                     {% for place in places %}
                                         <li>
                                             <img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}
-                                            <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a>
+                                            <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}"><i class="far fa-trash-alt text-danger"></i></a>
                                         </li>
                                         {#   <li>{{ dump(place) }}  </li> #}
                                     {% endfor %}
@@ -107,7 +107,7 @@
                             <p>
                             <ul class="list-unstyled">
                                 {% for place in places %}
-                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href=""><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}"><i class="far fa-trash-alt text-danger"></i></a></li>
+                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}"><i class="far fa-trash-alt text-danger"></i></a></li>
                                     {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>
