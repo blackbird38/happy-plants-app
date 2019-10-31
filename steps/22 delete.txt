@@ -1,0 +1,6 @@
+to be able to delete a plant with associated stageHistory and actionHistory, added:
+@ORM\JoinColumn(nullable=false, onDelete="CASCADE") ->  StageHistory & ActionHistory
+
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+

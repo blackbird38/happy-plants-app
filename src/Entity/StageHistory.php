@@ -34,6 +34,7 @@ class StageHistory
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plant", inversedBy="stageHistories")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $id_plant;
 

@@ -40,7 +40,7 @@ class ActionHistory
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plant", inversedBy="actionHistories")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $id_plant;
 
