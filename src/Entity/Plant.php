@@ -36,7 +36,7 @@ class Plant
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="plants")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $id_place;
 

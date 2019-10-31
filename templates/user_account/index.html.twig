@@ -24,7 +24,11 @@
                     <h4 class="card-title">Hi, {{ app.user.name }}, you can go to the admin dashboard, <a href="{{ path('admin') }}">here!</a></h4>
                 {% elseif is_granted("ROLE_USER") %}
                     <h4 class="card-title">Hi, {{ app.user.name }}!</h4>
-
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success text-white">
+                    {{ message }}
+                </div>
+            {% endfor %}
                         {% if numberOfPlants == 0 %}
                             <p> It seems that you don't have any plants yet.</p>
                             {% if numberOfPlaces == 0 %}
@@ -103,7 +107,7 @@
                             <p>
                             <ul class="list-unstyled">
                                 {% for place in places %}
-                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href=""><i class="fas fa-edit text-success"></i></a> <a href=""><i class="far fa-trash-alt text-danger"></i></a></li>
+                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href=""><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}"><i class="far fa-trash-alt text-danger"></i></a></li>
                                     {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>

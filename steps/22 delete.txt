@@ -1,5 +1,8 @@
 to be able to delete a plant with associated stageHistory and actionHistory, added:
-@ORM\JoinColumn(nullable=false, onDelete="CASCADE") ->  StageHistory & ActionHistory
+@ORM\JoinColumn(nullable=false, onDelete="CASCADE") ->  StageHistory (id_plant) & ActionHistory (id_plant)
+
+to be able to delete a Place (and all the plants associated with)
+@ORM\JoinColumn(nullable=false, onDelete="CASCADE") ->  Plant ($id_place)
 
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
