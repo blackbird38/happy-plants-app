@@ -217,7 +217,8 @@ class UserAccountController extends AbstractController
 
         $this->entityManager->remove($placeToDelete);
         $this->entityManager->flush();
-        return $this->redirectToRoute('user_account', array('message'=> "Species deleted."));
+        $this->addFlash('success', 'The place was deleted.');
+        return $this->redirectToRoute('user_account');
 
         // TODO : send a message
         // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)
