@@ -24,10 +24,11 @@ class StageHistoryType extends AbstractType
                         ->orderBy('s.name', 'ASC');
                 },
                 'choice_label' => 'name',
+                'label' => 'Stage'
             ])
             ->add('photoFile', FileType::class, [
                 'mapped' => false,
-                'label' => 'Please upload an image of the stage:'
+                'label' => 'Please upload an image of your plant:'
             ])
         ;
     }

@@ -16,7 +16,9 @@ class ActionHistoryType extends AbstractType
     {
         $builder
       //      ->add('date')
-            ->add('quantity')
+            ->add('quantity', null, [
+                'label' => 'Quantity (ml)'
+            ])
             ->add('id_action', EntityType::class, [
                 'class' => Action::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -24,6 +26,7 @@ class ActionHistoryType extends AbstractType
                         ->orderBy('a.name', 'ASC');
                 },
                 'choice_label' => 'name',
+                'label' => 'Action'
             ])
        //     ->add('id_user')
         //    ->add('id_plant')

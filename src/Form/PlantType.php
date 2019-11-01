@@ -45,6 +45,7 @@ class PlantType extends AbstractType
                         ->orderBy('s.name', 'ASC');
                 },
                 'choice_label' => 'name',
+                'label' => 'Type'
             ])
             ->add('id_medium', EntityType::class, [
                 'class' => Medium::class,

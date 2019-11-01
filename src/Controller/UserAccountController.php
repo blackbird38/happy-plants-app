@@ -372,6 +372,10 @@ class UserAccountController extends AbstractController
 
     /**
      * @Route("/user/add/photo/and/stage/of/the/plant/with/{id}", name="user-plant-add-photos-and-stage")
+     * @param Request $request
+     * @param $id //the id of the plant
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     function addPhotoAndStageForAPlant(Request $request, $id)
     {
@@ -402,7 +406,12 @@ class UserAccountController extends AbstractController
 
                $record->setPhoto($filename);
                $entityManager = $this->getDoctrine()->getManager();
+               // will change the current stage in the plant table with the stage given in the form
+               $plant = $this->plantRepository->find($id);
+               $plant->setIdStage($stage);
+
                $entityManager->persist($record);
+               $entityManager->persist($plant);
                $entityManager->flush();
                return $this->redirectToRoute('user_account');
         }
