@@ -1,0 +1,4 @@
+php bin/console make:voter
+>PlantVoter (creates src/Security/Voter/PlantVoter.php) 
+>PlaceVoter (creates src/Security/Voter/PlaceVoter.php)
++ modify in the UserAccountController.php

@@ -147,6 +147,10 @@ class UserAccountController extends AbstractController
     public function editPlace(Request $request, $id)
     {
         $place  = $this->placeRepository->find($id);
+
+        //checking to see if the user has right to do this
+        $this->denyAccessUnlessGranted('PLACE_EDIT', $place);
+
         $oldfile = $place->getPhoto();
 
         $form = $this->createForm(SpeciesType::class, $place);
@@ -200,6 +204,8 @@ class UserAccountController extends AbstractController
     public function deletePlace($id)
     {
         $placeToDelete  = $this->placeRepository->find($id);
+        //checking to see if the user has right to do this
+        $this->denyAccessUnlessGranted('PLACE_DELETE', $placeToDelete);
 
         $filesystem = new Filesystem();
 
@@ -283,14 +289,19 @@ class UserAccountController extends AbstractController
      * @Route("/user/add/plant/to/the/place/with/{id}", name="user-add-plant")
      */
     function addNewPlant(UserInterface $user, Request $request, $id){
+
+        //the place where to add a plant, to be sent in the twig
+        $place = $this->placeRepository->find($id);
+
+        //checking to see if the user has right to do this
+        $this->denyAccessUnlessGranted('PLACE_ACTION',  $place);
+
         $userID = $user->getId();
         $plants = $this->userRepository->find($userID)->getPlants();
         $places = $this->userRepository->find($userID)->getPlaces();
         $nPlants = count($plants);
         $nPlaces = count($places);
 
-        //the place where to add a plant, to be sent in the twig
-        $place = $this->placeRepository->find($id);
         $allThePlantsInThisPlace = $place->getPlants();
         $nOfPlantsInThisPlace = count( $allThePlantsInThisPlace);
             $plant= new Plant();
@@ -353,6 +364,10 @@ class UserAccountController extends AbstractController
      */
     function addPhotoAndStageForAPlant(Request $request, $id)
     {
+        //checking to see if the user has right to do this
+        $plant= $this->plantRepository->find($id);
+        $this->denyAccessUnlessGranted('PLANT_ACTION',  $plant);
+
         $record = new StageHistory();
         $record->setIdPlant($this->plantRepository->find($id));
         $form = $this->createForm(StageHistoryType::class, $record);
@@ -391,6 +406,10 @@ class UserAccountController extends AbstractController
      */
     function addActionOnAPlant(UserInterface $user, Request $request, $id)
     {
+        //checking to see if the user has right to do this
+        $plant= $this->plantRepository->find($id);
+        $this->denyAccessUnlessGranted('PLANT_ACTION',  $plant);
+
         $actionRecord = new ActionHistory();
         $actionRecord->setIdPlant($this->plantRepository->find($id));
         $form = $this->createForm(ActionHistoryType::class, $actionRecord);
@@ -420,7 +439,10 @@ class UserAccountController extends AbstractController
      * @Route("/user/edit/the/plant/with/{id}", name="user-edit-plant")
      */
     function editPlant(UserInterface $user, Request $request, $id){
+        //checking to see if the user has right to do this
         $plant= $this->plantRepository->find($id);
+        $this->denyAccessUnlessGranted('PLANT_DELETE',  $plant);
+
        // $place = $this->placeRepository->find($id);
         $oldfile = $plant->getPhoto();
         //TODO : if user doesn't select a photo, leave the old photo
@@ -493,7 +515,10 @@ class UserAccountController extends AbstractController
      */
     public function deletePlant($id)
     {
+        //checking to see if the user has right to do this
         $plantToDelete  = $this->plantRepository->find($id);
+        $this->denyAccessUnlessGranted('PLANT_DELETE',  $plantToDelete);
+
         //must delete the plant from all the records: stage_history, action_history
         $filesystem = new Filesystem();
         try {
