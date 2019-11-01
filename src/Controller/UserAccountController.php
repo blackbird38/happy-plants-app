@@ -151,9 +151,10 @@ class UserAccountController extends AbstractController
         //checking to see if the user has right to do this
         $this->denyAccessUnlessGranted('PLACE_EDIT', $place);
 
+        $nameBefore = $place->getName();
         $oldfile = $place->getPhoto();
 
-        $form = $this->createForm(SpeciesType::class, $place);
+        $form = $this->createForm(PlaceType::class, $place);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             $file = $request->files->get('place');
@@ -187,10 +188,21 @@ class UserAccountController extends AbstractController
             $place->setCreatedAt(new \DateTime('now'));
             $this->entityManager->persist($place);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin', array('message'=> "The info for the place was updated."));
+
+            $nameAfter = $place->getName();
+            if ($nameBefore == $nameAfter){
+                $message = "'". $nameBefore . "' updated.";
+            }else {
+                $message = "'". $nameBefore . "' updated. It's now '". $nameAfter ."'.";
+            }
+
+            $this->addFlash('success', $message);
+            // TODO : send a different message for error
+
+            return $this->redirectToRoute('user_account');
         }
 
-        return $this->render('user_account/place.html.twig', [
+        return $this->render('user_account/place-edit.html.twig', [
             'placeForm' => $form->createView(),
             'edit' => true
         ]);

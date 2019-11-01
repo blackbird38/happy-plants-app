@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    {% include('navbar.html.twig') %}
+
+    <div class="card container mt-3 bg-light mb-3">
+        <div class="card-body">
+            <p>
+                {%  if is_granted("ROLE_USER") %}
+
+            <p>{% include('user_account/place.html.twig') %}</p>
+
+            {% endif %} {#ROLE#}
+            </p>
+
+        </div>
+    </div>
+
+{% endblock %}
