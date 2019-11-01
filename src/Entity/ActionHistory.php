@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ActionHistoryRepository")
@@ -34,6 +35,7 @@ class ActionHistory
     private $date;
 
     /**
+     * @Assert\Positive
      * @ORM\Column(type="float")
      */
     private $quantity;
