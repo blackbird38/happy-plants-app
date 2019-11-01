@@ -204,6 +204,8 @@ class UserAccountController extends AbstractController
     public function deletePlace($id)
     {
         $placeToDelete  = $this->placeRepository->find($id);
+        $name = $placeToDelete->getName();
+        $nPlants = count($placeToDelete->getPlants());
         //checking to see if the user has right to do this
         $this->denyAccessUnlessGranted('PLACE_DELETE', $placeToDelete);
 
@@ -223,7 +225,16 @@ class UserAccountController extends AbstractController
 
         $this->entityManager->remove($placeToDelete);
         $this->entityManager->flush();
-        $this->addFlash('success', 'The place was deleted.');
+
+        //preparing the message to be displayed
+        if ($nPlants == 1){
+            $message = $name. ' was deleted. The ' . $nPlants . ' plant in it, too.';
+        }else if ($nPlants == 0) {
+            $message = $name. ' was deleted. It didn\'t contain any plant.';
+        }else {
+            $message = $name. ' was deleted. The ' . $nPlants . ' plants in it, too.';
+        }
+        $this->addFlash('success', $message);
         return $this->redirectToRoute('user_account');
 
         // TODO : send a message
@@ -519,6 +530,7 @@ class UserAccountController extends AbstractController
         $plantToDelete  = $this->plantRepository->find($id);
         $this->denyAccessUnlessGranted('PLANT_DELETE',  $plantToDelete);
 
+        $name = $plantToDelete->getName();
         //must delete the plant from all the records: stage_history, action_history
         $filesystem = new Filesystem();
         try {
@@ -531,7 +543,7 @@ class UserAccountController extends AbstractController
 
         $this->entityManager->remove($plantToDelete);
         $this->entityManager->flush();
-        $this->addFlash('success', 'Plant deleted.');
+        $this->addFlash('success', $name .' deleted.');
         // TODO : send a different message for error
         return $this->redirectToRoute('user_account');
 
