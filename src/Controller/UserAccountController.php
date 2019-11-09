@@ -140,13 +140,11 @@ class UserAccountController extends AbstractController
         ]);
     }
 
-
-
-
     //-----------------------------------Place-----------------------------------------------//
     /**
      * @Route("/user/edit/place/{id}", name="user-edit-place")
      */
+    //croppjs working
     public function editPlace(Request $request, $id)
     {
         $place  = $this->placeRepository->find($id);
@@ -313,6 +311,7 @@ class UserAccountController extends AbstractController
     /**
      * @Route("/user/add/place", name="user-add-place", methods={"POST"}, options={"expose"=true})
      */
+
     public function addNewPlaceWithCropper(UserInterface $user, Request $request)
     {
         if ($request->isXmlHttpRequest()) {
