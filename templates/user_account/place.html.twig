@@ -23,7 +23,7 @@
                           {#  preview the existing image in the edit form #}
                           {#  {{  dump(placeForm.vars.data.photo) }} #}
                             {%   if placeForm.vars.data.photo | default %}
-                                <img src="{{asset('build/images/plants/'~ placeForm.vars.data.photo ~'')}}" height="100">
+                                <img src="{{asset('build/images/plants/places/'~ placeForm.vars.data.photo ~'')}}" height="100">
                             {% endif %}
                         </div>
                     </div>

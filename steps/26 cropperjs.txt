@@ -1,0 +1,19 @@
+https://www.youtube.com/watch?v=J4hLDhw9NcQ
+
+npm install cropperjs
+https://www.npmjs.com/package/cropperjs
+
+in assets/js/app.js 
+import Cropper from 'cropperjs/dist/cropper';
+require('cropperjs/dist/cropper.css');
+
+
+npm install axios
+https://www.npmjs.com/package/axios
+
+composer require friendsofsymfony/jsrouting-bundle
+https://symfony.com/doc/master/bundles/FOSJsRoutingBundle/installation.html
+
+php bin/console fos:js-routing:debug
+php bin/console fos:js-routing:dump --format=json --target=assets/js/routes.json
+

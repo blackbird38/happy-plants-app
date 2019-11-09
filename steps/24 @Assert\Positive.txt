@@ -1,1 +1,0 @@
-added @Assert\Positive for $quantity property of ActionHistory and $humidity property of Place
