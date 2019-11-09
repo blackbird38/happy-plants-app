@@ -142,9 +142,8 @@ class UserAccountController extends AbstractController
 
     //-----------------------------------Place-----------------------------------------------//
     /**
-     * @Route("/user/edit/place/{id}", name="user-edit-place")
+     * @Route("/user/edit/place/{id}-", name="user-edit-place-")
      */
-    //croppjs working
     public function editPlace(Request $request, $id)
     {
         $place  = $this->placeRepository->find($id);
@@ -202,6 +201,82 @@ class UserAccountController extends AbstractController
 
             return $this->redirectToRoute('user_account');
         }
+
+        return $this->render('user_account/place-edit.html.twig', [
+            'placeForm' => $form->createView(),
+            'edit' => true
+        ]);
+
+        // TODO : send a message
+    }
+
+    /**
+     * @Route("/user/edit/place/{id}", name="user-edit-place", methods={"GET", "POST"}, options={"expose"=true})
+     */
+    public function editPlaceWithCropper(Request $request, $id)
+    {
+        $place  = $this->placeRepository->find($id);
+
+        //checking to see if the user has right to do this
+        $this->denyAccessUnlessGranted('PLACE_EDIT', $place);
+
+        $nameBefore = $place->getName();
+        $oldfile = $place->getPhoto();
+
+        $form = $this->createForm(PlaceType::class, $place);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($request->isXmlHttpRequest()) {
+               // $file = $request->files->get('place');
+              //  $file = $file['photoFile'];
+                $file = $_FILES['file'];
+                $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
+                $uploads_directory = $this->getParameter('places_upload_directory'); //defined in services.yaml
+                $filename = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+
+                //---delete the old file---------------------------------
+                $filesystem = new Filesystem();
+                try {
+                    $uploads_directory = $this->getParameter('places_upload_directory');
+
+                    /*   echo '<pre>';
+                       var_dump($uploads_directory.'/'.$oldfile); die;*/
+                    $filesystem->remove($uploads_directory . '/' . $oldfile);
+                    //https://symfony.com/doc/current/components/filesystem.html#remove
+
+                } catch (IOExceptionInterface $exception) {
+                    echo "An error occurred while creating your directory at " . $exception->getPath();
+                }
+                //-----------------------------------------
+
+                $place->setPhoto($filename);
+                $place->setName($form->get('name')->getData());
+
+
+                $place->setCreatedAt(new \DateTime('now'));
+                $this->entityManager->persist($place);
+                $this->entityManager->flush();
+
+                $nameAfter = $place->getName();
+                if ($nameBefore == $nameAfter) {
+                    $message = "'" . $nameBefore . "' updated.";
+                } else {
+                    $message = "'" . $nameBefore . "' updated. It's now '" . $nameAfter . "'.";
+                }
+
+                $this->addFlash('success', $message);
+                // TODO : send a different message for error
+                return new JsonResponse("This is an ajax request!");
+                return $this->redirectToRoute('user_account');
+            }//req
+            else {
+                return new JsonResponse("This is not an ajax request!");
+            }
+        } //form submited, valid
 
         return $this->render('user_account/place-edit.html.twig', [
             'placeForm' => $form->createView(),

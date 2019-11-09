@@ -80,7 +80,7 @@ preview.addEventListener('load', function (event){
   })
 })
 
-
+//for both the new place and edit place forms
 form.addEventListener('submit', function(event){
     event.preventDefault();
     //cropper.zoomTo(1);
@@ -97,11 +97,23 @@ form.addEventListener('submit', function(event){
 
 function ajaxWithAxios(blob)
 {
-    let url = Routing.generate('user-add-place')
+    //reading the url to see if it's for adding a new plant or for editing a plant
+    let full_url = document.URL
+    let url_array = full_url.split('/')
+    let url_id = url_array[url_array.length-1]
+    let url
+    let method
+    if (!isNaN(url_id)) { //it's for 'edit place' form, for the place with id url_id
+        url = Routing.generate('user-edit-place', { id: url_id })
+        method = 'post'
+    }else { //it's for 'add new place' form
+        url = Routing.generate('user-add-place')
+        method = 'post'
+    }
     let data = new FormData(form)
     data.append('file', blob)
     axios({
-        method: 'post',
+        method: method,
         url: url,
         data: data,
         headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -114,4 +126,5 @@ function ajaxWithAxios(blob)
             console.error(error)
         })
 }
+
 });

@@ -56,6 +56,6 @@ in the axios request's response:
         modified:   symfony.lock
 
 
-
+look at editPlaceWithCropper(Request $request, $id) (POST + GET game)
 
 
