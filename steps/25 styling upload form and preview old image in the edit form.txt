@@ -1,0 +1,44 @@
+styling the upload field: display 'Select an image'/the name of the selected image
+
+twig:
+    {{ form_row(myForm.imageFile, {
+        attr: {
+            'placeholder': 'Select an image'
+        }
+    }) }}
+
+
+
+app.js:
+
+            <script>
+                $('.custom-file-input').on('change', function(event) {
+                    var inputFile = event.currentTarget;
+                    $(inputFile).parent()
+                        .find('.custom-file-label')
+                        .html(inputFile.files[0].name);
+                });
+            </script>
+            
+--------------------------------
+old image preview:
+twig:
+
+
+{{ form_start(articleForm) }}
+    <div class="row">
+        <div class="col-sm-9">
+            {{ form_row(myForm.imageFile, {
+                attr: {
+                    'placeholder': 'Select an article image'
+                }
+            }) }}
+        </div>
+        <div class="col-sm-3">
+            {% if myForm.vars.data.imageFilename %}
+                <img src="{{ asset(articleForm.vars.data.imagePath) }}" height="100">
+            {% endif %}
+        </div>
+    </div>
+{{ form_end(articleForm) }}
+         
