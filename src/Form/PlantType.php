@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class PlantType extends AbstractType
 {
@@ -37,7 +38,11 @@ class PlantType extends AbstractType
         //https://symfony.com/doc/current/reference/forms/types/entity.html
         $builder
             ->add('name')
-            ->add('birth_date')
+            ->add('birth_date', DateType::class, [
+                'placeholder' => [
+                    'year' => 'Select the year', 'month' => 'Select the month', 'day' => 'Select the day',
+                ]
+            ])
             ->add('id_species', EntityType::class, [
                 'class' => Species::class,
                 'query_builder' => function (EntityRepository $er) {

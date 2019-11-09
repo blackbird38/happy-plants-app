@@ -1,3 +1,4 @@
+{#editing an existing plant#}
 <div class="col-md-12">
     {% form_theme plantForm'bootstrap_4_layout.html.twig' %}
          {{ form_start(plantForm) }}
@@ -8,11 +9,22 @@
                 {{ form_row(plantForm.id_stage) }}
                 {{ form_row(plantForm.birth_date) }}
                 {{ form_row(plantForm.id_place) }}
-                {{ form_row(plantForm.photoFile, {
-                    attr:{
-                        placeholder:'Select the image'
-                    }
-                }) }}
-               <button class="btn btn-success">Update</button>
+    <div class="row">
+        <div class="col-sm-9">
+            {{ form_row(plantForm.photoFile, {
+                attr:{
+                    placeholder:'Select the image'
+                }
+            }) }}
+        </div>
+        <div class="col-sm-3">
+            {#  preview the existing image in the edit form #}
+            {#  {{  dump(plantForm.vars.data.photo) }} #}
+            {%   if plantForm.vars.data.photo | default %}
+                <img src="{{asset('build/images/plants/'~ plantForm.vars.data.photo ~'')}}" height="100">
+            {% endif %}
+        </div>
+    </div>
+    <button class="btn btn-success">Update</button>
          {{ form_end(plantForm) }}
 </div>
