@@ -7,7 +7,11 @@
                 {{ form_row(plantForm.id_medium) }}
                 {{ form_row(plantForm.id_stage) }}
                 {{ form_row(plantForm.birth_date) }}
-                {{ form_row(plantForm.photoFile) }}
+                {{ form_row(plantForm.photoFile, {
+                    attr:{
+                        placeholder:'Select the image'
+                    }
+                }) }}
                 {% do plantForm.id_place.setRendered() %} {#https://stackoverflow.com/a/48147298#}
                 {% if edit == false %}
                         <button class="btn btn-success">Add new</button>

@@ -5,7 +5,11 @@
     {{ form_row(placeForm.orientation) }}
     {{ form_row(placeForm.medium_temperature) }}
     {{ form_row(placeForm.humidity) }}
-    {{ form_row(placeForm.photoFile) }}
+    {{ form_row(placeForm.photoFile, {
+            attr:{
+                    placeholder:'Select the image'
+            }
+    }) }}
     {% if edit == false %}
         <button class="btn btn-success">Add new</button>
     {% else %}

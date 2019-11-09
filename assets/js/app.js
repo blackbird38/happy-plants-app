@@ -25,3 +25,10 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     e.target // newly activated tab
     e.relatedTarget // previous active tab
 })
+
+$('.custom-file-input').on('change', function(e){
+    let inputFile = e.currentTarget;
+    $(inputFile).parent()
+            .find('.custom-file-label')
+            .html(inputFile.files[0].name);
+});

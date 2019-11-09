@@ -2,7 +2,11 @@
     {% form_theme stageHistoryForm'bootstrap_4_layout.html.twig' %}
     {{ form_start(stageHistoryForm) }}
     {{ form_row(stageHistoryForm.id_stage) }}
-    {{ form_row(stageHistoryForm.photoFile) }}
+    {{ form_row(stageHistoryForm.photoFile, {
+            attr:{
+                    placeholder:'Select the image'
+            }
+    }) }}
     {% if edit == false %}
         <button class="btn btn-success">Add new</button>
     {% else %}

@@ -8,7 +8,11 @@
                 {{ form_row(plantForm.id_stage) }}
                 {{ form_row(plantForm.birth_date) }}
                 {{ form_row(plantForm.id_place) }}
-                {{ form_row(plantForm.photoFile) }}
+                {{ form_row(plantForm.photoFile, {
+                    attr:{
+                        placeholder:'Select the image'
+                    }
+                }) }}
                <button class="btn btn-success">Update</button>
          {{ form_end(plantForm) }}
 </div>
