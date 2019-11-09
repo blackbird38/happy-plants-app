@@ -1,0 +1,1 @@
+{"base_url":"","routes":{"user_account":{"tokens":[["text","\/user\/account"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]},"user-add-place":{"tokens":[["text","\/user\/add\/place"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["POST"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}

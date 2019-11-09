@@ -22,7 +22,11 @@ class PlaceType extends AbstractType
             //->add('owner')
             ->add('photoFile', FileType::class, [
                 'mapped' => false,
-                'label' => 'Please upload an image of the place:'
+                'label' => 'Please upload an image of the place:',
+                'attr' => [
+                    //   'id'        => 'photoPlaceCropper_input', //default:place_photoFile
+                    'onchange'    => 'previewFile()'
+                ]
             ])
         ;
     }

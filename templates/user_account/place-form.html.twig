@@ -2,7 +2,7 @@
 
 <div class="col-md-12">
     {% form_theme placeForm'bootstrap_4_layout.html.twig' %}
-    {{ form_start(placeForm) }}
+    {{ form_start(placeForm, {'attr': {'id': 'place_form'}}) }}
     {{ form_row(placeForm.name) }}
     {{ form_row(placeForm.orientation) }}
     {{ form_row(placeForm.medium_temperature) }}
@@ -12,6 +12,7 @@
                     placeholder:'Select the image'
             }
     }) }}
+    {% include('user_account/place-cropper.html.twig') %}
     {% if edit == false %}
         <button class="btn btn-success">Add new</button>
     {% else %}

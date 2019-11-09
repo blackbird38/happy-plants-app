@@ -12,8 +12,50 @@ npm install axios
 https://www.npmjs.com/package/axios
 
 composer require friendsofsymfony/jsrouting-bundle
+(yes to recipe)
 https://symfony.com/doc/master/bundles/FOSJsRoutingBundle/installation.html
+
+
+controller:
+    /**
+     * @Route("/user/add/place", name="user-add-place", methods={"POST"}, options={"expose"=true})
+     */
 
 php bin/console fos:js-routing:debug
 php bin/console fos:js-routing:dump --format=json --target=assets/js/routes.json
+-> added file assets/js/routes.json
+
+
+in assets/js/app.js
+import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router';
+import Routes from './routes.json'
+
+in the axios request's response:
+
+        .then((response) => {
+            console.log(response);
+            window.location = '/user/account'; //to redirect to /user/account page (the route was exposed)
+        })
+
+
+        modified:   assets/js/app.js
+        new file:   assets/js/routes.json
+        modified:   src/Controller/UserAccountController.php
+        modified:   src/Form/PlaceType.php
+        new file:   templates/user_account/place-cropper.html.twig
+        modified:   templates/user_account/place-form.html.twig
+        modified:   templates/user_account/place.html.twig
+
+        modified:   composer.json
+        modified:   composer.lock
+        modified:   config/bundles.php
+        new file:   config/routes/fos_js_routing.yaml
+        modified:   package-lock.json
+        modified:   package.json
+        modified:   steps/26 cropperjs.txt
+        modified:   symfony.lock
+
+
+
+
 

@@ -26,6 +26,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 class UserAccountController extends AbstractController
 {
@@ -58,7 +61,7 @@ class UserAccountController extends AbstractController
     }
 
     /**
-     * @Route("/user/account", name="user_account")
+     * @Route("/user/account", name="user_account", options={"expose"=true})
      */
     public function index(UserInterface $user, Request $request)
     {
@@ -255,7 +258,7 @@ class UserAccountController extends AbstractController
 
 
     /**
-     * @Route("/user/add/place", name="user-add-place")
+     * @Route("/user/add/place-", name="user-add-place-")
      */
     public function addNewPlace(Request $request)
     {
@@ -305,6 +308,75 @@ class UserAccountController extends AbstractController
             'placeForm' => $form->createView(),
             'edit' => false,
         ]);
+    }
+
+    /**
+     * @Route("/user/add/place", name="user-add-place", methods={"POST"}, options={"expose"=true})
+     */
+    public function addNewPlaceWithCropper(UserInterface $user, Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $userID = $user->getId();
+            $place = new Place();
+            $place->setOwner($user);
+            $form = $this->createForm(PlaceType::class, $place);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                //https://www.youtube.com/watch?v=zTv0UFkAKFA
+                /*       echo '<pre>';
+                       var_dump($request); die; */
+                //! $file = $request->files->get('place');
+                /*   echo '<pre>';
+                  var_dump($file); die; */
+                /*  echo '<pre>';
+                var_dump($file); die;*/
+                //!     $file = $file['photoFile'];
+                /*    echo '<pre>';
+                  var_dump($file); die;*/
+
+                $file = $_FILES['file'];
+
+                $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
+
+                $uploads_directory = $this->getParameter('places_upload_directory'); //defined in services.yaml
+                $filename = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+                $place->setPhoto($filename);
+                $place->setName($form->get('name')->getData());
+                /*
+                            echo '<pre>';
+                            var_dump($place);
+                            echo '<pre>';
+                            var_dump($form->get('name')->getData());
+                            die;
+                */
+
+
+                $place->setCreatedAt(new \DateTime('now'));
+                /* echo '<pre>';
+                 var_dump($place);*/
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($place);
+                $entityManager->flush();
+
+                return new JsonResponse("This is an ajax request!");
+                return $this->redirectToRoute('user_account');
+
+                // TODO : send a message
+                //TODO : modify here
+
+            }
+
+            return $this->render('user_account/place.html.twig', [
+                'placeForm' => $form->createView(),
+                'edit' => false,
+            ]);
+        }
+        return new JsonResponse("This is not an ajax request");
     }
 
     //-----------------------------------Plant-----------------------------------------------//
