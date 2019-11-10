@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}
+    {{ parent() }}
+     - Register
+{% endblock %}
 
 {% form_theme registrationForm'bootstrap_4_layout.html.twig' %}
 {% block body %}

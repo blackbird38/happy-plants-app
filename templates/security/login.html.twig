@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}
+    {{ parent() }}
+    - Log in!
+{% endblock %}
 
 {% block body %}
     {% include('navbar.html.twig') %}
@@ -8,7 +11,7 @@
         <div class="card-body">
             {% if app.user %}
             {% else %}
-                <h4 class="card-title">Log in</h4>
+                <h4 class="card-title"></h4>
             {% endif %}
 
             <div class="container card-text">

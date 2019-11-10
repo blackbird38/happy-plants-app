@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}
+ {{ parent() }}
+ - Welcome!
+{% endblock %}
 
 {% block body %}
 
