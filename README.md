@@ -29,9 +29,9 @@ The purpose of this application is to track the watering and the health of our g
 ## Features:
     - Ability to add a new plant, edit and delete it
     - Ability to add a new place, edit and delete it
-    - Ability to add different states, edit and delete
+    - Ability to add different states, edit and delete them
     - Ability to add, edit and delete users
-    - Ability able to water a plant
+    - Ability to water a plant
     - Ability to add or remove a plant from a place
     - Ability to add or remove a photo of a plant
     - List all plants by location. Know for how long a plant has not been watered.
