@@ -11,20 +11,20 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav ml-auto">
             {% if app.user  %}
-            {% if not is_granted("ROLE_ADMIN")  %}
-                {% include('navbar-myplants-active.html.twig') %}
-                {% include('navbar-myplaces-inactive.html.twig') %}
-            {% endif %}
+                {% if not is_granted("ROLE_ADMIN")  %}
+                    {% include('navbar-myplants-inactive.html.twig') %}
+                    {% include('navbar-myplaces-active.html.twig') %}
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('default')}}">Settings</a>
                 </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>
+                </li>
             {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_login')}}">Login</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login')}}">Login</a>
+                </li>
             {% endif %}
         </ul>
 

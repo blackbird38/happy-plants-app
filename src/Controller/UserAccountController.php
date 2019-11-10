@@ -140,6 +140,88 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/user/account/places", name="user_account_places")
+     */
+    public function indexPlaces(UserInterface $user, Request $request)
+    {
+
+        //checking to see if the user has any plants, if they don't have, encourage them to upload
+        $userID = $user->getId();
+        $plants = $this->userRepository->find($userID)->getPlants();
+        //saving the time last watered in an array
+        $timesLastWatered = [];
+        // if ($plants) {
+        foreach ($plants as $plant) {
+            $timeLastWatered = $this->plantRepository->getLastTimeWatered($plant->getId());
+            $timesLastWatered[$plant->getId()] = $timeLastWatered;
+        }
+        //   }
+        dump($timesLastWatered);
+
+        /*   echo'<pre>';
+           var_dump($plants); exit;*/
+        foreach ($plants as $plant){
+            foreach ($plant->getStageHistories() as $rec){
+
+            }
+
+        }
+        /*     foreach ($plants as $plant) {
+                 dump($plant->getIdMedium());
+             }*/
+
+        //species, medium, stage nulls
+
+        $places = $this->userRepository->find($userID)->getPlaces();
+
+
+        $nPlants = count($plants);
+        $nPlaces = count($places);
+
+        $place = new Place();
+        $form = $this->createForm(PlaceType::class, $place);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $request->files->get('place');
+            $file = $file['photoFile'];
+            $uploads_directory = $this->getParameter('places_upload_directory'); //defined in services.yaml
+            $filename = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $place->setPhoto($filename);
+            $place->setName($form->get('name')->getData());
+            $place->setCreatedAt(new \DateTime('now'));
+            $place->setOwner($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($place);
+            $entityManager->flush();
+
+            /*     echo '<pre>';
+                 var_dump($places); die;*/
+
+            return $this->redirectToRoute('user_account');
+
+            // TODO : send a message
+            //TODO : modify here
+
+            //TODO : what's the problem with temperature?
+        }
+        return $this->render('user_account/index-places.html.twig', [
+            'placeForm' => $form->createView(),
+            'edit' => false,
+            'numberOfPlants' =>  $nPlants,
+            'numberOfPlaces' =>  $nPlaces,
+            'places' => $places,
+            'plants' => $plants,
+            'timesLastWatered' => $timesLastWatered
+        ]);
+    }
+
+
     //-----------------------------------Place-----------------------------------------------//
     /**
      * @Route("/user/edit/place/{id}-", name="user-edit-place-")
