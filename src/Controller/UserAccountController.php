@@ -1031,4 +1031,14 @@ class UserAccountController extends AbstractController
         // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)
     }
 
+    /**
+     * @Route("/user/settings", name="user_settings")
+     */
+    public function userSettings()
+    {
+        return $this->render('user_account/settings.html.twig', [
+            'controller_name' => 'DefaultController',
+        ]);
+    }
+
 }

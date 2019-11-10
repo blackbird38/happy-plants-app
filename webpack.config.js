@@ -38,6 +38,8 @@ Encore
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
+    .addStyleEntry('css/app', './assets/css/happy-style.scss') // your less/scss entry file
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -66,7 +68,7 @@ Encore
 
     // enables Sass/SCSS support
      .enableSassLoader()
-
+     .enablePostCssLoader()
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 

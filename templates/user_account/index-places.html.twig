@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block body %}
-
     {% include('navbar-places.html.twig') %}
 
     {#
@@ -17,6 +16,7 @@
 
 
     <div class="card container mt-3 bg-light mb-3">
+
         <div class="card-body">
             <p>
                 {% if is_granted("ROLE_ADMIN") %}
@@ -35,6 +35,7 @@
             {% else %} {# numberOfPlaces > 0 #}
                 <p>    You have  {{ numberOfPlaces }} locations: </p>
                 <p>    Display places: </p>
+
                 <p>
                 <ul class="list-unstyled">
                     {% for place in places %}

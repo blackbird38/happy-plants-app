@@ -21,6 +21,10 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 import Routes from './routes.json';
 import axios from 'axios';
 
+import 'tailwindcss/base.css';
+import 'tailwindcss/components.css';
+import 'tailwindcss/utilities.css';
+
 Routing.setRoutingData(Routes);
 
 $(document).ready(function() {
