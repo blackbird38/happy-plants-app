@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
-    {% if app.user %}
+    {% if app.user  %}
         <a class="navbar-brand ml-4" href="{{ path('user_account')}}"><i class="fas fa-seedling"></i> Happy Plants</a>
     {% else %}
         <a class="navbar-brand ml-4" href="{{ path('default')}}"><i class="fas fa-seedling"></i> Happy Plants</a>
@@ -10,13 +10,15 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav ml-auto">
-            {% if app.user %}
-           <li class="nav-item active">
+            {% if app.user  %}
+            {% if not is_granted("ROLE_ADMIN")  %}
+                <li class="nav-item active">
                     <a class="nav-link" href="{{ path('user_account')}}">My plants<span class="sr-only">(current)</span></a>
-           </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('default')}}">Settings</a>
-            </li>
+                </li>
+            {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('default')}}">Settings</a>
+                </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>
             </li>
