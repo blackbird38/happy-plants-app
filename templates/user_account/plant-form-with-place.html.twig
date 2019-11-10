@@ -1,7 +1,7 @@
 {#editing an existing plant#}
 <div class="col-md-12">
     {% form_theme plantForm'bootstrap_4_layout.html.twig' %}
-         {{ form_start(plantForm) }}
+         {{ form_start(plantForm, {'attr': {'id': 'plant_form'}}) }}
                 {{ form_errors(plantForm) }}
                 {{ form_row(plantForm.name) }}
                 {{ form_row(plantForm.id_species) }}
@@ -25,6 +25,7 @@
             {% endif %}
         </div>
     </div>
+    {% include('user_account/plant-cropper.html.twig') %}
     <button class="btn btn-success">Update</button>
          {{ form_end(plantForm) }}
 </div>

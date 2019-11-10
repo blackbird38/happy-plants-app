@@ -1,12 +1,13 @@
 <div class="col-md-12">
     {% form_theme stageHistoryForm'bootstrap_4_layout.html.twig' %}
-    {{ form_start(stageHistoryForm) }}
+    {{ form_start(stageHistoryForm, {'attr': {'id': 'stage_history_form'}}) }}
     {{ form_row(stageHistoryForm.id_stage) }}
     {{ form_row(stageHistoryForm.photoFile, {
             attr:{
                     placeholder:'Select the image'
             }
     }) }}
+    {% include('user_account/stage-cropper.html.twig') %}
     {% if edit == false %}
         <button class="btn btn-success">Add new</button>
     {% else %}

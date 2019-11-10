@@ -89,7 +89,11 @@ class PlantType extends AbstractType
             // TODO : continue here
             ->add('photoFile', FileType::class, [
                 'mapped' => false,
-                'label' => 'Please upload an image of your plant:'
+                'label' => 'Please upload an image of your plant:',
+                'attr' => [
+                    //   'id'        =>  //default:plant_photoFile
+                    'onchange'    => 'previewPlantFile()'
+                ]
             ]);
     }
 

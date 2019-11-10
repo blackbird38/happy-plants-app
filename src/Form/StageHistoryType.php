@@ -28,7 +28,11 @@ class StageHistoryType extends AbstractType
             ])
             ->add('photoFile', FileType::class, [
                 'mapped' => false,
-                'label' => 'Please upload an image of your plant:'
+                'label' => 'Please upload an image of your plant:',
+                'attr' => [
+                    //   'id'        =>  //default:stage_history_photoFile
+                    'onchange'    => 'previewStageFile()'
+                ]
             ])
         ;
     }

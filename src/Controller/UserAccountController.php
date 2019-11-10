@@ -455,7 +455,7 @@ class UserAccountController extends AbstractController
 
     //-----------------------------------Plant-----------------------------------------------//
     /**
-     * @Route("/user/add/plant/to/the/place/with/{id}", name="user-add-plant")
+     * @Route("/user/add/plant/to/the/place/with/{id}-", name="user-add-plant-")
      */
     function addNewPlant(UserInterface $user, Request $request, $id){
 
@@ -528,8 +528,97 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+
+
     /**
-     * @Route("/user/add/photo/and/stage/of/the/plant/with/{id}", name="user-plant-add-photos-and-stage")
+     * @Route("/user/add/plant/to/the/place/with/{id}", name="user-add-plant", methods={"POST", "GET"}, options={"expose"=true})
+     */
+    //don't change the path of the route, it's used in app.js (place)
+    function addNewPlantWithCropper(UserInterface $user, Request $request, $id)
+    {
+        //the place where to add a plant, to be sent in the twig
+        $place = $this->placeRepository->find($id);
+
+        //checking to see if the user has right to do this
+        $this->denyAccessUnlessGranted('PLACE_ACTION', $place);
+
+        $userID = $user->getId();
+        $plants = $this->userRepository->find($userID)->getPlants();
+        $places = $this->userRepository->find($userID)->getPlaces();
+        $nPlants = count($plants);
+        $nPlaces = count($places);
+
+        $allThePlantsInThisPlace = $place->getPlants();
+        $nOfPlantsInThisPlace = count($allThePlantsInThisPlace);
+        $plant = new Plant();
+        $form = $this->createForm(PlantType::class, $plant);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($request->isXmlHttpRequest()) {
+            $file = $request->files->get('plant');
+            //  $file = $file['photoFile'];
+            $file = $_FILES['file'];
+            $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
+            //   $medium = $form->get('id_medium')->getData();
+            /* echo '<pre>';
+             var_dump($medium.id); exit;*/
+            //saving the photo to disk
+            $uploads_directory = $this->getParameter('plants_upload_directory'); //defined in services.yaml
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $plant->setPhoto($filename);
+            $plant->setName($form->get('name')->getData());
+            $plant->setIdSpecies($form->get('id_species')->getData());
+            $plant->setIdMedium($form->get('id_medium')->getData());
+            $plant->setIdStage($form->get('id_stage')->getData());
+            $plant->setOwnerId($user);
+            $plant->setIdPlace($place);
+            //   $plant->setCreatedAt(new \DateTime('now'));
+
+            //prepare a StageHistory object to save in the stage_history table the photo and the stage + date
+            $record = new StageHistory();
+            $record->setIdStage($form->get('id_stage')->getData());
+            $record->setDate(new \DateTime('now'));
+            $record->setPhoto($filename);
+            //will save the plant into the database and then get the id
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($plant);
+            $entityManager->flush();
+            $plantId = $plant->getId();
+            $record->setIdPlant($plant);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($record);
+            $entityManager->flush();
+
+            return new JsonResponse("This is an ajax request!");
+            return $this->redirectToRoute('user_account');
+            // TODO : send a message
+            //TODO : modify here
+        }else {
+                return new JsonResponse("This is not an ajax request");
+            }
+    }
+            return $this->render('user_account/plant.html.twig', [
+                'plantForm' => $form->createView(),
+                'edit' => false,
+                'numberOfPlants' => $nPlants,
+                'numberOfPlaces' => $nPlaces,
+                'idOfThePlace' => $id,
+                'place' => $place,
+                'allThePlantsHere' => $allThePlantsInThisPlace,
+                'nOfPlantsInThisPlace' => $nOfPlantsInThisPlace,
+            ]);
+        //}
+        //return new JsonResponse("This is not an ajax request");
+    }
+
+
+
+    /**
+     * @Route("/user/add/photo/and/stage/of/the/plant/with/{id}-", name="user-plant-add-photos-and-stage-")
      * @param Request $request
      * @param $id //the id of the plant
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -579,6 +668,69 @@ class UserAccountController extends AbstractController
             ]);
     }
 
+
+    /**
+     * @Route("/user/add/photo/and/stage/of/the/plant/with/{id}", name="user-plant-add-photos-and-stage", methods={"POST", "GET"}, options={"expose"=true})
+     * @param Request $request
+     * @param $id //the id of the plant
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    //don't change the path, it's used in app.js ('plant', 'stage')
+    function addPhotoAndStageForAPlantWithCropper(Request $request, $id)
+    {
+        //checking to see if the user has right to do this
+        $plant = $this->plantRepository->find($id);
+        $this->denyAccessUnlessGranted('PLANT_ACTION', $plant);
+
+        $record = new StageHistory();
+        $record->setIdPlant($this->plantRepository->find($id));
+        $form = $this->createForm(StageHistoryType::class, $record);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($request->isXmlHttpRequest()) {
+            /*echo '<pre>';
+            var_dump($form); exit; */
+           // $file = $request->files->get('stage_history');
+       //     $file = $file['photoFile'];
+
+            $file = $_FILES['file'];
+            $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
+            $stage = $form->get('id_stage')->getData();
+            $record->setIdStage($stage);
+            $record->setDate(new \DateTime('now'));
+
+            //saving the photo to disk
+            $uploads_directory = $this->getParameter('plants_upload_directory'); //defined in services.yaml
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+
+            $record->setPhoto($filename);
+            $entityManager = $this->getDoctrine()->getManager();
+            // will change the current stage in the plant table with the stage given in the form
+            $plant = $this->plantRepository->find($id);
+            $plant->setIdStage($stage);
+
+            $entityManager->persist($record);
+            $entityManager->persist($plant);
+            $entityManager->flush();
+
+            return new JsonResponse("This is an ajax request!");
+            return $this->redirectToRoute('user_account');
+        } else {
+                return new JsonResponse("This is not an ajax request");
+            }
+    }
+        return $this->render('user_account/plant-add-record-full.html.twig', [
+            'stageHistoryForm' => $form->createView(),
+            'edit' => false,
+        ]);
+    }
+
+
     /**
      * @Route("/user/add/action/on/the/plant/with/{id}", name="user-plant-add-action")
      */
@@ -614,7 +766,7 @@ class UserAccountController extends AbstractController
 // in the stage_history
 
     /**
-     * @Route("/user/edit/the/plant/with/{id}", name="user-edit-plant")
+     * @Route("/user/edit/the/plant/with/{id}-", name="user-edit-plant-")
      */
     function editPlant(UserInterface $user, Request $request, $id){
         //checking to see if the user has right to do this
@@ -675,6 +827,85 @@ class UserAccountController extends AbstractController
           /*  var_dump($plant);
             var_dump($record);*/
           $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($record);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_account');
+        }
+
+        return $this->render('user_account/plant-edit.html.twig', [
+            'plantForm' => $form->createView(),
+            'edit' => false,
+        ]);
+        //TODO : continue
+    }
+
+
+    /**
+     * @Route("/user/edit/the/plant/with/{id}", name="user-edit-plant",  methods={"POST", "GET"}, options={"expose"=true})
+     */
+    //don't change the path of the route, it's used in app.js ('plant', 'edit')
+    function editPlantWithCropper(UserInterface $user, Request $request, $id){
+        //checking to see if the user has right to do this
+        $plant= $this->plantRepository->find($id);
+        $this->denyAccessUnlessGranted('PLANT_DELETE',  $plant);
+
+        // $place = $this->placeRepository->find($id);
+        $oldfile = $plant->getPhoto();
+        //TODO : if user doesn't select a photo, leave the old photo
+        $form = $this->createForm(PlantType::class, $plant);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $_FILES['file'];
+           // $file = $request->files->get('plant');
+            if ($file){
+                $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
+            //    $file = $file['photoFile'];
+                //saving the photo to disk
+                $uploads_directory = $this->getParameter('plants_upload_directory'); //defined in services.yaml
+                $filename = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+                //leave the old file, it will be recorded in the stages
+                // TODO : check here
+                //problem: may exist a record in the stage_history that is wrong (?)
+                //---delete the old file---------------------------------
+                /*  $filesystem = new Filesystem();
+                  try {
+                      $uploads_directory = $this->getParameter('plants_upload_directory');
+                      $filesystem->remove($uploads_directory.'/'.$oldfile);
+                      //https://symfony.com/doc/current/components/filesystem.html#remove
+                  } catch (IOExceptionInterface $exception) {
+                      echo "An error occurred while creating your directory at ".$exception->getPath();
+                  }*/
+                //-----------------------------------------
+            }
+            $plant->setPhoto($filename);
+            $plant->setName($form->get('name')->getData());
+            $plant->setIdSpecies($form->get('id_species')->getData());
+            $plant->setIdMedium($form->get('id_medium')->getData());
+            $plant->setIdStage($form->get('id_stage')->getData());
+            $plant->setIdPlace($form->get('id_place')->getData());
+            $plant->setOwnerId($user);
+            //$plant->setIdPlace($place);
+
+            //prepare a StageHistory object to save in the stage_history table the photo and the stage + date
+            $record = new StageHistory();
+            $record->setIdStage($form->get('id_stage')->getData());
+            $record->setDate(new \DateTime('now'));
+            $record->setPhoto($filename);
+            //will save the plant into the database and then get the id
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($plant);
+            $entityManager->flush();
+            $plantId = $plant->getId();
+            $record->setIdPlant($plant);
+
+            /*  var_dump($plant);
+              var_dump($record);*/
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($record);
             $entityManager->flush();
 

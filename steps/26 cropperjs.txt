@@ -22,8 +22,10 @@ controller:
      */
 
 php bin/console fos:js-routing:debug
+(to see the (js) routes)
 php bin/console fos:js-routing:dump --format=json --target=assets/js/routes.json
 -> added file assets/js/routes.json
+(run this cmd each time you expose a new route)
 
 
 in assets/js/app.js
@@ -57,5 +59,19 @@ in the axios request's response:
 
 
 look at editPlaceWithCropper(Request $request, $id) (POST + GET game)
+
+added cropper for Plant and Stage
+
+        modified:   assets/js/app.js
+        modified:   assets/js/routes.json
+        modified:   src/Controller/UserAccountController.php
+        modified:   src/Form/PlantType.php
+        modified:   src/Form/StageHistoryType.php
+        modified:   templates/user_account/plant-add-record.html.twig
+        new file:   templates/user_account/plant-cropper.html.twig
+        modified:   templates/user_account/plant-form-with-place.html.twig
+        modified:   templates/user_account/plant-form.html.twig
+        new file:   templates/user_account/stage-cropper.html.twig
+
 
 
