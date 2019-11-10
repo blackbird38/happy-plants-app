@@ -16,7 +16,7 @@ php bin/console server:run
 
 
 # Plant Tracker
-```
+
 The purpose of this application is to track the watering and the health of our green plants.
 
 - Each green plant is defined by a name, a species, a date of birth, etc... We record also in what it is planted (soil, hydropony, etc...)
@@ -35,7 +35,7 @@ The purpose of this application is to track the watering and the health of our g
     - Ability to add or remove a plant from a place
     - Ability to add or remove a photo of a plant
     - List all plants by location. Know for how long a plant has not been watered.
-    ```
+ 
 
 
 
