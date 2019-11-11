@@ -4,27 +4,27 @@
         <body>
             <trans-unit id="diff.ago.year">
                 <source>diff.ago.year</source>
-                <target>a year ago | %count% years ago</target>
+                <target>1 year | %count% years</target>
             </trans-unit>
             <trans-unit id="diff.ago.month">
                 <source>diff.ago.month</source>
-                <target> a month ago | %count% month</target>
+                <target>1 month | %count% month</target>
             </trans-unit>
             <trans-unit id="diff.ago.day">
                 <source>diff.ago.day</source>
-                <target>a day ago | %count% days ago</target>
+                <target>1 day | %count% days</target>
             </trans-unit>
             <trans-unit id="diff.ago.hour">
                 <source>diff.ago.hour</source>
-                <target>an hour ago | %count% hours ago</target>
+                <target>an hour | %count% hours</target>
             </trans-unit>
             <trans-unit id="diff.ago.minute">
                 <source>diff.ago.minute</source>
-                <target>a minute ago | %count% minutes ago</target>
+                <target>a minute | %count% minutes</target>
             </trans-unit>
             <trans-unit id="diff.ago.second">
                 <source>diff.ago.second</source>
-                <target>a second ago| %count% seconds ago</target>
+                <target>a second | %count% seconds</target>
             </trans-unit>
             <trans-unit id="diff.empty">
                 <source>diff.empty</source>
@@ -32,27 +32,27 @@
             </trans-unit>
             <trans-unit id="diff.in.second">
                 <source>diff.in.second</source>
-                <target>in einer Sekunde|in %count% Sekunden</target>
+                <target>in 1 second|in %count% seconds</target>
             </trans-unit>
             <trans-unit id="diff.in.hour">
                 <source>diff.in.hour</source>
-                <target>in einer Stunde|in %count% Stunden</target>
+                <target>in 1 hour|in %count% hours</target>
             </trans-unit>
             <trans-unit id="diff.in.minute">
                 <source>diff.in.minute</source>
-                <target>in einer Minute|in %count% Minuten</target>
+                <target>in 1 minute|in %count% minutes</target>
             </trans-unit>
             <trans-unit id="diff.in.day">
                 <source>diff.in.day</source>
-                <target>in einem Tag|in %count% Tagen</target>
+                <target>in 1 day|in %count% days</target>
             </trans-unit>
             <trans-unit id="diff.in.month">
                 <source>diff.in.month</source>
-                <target>in einem Monat|in %count% Monaten</target>
+                <target>in 1 month|in %count% months</target>
             </trans-unit>
             <trans-unit id="diff.in.year">
                 <source>diff.in.year</source>
-                <target>in einem Jahr|in %count% Jahren</target>
+                <target>in 1 year|in %count% years</target>
             </trans-unit>
         </body>
     </file>

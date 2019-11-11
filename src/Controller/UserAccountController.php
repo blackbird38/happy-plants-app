@@ -183,6 +183,11 @@ class UserAccountController extends AbstractController
         $place = new Place();
         $form = $this->createForm(PlaceType::class, $place);
         $form->handleRequest($request);
+
+        //send an emty plantForm to the twig, to allow the adding of new plants (accordion)
+        $plant = new Plant();
+        $plantForm = $this->createForm(PlantType::class, $plant);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $request->files->get('place');
             $file = $file['photoFile'];
@@ -200,15 +205,17 @@ class UserAccountController extends AbstractController
             $entityManager->persist($place);
             $entityManager->flush();
 
+
+
             /*     echo '<pre>';
                  var_dump($places); die;*/
 
-            return $this->redirectToRoute('user_account');
+            return $this->redirectToRoute('user_account_places');
 
             // TODO : send a message
             //TODO : modify here
 
-            //TODO : what's the problem with temperature?
+            //  what's the problem with temperature? -> mediumTemperature
         }
         return $this->render('user_account/index-places.html.twig', [
             'placeForm' => $form->createView(),
@@ -217,7 +224,8 @@ class UserAccountController extends AbstractController
             'numberOfPlaces' =>  $nPlaces,
             'places' => $places,
             'plants' => $plants,
-            'timesLastWatered' => $timesLastWatered
+            'timesLastWatered' => $timesLastWatered,
+            'plantForm' => $plantForm->createView()
         ]);
     }
 
@@ -1029,6 +1037,27 @@ class UserAccountController extends AbstractController
 
         // TODO : send a message
         // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)
+    }
+
+    /**
+     * @Route("/user/view/place/with/{id}", name="user-view-place")
+     */
+    public function displayPlace($id){
+        return $this->render('user_account/place-view.html.twig', [
+            'controller_name' => 'DefaultController',
+        ]);
+    }
+
+    /**
+     * @Route("/user/view/plant/with/{id}", name="user-view-plant")
+     */
+    public function displayPlant($id){
+        $plant= $this->plantRepository->find($id);
+        $this->denyAccessUnlessGranted('PLANT_EDIT',  $plant);
+
+        return $this->render('user_account/plant-view.html.twig', [
+            'plant' => $plant,
+        ]);
     }
 
     /**

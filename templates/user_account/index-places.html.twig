@@ -2,10 +2,12 @@
 
 {% block title %}
     {{ parent() }}
-    - My plants
+    - My places
 {% endblock %}
 
 {% block body %}
+
+ 
     {% include('navbar-places.html.twig') %}
 
     {#
@@ -34,20 +36,160 @@
                 {% include('user_account/place-form.html.twig') %}
             {% else %} {# numberOfPlaces > 0 #}
                 <p>    You have  {{ numberOfPlaces }} locations: </p>
-                <p>    Display places: </p>
 
-                <p>
-                <ul class="list-unstyled">
+                <div class="flex flex-wrap overflow-hidden sm:-mx-3 md:-mx-4 lg:-mx-4 xl:-mx-4">
+
                     {% for place in places %}
-                        <li>
-                            <img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}
-                            <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
-                        </li>
-                        {#   <li>{{ dump(place) }}  </li> #}
-                    {% endfor %}
-                </ul>
 
-                </p>
+
+                        <div class="w-full overflow-hidden sm:my-3 sm:px-3 md:my-4 md:px-4 lg:my-4 lg:px-4 lg:w-1/2 xl:my-4 xl:px-4 xl:w-1/2">
+                            <!-- Column Content -->
+
+                            <div class="bg-white shadow-xl rounded-lg overflow-hidden" id="happy-fadeIn">
+                                <div class="bg-cover bg-center h-56 p-4 happy-touch" style="background-image: url({{asset('build/images/plants/places/'~ place.photo ~'')}})">
+                                    <div class="flex justify-end">
+                                        <svg class="h-6 w-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-left"><a href="{{ path('user-view-place', { 'id': place.id }) }}" class="hover:no-underline"><span class="text-3xl text-gray-900 happy-color">{{ place.name | e     }} </span></a><span>•</span> <span class="happy-color uppercase tracking-wide text-sm font-bold text-gray-700">{{      place.plants.count}}</span> <span class="uppercase tracking-wide text-sm font-bold text-gray-700 text-right">plants</span></p>
+                                </div>
+                                <div class="flex p-4 border-t border-gray-300 text-gray-700">
+                                    <div class="flex-1 inline-flex items-center">
+                                        <svg class="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="512px" height="512px"><g><g>
+                                                    <g>
+                                                        <path d="M344.864,112.832c-26.176-33.408-53.248-67.904-75.072-104.96C266.912,3.008,261.664,0,256,0s-10.912,3.008-13.76,7.872    c-21.824,37.024-48.896,71.552-75.072,104.928C114.112,180.448,64,244.352,64,320c0,105.888,86.112,192,192,192    s192-86.112,192-192C448,244.384,397.92,180.48,344.864,112.832z M256,480c-88.224,0-160-71.776-160-160    c0-64.608,46.784-124.256,96.352-187.456c21.632-27.584,43.84-55.904,63.648-86.24c19.808,30.336,42.016,58.688,63.648,86.272    C369.216,195.744,416,255.424,416,320C416,408.224,344.224,480,256,480z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#26DCAD"/>
+                                                    </g>
+                                                </g><g>
+                                                    <g>
+                                                        <path d="M208,192c-26.464,0-48,21.536-48,48s21.536,48,48,48s48-21.536,48-48S234.464,192,208,192z M208,256    c-8.832,0-16-7.168-16-16c0-8.832,7.168-16,16-16c8.832,0,16,7.168,16,16C224,248.832,216.832,256,208,256z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#26DCAD"/>
+                                                    </g>
+                                                </g><g>
+                                                    <g>
+                                                        <path d="M304,352c-26.464,0-48,21.536-48,48s21.536,48,48,48s48-21.536,48-48S330.464,352,304,352z M304,416c-8.8,0-16-7.2-16-16    s7.2-16,16-16s16,7.2,16,16S312.8,416,304,416z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#26DCAD"/>
+                                                    </g>
+                                                </g><g>
+                                                    <g>
+                                                        <path d="M347.296,228.704c-6.24-6.24-16.384-6.24-22.624,0l-160,160c-6.24,6.24-6.24,16.384,0,22.624    C167.808,414.432,171.904,416,176,416s8.192-1.568,11.296-4.672l160-160C353.536,245.088,353.536,234.944,347.296,228.704z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#26DCAD"/>
+                                                    </g>
+                                                </g></g> </svg>
+                                        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+                                        <p><span class="text-gray-900 font-bold">{{ place.humidity }}</span> %</p>
+                                    </div>
+                                    <div class="flex-1 inline-flex items-center">
+                                        <svg class="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 511.974 511.974" style="enable-background:new 0 0 511.974 511.974;" xml:space="preserve" width="512px" height="512px"><g><g transform="matrix(0.989802, 0, 0, 0.989802, 2.61055, 2.61055)"><g>
+                                                        <path d="M480.971,181h-46.509c-1.949-9.562-5.731-18.46-10.948-26.33l32.917-32.917c5.858-5.858,5.858-15.355,0-21.213   c-5.857-5.858-15.355-5.858-21.213,0L402.3,133.458c-7.869-5.218-16.768-9-26.33-10.948V76c0-8.284-6.716-15-15-15s-15,6.716-15,15   v46.509c-9.561,1.949-18.46,5.731-26.33,10.948l-32.917-32.917c-5.857-5.858-15.355-5.858-21.213,0   c-5.858,5.858-5.858,15.355,0,21.213l32.917,32.917c-5.218,7.869-9,16.768-10.948,26.33h-46.509c-8.284,0-15,6.716-15,15   s6.716,15,15,15h46.509c1.949,9.562,5.731,18.46,10.948,26.33l-32.917,32.917c-5.858,5.858-5.858,15.355,0,21.213   c5.857,5.858,15.356,5.858,21.213,0l32.917-32.917c7.869,5.218,16.768,9,26.33,10.948V316c0,8.284,6.716,15,15,15s15-6.716,15-15   v-46.509c9.561-1.949,18.46-5.731,26.33-10.948l32.917,32.917c5.857,5.858,15.356,5.858,21.213,0   c5.858-5.858,5.858-15.355,0-21.213l-32.917-32.917c5.218-7.869,9-16.768,10.948-26.33h46.509c8.284,0,15-6.716,15-15   S489.255,181,480.971,181z M360.971,241c-24.813,0-45-20.187-45-45s20.187-45,45-45s45,20.187,45,45S385.784,241,360.971,241z" data-original="#26DCAD" class="active-path" data-old_color="#000000" fill="#26DCAD"/>
+                                                        <path d="M120.971,181c-8.284,0-15,6.716-15,15v168.58c-17.459,6.192-30,22.865-30,42.42c0,24.813,20.187,45,45,45s45-20.187,45-45   c0-19.555-12.541-36.228-30-42.42V196C135.971,187.716,129.255,181,120.971,181z M120.971,422c-8.271,0-15-6.729-15-15   s6.729-15,15-15s15,6.729,15,15S129.242,422,120.971,422z" data-original="#26DCAD" class="active-path" data-old_color="#000000" fill="#26DCAD"/>
+                                                        <path d="M195.971,75c0-41.355-33.645-75-75-75s-75,33.645-75,75v258.975c-23.682,24.234-34.249,57.975-28.375,91.597   c7.436,42.558,42.245,77.429,84.65,84.8c6.18,1.074,12.37,1.603,18.518,1.603C179.296,511.97,225.971,464.764,225.971,407   c0-27.155-10.856-53.401-30-73.021V75z M107.384,480.814c-30.168-5.244-54.938-30.084-60.235-60.406   c-4.548-26.032,4.149-51.148,23.862-68.907c3.157-2.845,4.96-6.895,4.96-11.145V75c0-24.813,20.187-45,45-45s45,20.187,45,45v46   h-15c-8.284,0-15,6.716-15,15s6.716,15,15,15h15v30h-15c-8.284,0-15,6.716-15,15s6.716,15,15,15h15v30h-15c-8.284,0-15,6.716-15,15   s6.716,15,15,15h15v30h-15c-8.284,0-15,6.716-15,15s6.716,15,15,15h15v9.357c0,4.25,1.803,8.3,4.96,11.145   c16.147,14.547,25.04,34.256,25.04,55.499C195.971,452.273,155.522,489.181,107.384,480.814z" data-original="#26DCAD" class="active-path" data-old_color="#000000" fill="#26DCAD"/>
+                                                    </g></g></g> </svg>
+                                        <p><span class="text-gray-900 font-bold">{{ place.MediumTemperature }}</span> °</p>
+                                    </div>
+                                    <div class="flex-1 inline-flex items-center">
+                                        <svg class="h-6 w-6 text-gray-600 fill-current mr-3 hovered-paths" xmlns="http://www.w3.org/2000/svg" id="Layer_1" enable-background="new 0 0 512 512" height="512px" viewBox="0 0 512 512" width="512px"><g><g><path d="m429.948 82.052c-96.069-96.069-251.828-96.069-347.896 0-96.069 96.069-96.069 251.828 0 347.896s251.828 96.069 347.896 0c96.069-96.069 96.069-251.827 0-347.896z" fill="#faf7f5" data-original="#FAF7F5"/><path d="m345.899 306.101-80-120v90z" fill="#beece1" data-original="#BEECE1"/><path d="m265.899 276.101v-90l-80 120z" fill="#ff5a58" data-original="#FF5A58"/><circle cx="124.478" cy="124.478" fill="#beece1" r="20" data-original="#BEECE1"/><circle cx="387.522" cy="387.522" fill="#beece1" r="20" data-original="#BEECE1"/><path d="m512 256c0-68.38-26.629-132.667-74.98-181.02-48.353-48.351-112.64-74.98-181.02-74.98-66.335 0-128.81 25.073-176.63 70.715-.002-.004-.004-.007-.006-.01-1.477 1.408-2.94 2.831-4.383 4.274l-.1.101c-3.9 3.899-3.89 10.239.01 14.14 1.88 1.89 4.39 2.93 7.06 2.93 2.68 0 5.19-1.04 7.08-2.93.01-.02.03-.04.05-.05.01-.021.03-.03.04-.05 1.226-1.226 2.469-2.427 3.72-3.618 44.125-42.275 101.854-65.502 163.159-65.502 63.038 0 122.303 24.548 166.877 69.123 66.503 66.503 84.922 163.139 55.294 246.354.026.008.051.018.077.026-.82 2.301-1.663 4.597-2.558 6.877-.98 2.49-.93 5.21.14 7.65 1.07 2.449 3.03 4.34 5.51 5.31 1.17.46 2.4.7 3.66.7 4.14 0 7.79-2.49 9.31-6.351.655-1.67 1.285-3.351 1.901-5.038.02.008.04.016.059.024 10.327-28.013 15.73-57.926 15.73-88.675z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m345.897 316.102c2.99 0 5.899-1.345 7.836-3.785 2.698-3.399 2.895-8.151.487-11.763l-80-120c-.044-.066-.093-.126-.138-.19-1.847-2.637-5.018-4.277-8.238-4.259-3.256.018-6.457 1.737-8.265 4.448l-80 120c-2.408 3.611-2.211 8.363.487 11.763 1.937 2.441 4.845 3.785 7.836 3.785 1.175 0 2.363-.208 3.509-.638l76.489-28.683 76.489 28.683c1.146.431 2.333.639 3.508.639zm-89.998-46.931-44.482 16.681 44.482-66.724zm20 0v-50.043l44.482 66.724z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m399.356 98.517c-.362-1.464-1.496-3.15-3.405-5.06-1.358-1.358-2.79-2.259-4.295-2.705-1.508-.445-2.748-.18-3.723.796l-40.411 40.411c-.976.977-1.242 2.217-.795 3.723.445 1.507 1.346 2.938 2.705 4.296 1.357 1.357 2.789 2.259 4.296 2.705 1.505.444 2.747.181 3.723-.796l21.637-21.637-9.927 34.11c-.807 2.757.148 5.494 2.864 8.21 1.357 1.357 2.788 2.258 4.295 2.704 1.506.445 2.747.181 3.723-.796l40.475-40.475c.976-.975 1.23-2.207.764-3.691-.468-1.484-1.379-2.906-2.736-4.264-1.358-1.357-2.779-2.27-4.264-2.736s-2.715-.211-3.691.764l-21.637 21.638 9.354-29.974c1.057-3.351 1.408-5.76 1.048-7.223z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m144.688 370.686c1.542 1.542 2.68 3.397 3.628 5.348.834 1.717 1.313 4.429 2.673 5.788 1.229 1.23 2.799 1.592 4.706 1.085s3.421-1.32 4.543-2.442c1.268-1.268 1.658-2.836 1.551-4.446-.116-1.731-.807-3.51-1.603-5.011-1.736-3.276-4.227-6.362-6.842-8.977-8.256-8.257-20.654-11.929-29.72-2.864-7.934 7.933-5.24 18.345-1.591 27.747 1.473 3.799 3.93 10.261.51 13.681-3.135 3.135-7.817.585-10.374-1.972-3.768-3.768-3.493-8.076-4.495-12.879-.653-3.133-3.032-4.629-6.165-4.144-2.058.318-3.681 1.072-4.868 2.26-2.122 2.121-2.504 5.559-1.146 10.309 1.357 4.752 4.094 9.186 8.209 13.301 4.751 4.752 9.81 7.373 15.175 7.863 5.364.49 10.234-1.451 14.609-5.826 2.503-2.503 4.23-5.229 5.187-8.178 1.565-4.836.914-10.106-.435-14.91-1.334-4.75-4.387-9.194-4.91-14.109-.192-1.802.2-3.191 1.176-4.168 3.135-3.141 7.824.187 10.182 2.544z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m194.91 111.609c1.22 0 2.46-.22 3.67-.699 5.13-2.03 7.65-7.841 5.62-12.98-2.03-5.13-7.84-7.649-12.97-5.62-5.14 2.03-7.66 7.84-5.63 12.971 1.56 3.929 5.32 6.328 9.31 6.328z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m238.46 100.93c.35 0 .71-.02 1.06-.06 5.49-.58 9.48-5.5 8.9-10.99-.58-5.5-5.5-9.48-11-8.9-5.49.58-9.47 5.5-8.89 10.99.54 5.139 4.88 8.96 9.93 8.96z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m281.68 102.12c.55.09 1.11.13 1.65.13 4.8 0 9.04-3.47 9.85-8.36.9-5.45-2.78-10.6-8.23-11.5-5.44-.91-10.6 2.78-11.5 8.22-.9 5.45 2.78 10.6 8.23 11.51z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m326.17 115.52c3.76 0 7.37-2.14 9.07-5.779 2.33-5 .16-10.95-4.84-13.29-5.01-2.33-10.96-.17-13.29 4.84-2.33 5-.17 10.95 4.84 13.29 1.36.629 2.8.939 4.22.939z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m397.42 321.95c-2.33 5-.17 10.949 4.84 13.279 1.37.641 2.8.94 4.22.94 3.77 0 7.37-2.13 9.07-5.771 2.33-5.01.16-10.96-4.84-13.29-5-2.328-10.96-.169-13.29 4.842z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m410.39 204.899c1.23 0 2.47-.22 3.67-.699 5.14-2.03 7.66-7.841 5.63-12.971-2.03-5.14-7.84-7.66-12.98-5.63-5.13 2.03-7.65 7.84-5.62 12.98 1.55 3.931 5.32 6.32 9.3 6.32z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m419.76 293.319c4.8 0 9.04-3.47 9.85-8.369.91-5.45-2.78-10.601-8.23-11.5-5.44-.9-10.6 2.779-11.5 8.229-.9 5.44 2.78 10.601 8.23 11.5.55.091 1.1.14 1.65.14z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m431.02 237.42c-.58-5.49-5.5-9.47-11-8.89-5.49.579-9.47 5.5-8.89 10.989.54 5.141 4.88 8.95 9.93 8.95.35 0 .71-.02 1.06-.05 5.5-.579 9.48-5.509 8.9-10.999z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m105.51 195.83c3.76 0 7.37-2.141 9.07-5.78 2.33-5 .16-10.95-4.84-13.29-5-2.33-10.95-.16-13.29 4.84-2.33 5.01-.17 10.96 4.84 13.29 1.37.64 2.8.94 4.22.94z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m82.39 227.05c-.91 5.44 2.78 10.59 8.22 11.5.56.09 1.11.13 1.65.13 4.81.01 9.04-3.47 9.86-8.36.9-5.449-2.78-10.6-8.23-11.5-5.45-.91-10.6 2.78-11.5 8.23z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m101.61 327.1c1.23 0 2.47-.229 3.68-.7 5.13-2.029 7.65-7.84 5.62-12.979-2.03-5.13-7.84-7.65-12.98-5.62-5.13 2.03-7.65 7.84-5.62 12.97 1.55 3.929 5.32 6.329 9.3 6.329z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m80.98 274.58c.54 5.13 4.88 8.95 9.93 8.95.36 0 .71-.021 1.07-.061 5.49-.58 9.47-5.5 8.89-10.99-.58-5.489-5.5-9.479-11-8.899-5.49.58-9.47 5.5-8.89 11z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m313.42 401.09c-5.13 2.03-7.65 7.84-5.62 12.97 1.55 3.931 5.32 6.33 9.3 6.33 1.22 0 2.47-.22 3.67-.7 5.14-2.029 7.66-7.84 5.63-12.979-2.03-5.131-7.84-7.651-12.98-5.621z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m272.48 411.13c-5.5.58-9.48 5.5-8.9 10.99.54 5.14 4.89 8.949 9.94 8.949.35 0 .7-.01 1.06-.05 5.49-.58 9.47-5.5 8.89-11-.58-5.489-5.5-9.469-10.99-8.889z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m176.76 402.26c-2.33 5.01-.16 10.96 4.84 13.29 1.37.64 2.81.94 4.22.94 3.77 0 7.37-2.141 9.07-5.78 2.34-5 .17-10.95-4.84-13.29-5-2.33-10.95-.17-13.29 4.84z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m218.82 418.109c-.91 5.45 2.78 10.601 8.23 11.5.55.091 1.1.141 1.65.141 4.8 0 9.04-3.47 9.85-8.37.9-5.45-2.78-10.6-8.23-11.5s-10.6 2.78-11.5 8.229z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m69.408 353.392c1.42 0 2.863-.304 4.234-.945 5.001-2.343 7.158-8.296 4.815-13.297-30.719-65.603-22.219-142.568 20.009-199.731 1.288 2.244 2.883 4.358 4.798 6.273 5.849 5.849 13.531 8.772 21.213 8.772s15.365-2.924 21.213-8.772c11.697-11.697 11.697-30.729 0-42.427-1.914-1.914-4.027-3.509-6.27-4.796 56.971-42.065 133.698-50.671 199.141-20.292 5.008 2.326 10.956.15 13.281-4.86 2.326-5.009.149-10.955-4.86-13.28-39.751-18.45-83.701-24.335-127.097-17.011-44.371 7.486-84.698 28.317-116.622 60.24-32.012 32.013-52.862 72.46-60.296 116.969-7.271 43.538-1.263 87.591 17.376 127.396 1.702 3.63 5.304 5.762 9.065 5.761zm47.999-235.985c1.889-1.889 4.4-2.93 7.071-2.93s5.182 1.041 7.071 2.93 2.929 4.399 2.929 7.07c0 2.672-1.04 5.183-2.929 7.071-1.889 1.889-4.4 2.929-7.071 2.929s-5.182-1.04-7.071-2.929-2.929-4.399-2.929-7.071c0-2.67 1.04-5.181 2.929-7.07z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m438.684 160.157c-5.009 2.325-7.185 8.271-4.86 13.28 30.377 65.443 21.772 142.171-20.292 199.141-1.288-2.243-2.882-4.356-4.796-6.27-11.697-11.697-30.729-11.697-42.427 0-11.697 11.697-11.697 30.729 0 42.427 1.915 1.915 4.029 3.51 6.273 4.798-57.162 42.228-134.128 50.727-199.731 20.008-5.001-2.338-10.955-.186-13.297 4.816-2.342 5.001-.186 10.954 4.815 13.297 28.836 13.502 59.895 20.375 91.378 20.375 11.977 0 24.021-.995 36.02-2.999 44.509-7.434 84.956-28.284 116.968-60.296 31.923-31.924 52.754-72.25 60.241-116.621 7.322-43.397 1.439-87.347-17.012-127.097-2.325-5.008-8.27-7.186-13.28-4.859zm-44.091 234.436c-1.889 1.889-4.4 2.93-7.071 2.93s-5.182-1.041-7.071-2.93-2.929-4.399-2.929-7.07c0-2.672 1.04-5.183 2.929-7.071 1.889-1.889 4.4-2.929 7.071-2.929s5.182 1.04 7.071 2.929 2.929 4.399 2.929 7.071c0 2.67-1.04 5.181-2.929 7.07z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m44.7 129.52c1.63 1.08 3.53 1.641 5.48 1.641 3.38 0 6.51-1.681 8.37-4.511 0 0 0 0 0-.01 3.02-4.609 1.73-10.81-2.88-13.84-1.63-1.07-3.53-1.64-5.48-1.64-3.38 0-6.5 1.689-8.36 4.51-3.03 4.61-1.74 10.82 2.87 13.85z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m430.15 419.75c-2.68 0-5.19 1.04-7.08 2.939l-.19.19c-.97.97-1.952 1.924-2.938 2.872-.002-.001-.004-.003-.005-.004-44.225 42.75-102.271 66.253-163.937 66.253-63.038 0-122.303-24.548-166.877-69.123-66.836-66.836-85.109-164.112-54.852-247.611-.025-.004-.05-.01-.076-.014.697-1.927 1.412-3.85 2.164-5.762 2.01-5.131-.52-10.95-5.65-12.96-1.17-.471-2.4-.7-3.65-.7-4.14 0-7.8 2.489-9.32 6.34-.95 2.417-1.857 4.853-2.731 7.302-.024-.011-.048-.021-.072-.032-9.818 27.403-14.936 56.588-14.936 86.56 0 68.38 26.629 132.667 74.98 181.02 48.353 48.351 112.64 74.98 181.02 74.98 64.322 0 125.01-23.58 172.232-66.621v.011c.112-.102.221-.208.333-.31.506-.463 1.004-.935 1.507-1.402 1.106-1.024 2.207-2.053 3.295-3.097.019-.018.039-.036.057-.054 0 0-.001-.001-.001-.001 1.208-1.159 2.411-2.322 3.595-3.506l.07-.069c.04-.051.09-.091.13-.141 3.9-3.899 3.89-10.24-.01-14.14-1.888-1.88-4.398-2.92-7.058-2.92z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/><path d="m467.37 382.359c-1.63-1.079-3.52-1.64-5.47-1.64-3.39 0-6.52 1.69-8.37 4.521-1.47 2.229-1.97 4.899-1.43 7.51.54 2.62 2.07 4.87 4.31 6.33 1.63 1.069 3.53 1.64 5.47 1.64 3.39 0 6.52-1.689 8.37-4.52 3.03-4.61 1.73-10.82-2.88-13.841z" data-original="#26DCAD" class="hovered-path active-path" style="fill:#26DCAD" data-old_color="#000000"/></g></g> </svg>
+                                        <p><span class="text-gray-900 text-lg"> {{ place.orientation }}</span> </p>
+                                    </div>
+                                </div>
+                                <div class="px-4 pt-3 pb-4 border-t border-gray-300 bg-gray-100">
+                                    <div class="text-xs uppercase font-bold text-gray-600 tracking-wide">ACTIONS</div>
+                                   <!----------------------------------------------accordion------------->
+                                    <div class="shadow-md">
+                                        <div class="tab w-full overflow-hidden border-t">
+                                            <input class="absolute opacity-0 " id="tab-multi-one-{{place.id}}" type="checkbox" name="tabs">
+                                            <label class="block p-5 leading-normal cursor-pointer" for="tab-multi-one-{{place.id}}">View Plants</label>
+                                            <div id="{{ 'plants-for-'~place.id }}" class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
+                                                <p class="p-1">
+                                                    {% for plant in place.plants %}
+                                            <!-- https://tailwindgrids.com/#/ -->
+                                                    <div class="flex flex-wrap -mx-2 overflow-hidden sm:-mx-2 md:-mx-3 lg:-mx-4 xl:-mx-3">
+                                                        <div class="my-2 px-2 w-full overflow-hidden sm:my-2 sm:px-2 md:my-3 md:px-3 md:w-full lg:my-4 lg:px-4 lg:w-full xl:my-3 xl:px-3 xl:w-1/2">
+                                                            <!-- Column Content -->
+                                                        <div class="flex items-center pt-2">
+                                                            <div class="bg-cover bg-center w-20 h-20 rounded-full mx-4" style="background-image: url('{{asset('build/images/plants/'~ plant.getPhoto ~'')}}')"></div>
+                                                            <div>
+                                                                <div class="mx-1"><a href="{{ path ('user-view-plant', { 'id': plant.id }) }}" class="hover:no-underline"><span class="text-base happy-color font-bold">{{plant.getName}}</span> </a> • <span class="text-sm"> {{plant.getBirthdate |time_diff(date())}} old</span></div>
+                                                <div class="mx-1"> <span class="text-xs">•{{ plant.getIdSpecies.getName |upper }}</span> • <span class="text-sm"> {{ plant.getIdMedium.getName |lower }}</span></div>
+                                                 <div class="text-base mx-1 happy-color"> •{{ plant.getIdStage.getName }} •</div>
+                                                <div class="m-3 flex">
+                                                    <div class="flex-initial">
+                                                                <div class="mx-3 flex">
+                                                                    <div class="text-base flex-initial">{{ plant.getStageHistories.count }} </div>
+                                                                    <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/record.svg')}}')"></div>
+                                                                </div>
+                                                    </div>
+                                                    <div class="flex-initial">
+
+                                                        <div class="mx-3 flex">
+                                                            <div class="text-base flex-initial">{{ plant.getActionHistories.count }}</div>
+                                                            <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div>
+                                                            <div class="text-sm happy-color flex-initial"> {% if plant.getActionHistories.count %} {{ plant.getActionHistories[plant.getActionHistories.count - 1].getDate |time_diff(date()) }} ago {% endif %}</div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                                            </div>
+
+                                        </div>
+                                                    </div>
+                                                </div>
+                                               {% endfor %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="tab w-full overflow-hidden border-t">
+                                            <input class="absolute opacity-0" id="tab-multi-two-{{place.id}}" type="checkbox" name="tabs">
+                                            <label class="block p-5 leading-normal cursor-pointer" for="tab-multi-two-{{place.id}}">Add new plant</label>
+                                            <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
+                                                {% form_theme plantForm'bootstrap_4_layout.html.twig' %}
+                                                {% set id = 'plant_form-'~place.id  %}
+                                                {{ form_start(plantForm, {'attr': {'id': id }}) }}
+                                                {{ form_errors(plantForm) }}
+                                                {{ form_row(plantForm.name) }}
+                                                {{ form_row(plantForm.id_species) }}
+                                                {{ form_row(plantForm.id_medium) }}
+                                                {{ form_row(plantForm.id_stage) }}
+                                                {{ form_row(plantForm.birth_date) }}
+                                                {{ form_row(plantForm.photoFile, {
+                                                    attr:{
+                                                        placeholder:'Select the image'
+                                                    }
+                                                }) }}
+                                                {% do plantForm.id_place.setRendered() %} {#https://stackoverflow.com/a/48147298#}
+                                                {% include('user_account/plant-cropper.html.twig') %}
+                                                {% if edit == false %}
+                                                    <button class="btn btn-success">Add new</button>
+                                                {% else %}
+                                                    <button class="btn btn-success">Update</button>
+                                                {% endif %}
+                                                {{ form_end(plantForm) }}
+                                                {#, {'render_rest': false}#}
+                                            </div>
+                                        </div>
+                                        <div class="tab w-full overflow-hidden border-t">
+                                            <input class="absolute opacity-0" id="tab-multi-three-{{place.id}}" type="checkbox" name="tabs">
+                                            <label class="block p-5 leading-normal cursor-pointer" for="tab-multi-three-{{place.id}}">Delete this room</label>
+                                            <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
+                                                <p class="p-5">
+                                                <div>
+                                                    <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
+                                                </div>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!---------------------------------------------accordion end------------------------->
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+                <p> Add new place</p>
                 {% include('user_account/place-form.html.twig') %}
             {% endif %} {# numberOfPlaces #}
 

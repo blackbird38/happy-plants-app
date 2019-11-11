@@ -1,0 +1,4 @@
+npm install tailwindcss-animatecss
+
+modified:   tailwind.js
+modified:   webpack.config.js

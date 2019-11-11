@@ -61,38 +61,71 @@
                                 {% for plant in plants %}
                                     {#    {{  dump(plant) }} #}
                                       {#   {{  dump(plant.idMedium) }}  #} {#  // it doesn't work without fetch="EAGER" !! it does!! #}
-                                    <li><h1><img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">
-                                        <span class="badge badge-success">{{ plant.name|e }}</span></h1>
-                                        is of type <span class="badge badge-success">{{ plant.idSpecies.name|e }}</span>,
-                                        it's planted in <i class="badge badge-success"> {{ plant.idMedium.name|e }}</i>,
-                                        placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>,
-                                        and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.
-                                        <a href="{{ path('user-edit-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this plant"><i class="fas fa-edit text-success"></i></a>
-                                        <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add photo and stage for this plant"><i class="far fa-images text-success"></i></a>
-                                        <a href="{{ path('user-delete-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this plant and all the associated photos and history, if any"><i class="far fa-trash-alt text-danger"></i></a>
-                                        <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add an action on this plant">   <i class="fas fa-water"></i></a>
+                                    <li>
+                                            <div class="flex flex-wrap -mx-2 ">
+                                                <div class="flex-1 my-2 px-2 w-1/4 self-center">
+                                                    <img src="{{asset('build/images/plants/'~ plant.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 200px;">
+                                                </div>
 
-                                    <div>
-                                        <p>Visual evolution of the {{ plant.name }}:</p>
-                                        {% for record in plant.stageHistories %} {#{{ dump(stage)}}#}
-                                              <img src="{{asset('build/images/plants/'~record.photo~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 10%;">
-                                              {# <span >{{  record.getIdStage.name }}</span>#}
-                                        {% endfor %}
+                                                <div class="flex-1 my-2 px-2 w-3/4  ">
+                                                    <h1><span class="badge badge-success">{{ plant.name|e }}</span> </h1>
+                                                    <div>                                         is of type <span class="badge badge-success">{{ plant.idSpecies.name|e }}</span>,
+                                                        it's planted in <i class="badge badge-success"> {{ plant.idMedium.name|e }}</i>,
+                                                        placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>,
+                                                        and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.
+                                                        <a href="{{ path('user-edit-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this plant"><i class="fas fa-edit text-success"></i></a>
+                                                        <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add photo and stage for this plant"><i class="far fa-images text-success"></i></a>
+                                                        <a href="{{ path('user-delete-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this plant and all the associated photos and history, if any"><i class="far fa-trash-alt text-danger"></i></a>
+                                                        <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add an action on this plant">   <i class="fas fa-water"></i></a>
+                                                    </div>
+                                                </div>
+                                           </div>
+                                        <div class="flex flex-wrap -mx-2 overflow-hidden">
+
+                                            <div class="my-2 px-2 w-full overflow-hidden sm:w-full md:w-full lg:w-1/2 xl:w-1/2">
+                                                <!-- Column Content -->
+                                    <p>Visual evolution of the {{ plant.name }}:</p>
+
+                                    <div class="flex flex-wrap -mx-2 overflow-hidden">
+
+
+
+
+
+
+                                    {% for record in plant.stageHistories %} {#{{ dump(stage)}}#}
+                                        <div class="my-2 px-2 w-1/2 overflow-hidden sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5">
+                                        <!-- Column Content -->
+                                        <img src="{{asset('build/images/plants/'~record.photo~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 100px;">
+                                        {# <span >{{  record.getIdStage.name }}</span>#}
+                                        </div>
+                                    {% endfor %}
+
                                     </div>
+
+                                            </div>
+
+                                            <div class="my-2 px-2 w-full overflow-hidden sm:w-full md:w-full lg:w-1/2 xl:w-1/2">
+                                                <!-- Column Content -->
+
                                     <p>Care journal for the  {{ plant.name }}:</p>
                                     {% if plant.actionHistories is not empty %}
-                                    <div>
-                                        <ul>
-                                        {% for recordAction in plant.actionHistories %} {#{{ dump(stage)}}#}
-                                            {# <span>{{ dump(recordAction) }}</span>#}
-                                            <li><span >{{  recordAction.getIdAction.name }} {{  recordAction.date| date }} quantity: {{ recordAction.quantity }} ml </span></li>
-                                        {% endfor %}
-                                            {% if timesLastWatered[plant.id] %}
-                                                {#<li>{{ dump(timesLastWatered[plant.id][0].date) }}</li>#}
-                                                <li>last time watered <span class="badge bg-success text-white">{{ timesLastWatered[plant.id][0].date | time_diff }} </span></li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
+                                        <div>
+                                            <ul>
+                                                {% for recordAction in plant.actionHistories %} {#{{ dump(stage)}}#}
+                                                    {# <span>{{ dump(recordAction) }}</span>#}
+                                                    <li><span >{{  recordAction.getIdAction.name }} {{  recordAction.date| date }} quantity: {{ recordAction.quantity }} ml </span></li>
+                                                {% endfor %}
+                                                {% if timesLastWatered[plant.id] %}
+                                                    {#<li>{{ dump(timesLastWatered[plant.id][0].date) }}</li>#}
+                                                    <li>last time watered <span class="badge bg-success text-white">{{ timesLastWatered[plant.id][0].date | time_diff }} ago </span></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                            </div>
+
+                                        </div>
+
                                     {% else %}
                                         <div>You have no records in the journal. Start adding:  <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}">   <i class="fas fa-water"></i></a> </div>
                                     {% endif %}
@@ -106,11 +139,28 @@
                             </ul>
 
                             </p>
+
                             <p>    Your places: </p>
                             <p>
                             <ul class="list-unstyled">
                                 {% for place in places %}
-                                    <li><img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a></li>
+                                    <li>
+                                        <div class="flex flex-wrap -mx-2  ">
+
+                                            <div class="my-2 px-2 w-3/7  ">
+                                                <!-- Column Content -->
+                                                <img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 100px;">
+                                            </div>
+                                            <div class="my-2 px-2 w-4/7  ">
+                                                <!-- Column Content -->
+                                                {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </li>
                                     {#   <li>{{ dump(place) }}  </li> #}
                                 {% endfor %}
                             </ul>

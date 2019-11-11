@@ -24,6 +24,7 @@ import axios from 'axios';
 import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
+import 'tailwindcss/dist/tailwind.css';
 
 Routing.setRoutingData(Routes);
 
@@ -337,5 +338,10 @@ $(document).ready(function() {
                 console.error(error)
             })
     }
+
+
+    /*------------------------animate.css-----------------------------------------*/
+
+    $("#happy-fadeIn p").addClass("load");
 
 });

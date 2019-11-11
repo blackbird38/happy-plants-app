@@ -13,11 +13,9 @@
             {% if app.user  %}
                 {% if not is_granted("ROLE_ADMIN")  %}
                     {% include('navbar-myplants-inactive.html.twig') %}
-                    {% include('navbar-myplaces-active.html.twig') %}
+                    {% include('navbar-myplaces-inactive.html.twig') %}
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('user_settings')}}">Settings</a>
-                </li>
+                {% include('navbar-settings-active.html.twig') %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>
                 </li>

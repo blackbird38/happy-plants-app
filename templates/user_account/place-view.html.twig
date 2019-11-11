@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    - Place view
+{% endblock %}
+
+{% block body %}
+    {% include('navbar.html.twig') %}
+
+    <div class="card container mt-3 bg-light mb-3">
+        <div class="card-body">
+            {% if is_granted("ROLE_ADMIN") %}
+                <h4 class="card-title">Hi, {{ app.user.name }}, you can go to the admin dashboard,
+                    <a href="{{ path('admin') }}">here!</a>
+                </h4>
+            {% elseif is_granted("ROLE_USER") %}
+                <h4 class="card-title">Hi, {{ app.user.name }}!</h4>
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success text-white">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
