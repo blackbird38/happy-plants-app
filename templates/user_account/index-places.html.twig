@@ -26,23 +26,22 @@
             {% elseif is_granted("ROLE_USER") %}
             <h4 class="card-title">{{ app.user.name }}, </h4>
             {% for message in app.flashes('success') %}
-                <div class="alert alert-success text-white">
+                <div class="alert happy-background text-white">
                     {{ message }}
                 </div>
             {% endfor %}
 
             {% if numberOfPlaces == 0 %}
-                <p>    Let's start by adding the places where you keep them: </p>
+                <p>    Add a new place and then fill it with plants: </p>
                 {% include('user_account/place-form.html.twig') %}
             {% else %} {# numberOfPlaces > 0 #}
-                <p>    You have  {{ numberOfPlaces }} locations: </p>
+                <p>    You have  {{ numberOfPlaces }} location(s) and {{ numberOfPlants }} plant(s): </p>
 
                 <div class="flex flex-wrap overflow-hidden sm:-mx-3 md:-mx-4 lg:-mx-4 xl:-mx-4">
 
                     {% for place in places %}
 
-
-                        <div class="w-full overflow-hidden sm:my-3 sm:px-3 md:my-4 md:px-4 lg:my-4 lg:px-4 lg:w-1/2 xl:my-4 xl:px-4 xl:w-1/2">
+                        <div class="w-full sm:my-3 sm:px-3 md:my-4 md:px-4 lg:my-4 lg:px-4 lg:w-1/2 xl:my-4 xl:px-4 xl:w-1/2">
                             <!-- Column Content -->
 
                             <div class="bg-white shadow-xl rounded-lg overflow-hidden" id="happy-fadeIn">
@@ -139,46 +138,54 @@
                                                 </p>
                                             </div>
                                         </div>
+                                        {#
                                         <div class="tab w-full overflow-hidden border-t">
                                             <input class="absolute opacity-0" id="tab-multi-two-{{place.id}}" type="checkbox" name="tabs">
                                             <label class="block p-5 leading-normal cursor-pointer" for="tab-multi-two-{{place.id}}">Add new plant</label>
-                                            <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
-                                                {% form_theme plantForm'bootstrap_4_layout.html.twig' %}
-                                                {% set id = 'plant_form-'~place.id  %}
-                                                {{ form_start(plantForm, {'attr': {'id': id }}) }}
-                                                {{ form_errors(plantForm) }}
-                                                {{ form_row(plantForm.name) }}
-                                                {{ form_row(plantForm.id_species) }}
-                                                {{ form_row(plantForm.id_medium) }}
-                                                {{ form_row(plantForm.id_stage) }}
-                                                {{ form_row(plantForm.birth_date) }}
-                                                {{ form_row(plantForm.photoFile, {
+                                            <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal add-new-plant">
+                                                {% form_theme plantFormArray[place.id] 'bootstrap_4_layout.html.twig' %}
+                                                {% set id = place.id  %}
+                                                {{ form_start(plantFormArray[place.id] , {'attr': {'data-value': id }}) }}
+                                                {{ form_errors(plantFormArray[place.id] ) }}
+                                                {{ form_row(plantFormArray[place.id].name) }}
+                                                {{ form_row(plantFormArray[place.id].id_species) }}
+                                                {{ form_row(plantFormArray[place.id].id_medium) }}
+                                                {{ form_row(plantFormArray[place.id].id_stage) }}
+                                                {{ form_row(plantFormArray[place.id].birth_date) }}
+                                                {{ form_row(plantFormArray[place.id].photoFile, {
                                                     attr:{
                                                         placeholder:'Select the image'
                                                     }
                                                 }) }}
-                                                {% do plantForm.id_place.setRendered() %} {#https://stackoverflow.com/a/48147298#}
-                                                {% include('user_account/plant-cropper.html.twig') %}
+                                                {% do plantFormArray[place.id].id_place.setRendered() %}
+                                                <div><img style="max-width:50%; display: block; margin-left: auto; margin-right: auto;" src="" alt="" id="photoPlantCropper-{{id}}"></div>
+
                                                 {% if edit == false %}
                                                     <button class="btn btn-success">Add new</button>
                                                 {% else %}
                                                     <button class="btn btn-success">Update</button>
                                                 {% endif %}
-                                                {{ form_end(plantForm) }}
-                                                {#, {'render_rest': false}#}
+                                                {{ form_end(plantFormArray[place.id]) }}
                                             </div>
                                         </div>
+                                        #}
                                         <div class="tab w-full overflow-hidden border-t">
-                                            <input class="absolute opacity-0" id="tab-multi-three-{{place.id}}" type="checkbox" name="tabs">
-                                            <label class="block p-5 leading-normal cursor-pointer" for="tab-multi-three-{{place.id}}">Delete this room</label>
-                                            <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
-                                                <p class="p-5">
-                                                <div>
-                                                    <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
+                                           {# <input class="absolute opacity-0" id="tab-multi-three-{{place.id}}" type="checkbox" name="tabs"> #}
+                                            <label class="block p-2 leading-normal cursor-pointer" for="tab-multi-three-{{place.id}}">
+                                                <div class="flex text-center my-3">
+                                                    <div class="w-2/4"> <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="happy-color">Add a new plant here</a> </div>
+                                                    <div class="w-1/4"> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit happy-color"></i></a> </div>
+                                                    <div class="w-1/4"> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a></div>
                                                 </div>
-                                                </p>
+                                             </label>
+                                            <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
+                                               {#<p class="p-5">
+                                                <div>
+                                                       </div>
+                                                </p>#}
                                             </div>
                                         </div>
+
                                     </div>
 
                                     <!---------------------------------------------accordion end------------------------->
@@ -186,11 +193,17 @@
                             </div>
                         </div>
                     {% endfor %}
+
+                    <div class="w-full sm:my-3 sm:px-3 md:my-4 md:px-4 lg:my-4 lg:px-4 lg:w-1/2 xl:my-4 xl:px-4 xl:w-1/2">
+                        <!-- Column Content -->
+                        <div class="mt-3">
+                            <p> Add a new place</p>
+                            {% include('user_account/place-form.html.twig') %}
+                        </div>
+                    </div>
                 </div>
 
 
-                <p> Add new place</p>
-                {% include('user_account/place-form.html.twig') %}
             {% endif %} {# numberOfPlaces #}
 
         </p>

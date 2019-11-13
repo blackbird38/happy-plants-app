@@ -142,7 +142,8 @@ $(document).ready(function() {
         })
             .then((response) => {
                 console.log(response);
-                window.location = '/user/account'; //to redirect to /user/account page (the route was exposed)
+              //  window.location = '/user/account'; //to redirect to /user/account page (the route was exposed)
+                window.location = '/user/account/places';
             })
             .catch((error) => {
                 console.error(error)
@@ -247,7 +248,8 @@ $(document).ready(function() {
         })
             .then((response) => {
                 console.log(response);
-                window.location = '/user/account'; //to redirect to /user/account page (the route was exposed)
+               // window.location = '/user/account'; //to redirect to /user/account page (the route was exposed) v1
+                window.location = '/user/account/places';
             })
             .catch((error) => {
                 console.error(error)
@@ -332,7 +334,8 @@ $(document).ready(function() {
         })
             .then((response) => {
                 console.log(response);
-                window.location = '/user/account'; //to redirect to /user/account page (the route was exposed)
+               // window.location = '/user/account'; //to redirect to /user/account page (the route was exposed) v1
+                window.location = '/user/account/places';
             })
             .catch((error) => {
                 console.error(error)
@@ -344,4 +347,15 @@ $(document).ready(function() {
 
     $("#happy-fadeIn p").addClass("load");
 
+
+    /* places - accordion- add new plant*/
+/*
+    let forms = document.querySelectorAll( '.add-new-plant form' );
+    for (const form of forms) {
+        form.addEventListener( 'submit', function( event ) {
+            event.preventDefault();
+            alert(this.getAttribute('data-value'));
+        });
+    }
+*/
 });

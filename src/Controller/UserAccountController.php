@@ -142,7 +142,7 @@ class UserAccountController extends AbstractController
 
 
     /**
-     * @Route("/user/account/places", name="user_account_places")
+     * @Route("/user/account/places", name="user_account_places", options={"expose"=true})
      */
     public function indexPlaces(UserInterface $user, Request $request)
     {
@@ -184,9 +184,16 @@ class UserAccountController extends AbstractController
         $form = $this->createForm(PlaceType::class, $place);
         $form->handleRequest($request);
 
-        //send an emty plantForm to the twig, to allow the adding of new plants (accordion)
-        $plant = new Plant();
-        $plantForm = $this->createForm(PlantType::class, $plant);
+        //send $nPlaces empty forms plantForm to the twig, to allow the adding of new plants (accordion)
+     /*   $formArray =[];
+        foreach ($places as $place){
+            $plant = new Plant();
+            $plantForm = $this->createForm(PlantType::class, $plant);
+            $id = $place->getId();
+            $formArray[$id] = $plantForm->createView();
+        }*/
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $request->files->get('place');
@@ -224,8 +231,8 @@ class UserAccountController extends AbstractController
             'numberOfPlaces' =>  $nPlaces,
             'places' => $places,
             'plants' => $plants,
-            'timesLastWatered' => $timesLastWatered,
-            'plantForm' => $plantForm->createView()
+            'timesLastWatered' => $timesLastWatered
+           // 'plantFormArray' => $formArray
         ]);
     }
 
@@ -413,7 +420,8 @@ class UserAccountController extends AbstractController
             $message = $name. ' was deleted. The ' . $nPlants . ' plants in it, too.';
         }
         $this->addFlash('success', $message);
-        return $this->redirectToRoute('user_account');
+     //   return $this->redirectToRoute('user_account'); // v1
+        return $this->redirectToRoute('user_account_places');
 
         // TODO : send a message
         // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)
