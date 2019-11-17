@@ -105,7 +105,7 @@ body {
 .btn-success-happy {
         position: relative;
         background-color: #26dcad !important;
-        color:white;
+        color:white !important;
 }
 
 .btn-success-happy:focus {
@@ -180,7 +180,6 @@ a:hover {
         color: white;
         background-color: #25c298;
         text-decoration:none;
-
 }
 a:active { /*selected*/
         color: white;

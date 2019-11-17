@@ -691,7 +691,7 @@ class UserAccountController extends AbstractController
             $entityManager->persist($record);
             $entityManager->flush();
 
-            return new JsonResponse("This is an ajax request!");
+            return new JsonResponse($plantId);
             return $this->redirectToRoute('user_account');
             // TODO : send a message
             //TODO : modify here
@@ -852,7 +852,8 @@ class UserAccountController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($actionRecord);
             $entityManager->flush();
-            return $this->redirectToRoute('user_account');
+            return $this->redirectToRoute('user-view-plant', array(
+                'id' => $id));
         }
         return $this->render('user_account/plant-add-action-full.html.twig', [
             'actionHistoryForm' => $form->createView(),
@@ -1007,7 +1008,9 @@ class UserAccountController extends AbstractController
             $entityManager->persist($record);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_account');
+            //return $this->redirectToRoute('user_account');
+            return $this->redirectToRoute('user-view-plant', array(
+                'id' => $id));
         }
 
         return $this->render('user_account/plant-edit.html.twig', [
@@ -1041,7 +1044,7 @@ class UserAccountController extends AbstractController
         $this->entityManager->flush();
         $this->addFlash('success', $name .' deleted.');
         // TODO : send a different message for error
-        return $this->redirectToRoute('user_account');
+        return $this->redirectToRoute('user_account_places');
 
         // TODO : send a message
         // TODO : upload files into the assets folder and use webpack watch to save them into the public folder(?)

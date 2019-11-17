@@ -23,7 +23,7 @@ class StageHistory
     private $id_stage;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $date;
 

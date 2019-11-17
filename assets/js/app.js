@@ -213,6 +213,8 @@ $(document).ready(function() {
         let url_id = url_array[url_array.length - 1]
         let url
         let method
+        let url_redirect
+        let add = false
         if (!isNaN(url_id)) { //it's for 'edit plant' form, for the plant with id url_id
             //the url can be: user/add/plant/to/the/place/with/{id}
             //adding a plant to a place with id = 'id'
@@ -220,6 +222,7 @@ $(document).ready(function() {
             {
                 url = Routing.generate('user-add-plant', {id: url_id})
                 method = 'post'
+                add = true;
             }
 
             //the url can be: /user/edit/the/plant/with/{id}
@@ -247,9 +250,15 @@ $(document).ready(function() {
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
             .then((response) => {
-                console.log(response);
+                console.log(response.data);
                // window.location = '/user/account'; //to redirect to /user/account page (the route was exposed) v1
-                window.location = '/user/account/places';
+               // window.location = '/user/account/places';
+                if (add) //a new plant was added and getting the id that is in the ajax response
+                    { url_redirect = `/user/view/plant/with/${response.data}`
+                    }else {
+                        url_redirect = `/user/view/plant/with/${url_id}`
+                    }
+                window.location = url_redirect;
             })
             .catch((error) => {
                 console.error(error)

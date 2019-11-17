@@ -1,0 +1,2 @@
+page of a place
+after adding a new plant, redirect to the page of its place (or the page of the plant) - done

@@ -16,7 +16,7 @@
                     <a href="{{ path('admin') }}">here!</a>
                 </h4>
             {% elseif is_granted("ROLE_USER") %}
-                <h4 class="card-title">{{ app.user.name }}, here is your plant:</h4>
+                <h4 class="card-title">{{ app.user.name }}, here is your plant from <a href="{{ path('user-view-place', { 'id': plant.getIdPlace.getId }) }}">{{ plant.getIdPlace.getName }}</a>:</h4>
                 {% for message in app.flashes('success') %}
                     <div class="alert alert-success text-white">
                         {{ message }}
@@ -41,6 +41,19 @@
                             <div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-white-500 opacity-25"></div>
 
                             <div class="p-2 flex bg-white  justify-end h-10">
+
+                                <div class="flex-initial">
+                                    <div class="mx-3 text-base">
+                                        <a href="{{ path('user-delete-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this plant and all the associated photos and history, if any"><i class="far fa-trash-alt text-danger"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="flex-initial">
+                                    <div class="mx-3 text-base">
+                                        <a href="{{ path('user-edit-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this plant"><i class="fas fa-edit happy-color"></i></a>
+                                    </div>
+                                </div>
+
                                 <div class="flex-initial">
                                     <div class="mx-3 flex">
                                         <div class="text-base flex-initial ">{{ plant.getStageHistories.count }} </div>
@@ -51,7 +64,7 @@
 
                                     <div class="mx-3 flex">
                                         <div class="text-base flex-initial">{{ plant.getActionHistories.count }}</div>
-                                        <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div>
+                                        <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Water this plant"> <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div></a>
                                         <div class="text-sm happy-color flex-initial"> {% if plant.getActionHistories.count %} {{ plant.getActionHistories[plant.getActionHistories.count - 1].getDate |time_diff(date()) }} ago {% endif %}</div>
                                     </div>
                                 </div>

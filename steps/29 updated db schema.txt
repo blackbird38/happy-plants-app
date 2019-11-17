@@ -1,0 +1,11 @@
+
+php bin/console doctrine:schema:update --force
+
+(changed date -> datetime in ActionHistory
+ @ORM\Column(type="datetime")
+)
+
+-----------------
+install for new db:
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate

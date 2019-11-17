@@ -115,14 +115,14 @@
                                                     <div class="flex-initial">
                                                                 <div class="mx-3 flex">
                                                                     <div class="text-base flex-initial">{{ plant.getStageHistories.count }} </div>
-                                                                    <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/record.svg')}}')"></div>
+                                                                    <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add photo and stage for this plant"><div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/record.svg')}}')"></div></a>
                                                                 </div>
                                                     </div>
                                                     <div class="flex-initial">
 
                                                         <div class="mx-3 flex">
                                                             <div class="text-base flex-initial">{{ plant.getActionHistories.count }}</div>
-                                                            <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div>
+                                                            <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Water this plant"><div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div></a>
                                                             <div class="text-sm happy-color flex-initial"> {% if plant.getActionHistories.count %} {{ plant.getActionHistories[plant.getActionHistories.count - 1].getDate |time_diff(date()) }} ago {% endif %}</div>
                                                         </div>
 
