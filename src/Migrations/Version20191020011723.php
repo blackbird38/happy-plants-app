@@ -22,8 +22,8 @@ final class Version20191020011723 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $actions = array(
             array('name'=>'watering'),
-            array('name'=>'fertilizing'),
-            array('name'=>'cleaning'),
+         /*   array('name'=>'fertilizing'),
+            array('name'=>'cleaning'),*/
         );
         foreach ($actions as $action)
         {
