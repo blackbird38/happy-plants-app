@@ -11,6 +11,8 @@ require('../css/app.css');
 require('../css/style.css');
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
+require('@fancyapps/fancybox/dist/jquery.fancybox.css');
+require('@fancyapps/fancybox/dist/jquery.fancybox.js');
 
 const $ = require('jquery');
 require('bootstrap');
@@ -368,4 +370,25 @@ $(document).ready(function() {
         });
     }
 */
+
+    $('[data-fancybox="gallery"]').fancybox({
+        buttons : [
+            'slideShow',
+            'share',
+            'zoom',
+            'fullScreen',
+            'close'
+        ],
+        thumbs : {
+            autoStart : true
+        },
+        afterLoad : function(instance, current) {
+            var pixelRatio = window.devicePixelRatio || 1;
+
+            if ( pixelRatio > 1.5 ) {
+                current.width  = current.width  / pixelRatio;
+                current.height = current.height / pixelRatio;
+            }
+        }
+    });
 });

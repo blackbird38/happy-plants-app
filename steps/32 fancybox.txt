@@ -1,0 +1,38 @@
+npm i @fancyapps/fancybox
+
+https://www.npmjs.com/package/@fancyapps/fancybox
+http://fancyapps.com/fancybox/3/
+
+app.js:
+
+require('@fancyapps/fancybox/dist/jquery.fancybox.css');
+require('@fancyapps/fancybox/dist/jquery.fancybox.js');
+
+    $('[data-fancybox="gallery"]').fancybox({
+        buttons : [
+            'slideShow',
+            'share',
+            'zoom',
+            'fullScreen',
+            'close'
+        ],
+        thumbs : {
+            autoStart : true
+        },
+        afterLoad : function(instance, current) {
+            var pixelRatio = window.devicePixelRatio || 1;
+
+            if ( pixelRatio > 1.5 ) {
+                current.width  = current.width  / pixelRatio;
+                current.height = current.height / pixelRatio;
+            }
+        }
+    });
+
+----
+twig:
+
+    <a data-fancybox="gallery" data-caption=" {{ plant.name }} {{ record.getIdStage.getName }} on {{ record.getDate | date("m/d/Y") }}" href="{{asset('build/images/plants/'~ record.getPhoto ~'')}}">
+         <div class="bg-cover bg-center h-56 p-4 happy-touch" style="background-image: url('{{asset('build/images/plants/'~ record.getPhoto ~'')}}')">
+          </div>
+    </a>

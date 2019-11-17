@@ -71,9 +71,6 @@
                             </div>
 
                             <div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-white-500 opacity-25"></div>
-
-
-
 <!--
                              <div class="pt-12 pb-8">
                                 <button class="bg-white hover:bg-teal-900 happy-color font-bold py-2 px-4 rounded-full">
@@ -103,10 +100,13 @@
                                     <!-- Column Content https://tailwindgrids.com/#/ -->
 
                                     <div class="max-w-sm rounded overflow-hidden ">
-                                        <div class="bg-cover bg-center h-56 p-4 happy-touch" style="background-image: url('{{asset('build/images/plants/'~ record.getPhoto ~'')}}')">
-                                        </div>
 
-                                        <div class="px-6 py-4">
+                                        <a data-fancybox="gallery" data-caption=" {{ plant.name }} {{ record.getIdStage.getName }} on {{ record.getDate | date("m/d/Y") }}" href="{{asset('build/images/plants/'~ record.getPhoto ~'')}}">
+                                          <div class="bg-cover bg-center h-56 p-4 happy-touch" style="background-image: url('{{asset('build/images/plants/'~ record.getPhoto ~'')}}')">
+                                            </div>
+                                        </a>
+
+                                        <div class="px-6 py-4 shadow-inner">
                                             <div class="text-base mb-2"  data-toggle="tooltip" data-placement="top" title="{{ record.getDate | date("m/d/Y") }}">Published: {{ record.getDate |time_diff(date()) }} ago </div>
                                             <p class="text-gray-700 text-base">
                                             Stage: {{ record.getIdStage.getName }}   <a href="{{ path('user-delete-plant-photo', { 'id': record.getId }) }}" data-toggle="tooltip" data-placement="top" title="Delete this photo"><i class="far fa-trash-alt text-danger"></i></a>
@@ -121,13 +121,16 @@
                     </div>
 </div>
 <div>
+
+    <!-- <div> Care journal for the {{ plant.getName }}</div> -->
                     <div class="flex flex-wrap mx-4 overflow-hidden">
                         {% if plant.getActionHistories.count  %}
+
                             {% for record in plant.getActionHistories %}
-                                <div class="my-3 px-3 w-full overflow-hidden md:w-1/2 lg:w-1/3 xl:w-1/3">
+                                <div class="my-3 px-3 w-full overflow-hidden md:w-1/2 lg:w-1/3 xl:w-1/3 shadow-inner">
                                     <!-- Column Content https://tailwindgrids.com/#/ -->
 
-                                    <div class="max-w-sm rounded overflow-hidden ">
+                                    <div class="max-w-sm rounded overflow-hidden">
                                         <div class="px-6 py-4">
                                             <div class="text-base mb-2">Published: {{ record.getDate |time_diff(date()) }} ago </div>
                                             <p class="text-gray-700 text-base">
