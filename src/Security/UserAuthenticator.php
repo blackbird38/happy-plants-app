@@ -85,7 +85,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 // TODO: redirect to adminboard or useraccount
-        return new RedirectResponse($this->urlGenerator->generate('user_account'));
+        return new RedirectResponse($this->urlGenerator->generate('user_account_places'));
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
