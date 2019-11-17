@@ -18,7 +18,7 @@
             {% elseif is_granted("ROLE_USER") %}
                 <h4 class="card-title">{{ app.user.name }}, here is your plant from <a href="{{ path('user-view-place', { 'id': plant.getIdPlace.getId }) }}">{{ plant.getIdPlace.getName }}</a>:</h4>
                 {% for message in app.flashes('success') %}
-                    <div class="alert alert-success text-white">
+                    <div class="alert alert-success text-white happy-background">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -107,9 +107,9 @@
                                         </div>
 
                                         <div class="px-6 py-4">
-                                            <div class="font-bold text-base mb-2">Photo taken {{ record.getDate |time_diff(date()) }} ago </div>
+                                            <div class="text-base mb-2"  data-toggle="tooltip" data-placement="top" title="{{ record.getDate | date("m/d/Y") }}">Published: {{ record.getDate |time_diff(date()) }} ago </div>
                                             <p class="text-gray-700 text-base">
-                                            Stage: {{ record.getIdStage.getName }}
+                                            Stage: {{ record.getIdStage.getName }}   <a href="{{ path('user-delete-plant-photo', { 'id': record.getId }) }}" data-toggle="tooltip" data-placement="top" title="Delete this photo"><i class="far fa-trash-alt text-danger"></i></a>
                                             </p>
                                         </div>
                                     </div>
@@ -129,9 +129,9 @@
 
                                     <div class="max-w-sm rounded overflow-hidden ">
                                         <div class="px-6 py-4">
-                                            <div class="font-bold text-base mb-2">Date: {{ record.getDate |time_diff(date()) }} ago </div>
+                                            <div class="text-base mb-2">Published: {{ record.getDate |time_diff(date()) }} ago </div>
                                             <p class="text-gray-700 text-base">
-                                               Action: {{ record.getIdAction.getName }}
+                                               Action: {{ record.getIdAction.getName }}, {{ record.quantity }} ml
                                             </p>
                                         </div>
                                     </div>

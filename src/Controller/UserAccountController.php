@@ -18,6 +18,7 @@ use App\Repository\StageRepository;
 use App\Repository\UserRepository;
 use App\Repository\PlantRepository;
 use App\Repository\PlaceRepository;
+use App\Repository\StageHistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -38,6 +39,7 @@ class UserAccountController extends AbstractController
     private $placeRepository;
     private $mediumRepository;
     private $speciesRepository;
+    private $stageHistoryRepository;
     private $stageRepository;
 
     public function __construct(UserRepository $userRepository,
@@ -45,6 +47,7 @@ class UserAccountController extends AbstractController
                                 PlaceRepository $placeRepository,
                                 MediumRepository $mediumRepository,
                                 SpeciesRepository $speciesRepository,
+                                StageHistoryRepository $stageHistoryRepository,
                                 StageRepository $stageRepository,
                                 ActionRepository $actionRepository,
                                 EntityManagerInterface $entityManager
@@ -56,6 +59,7 @@ class UserAccountController extends AbstractController
         $this->entityManager = $entityManager;
         $this->mediumRepository = $mediumRepository;
         $this->stageRepository = $stageRepository;
+        $this->stageHistoryRepository = $stageHistoryRepository;
        // $this->actionRepository = $actionRepository;
 
     }
@@ -1079,6 +1083,39 @@ class UserAccountController extends AbstractController
         return $this->render('user_account/settings.html.twig', [
             'controller_name' => 'DefaultController',
         ]);
+    }
+
+    /**
+     * @Route("/user/delete/plant/photo/{id}", name="user-delete-plant-photo")
+     */
+    public function deletePlantPhoto($id)
+    {
+        $recordToDelete = $this->stageHistoryRepository->find($id);
+     //   dd($recordToDelete);
+        $plantId = $recordToDelete->getIdPlant();
+        $plant = $this->plantRepository->find($plantId);
+        $plantId = $plant->getId();
+
+        //checking to see if the user has right to do this
+        $this->denyAccessUnlessGranted('PLANT_DELETE', $plant);
+
+        $filesystem = new Filesystem();
+
+        try {
+            $uploads_directory = $this->getParameter('plants_upload_directory');
+            $filename = $recordToDelete->getPhoto();
+            $filesystem->remove($uploads_directory . '/' . $filename);
+        } catch (IOExceptionInterface $exception) {
+            echo "An error occurred while creating your directory at " . $exception->getPath();
+        }
+
+        $this->entityManager->remove($recordToDelete);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'The photo was deleted');
+
+        return $this->redirectToRoute('user-view-plant', array(
+            'id' => $plantId));
     }
 
 }
