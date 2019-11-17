@@ -25,7 +25,7 @@ final class Version20191019202634 extends AbstractMigration
         $now = new \DateTime();
         $now  = $now ->format('Y-m-d H:i:s');
         $user = array('encoded' => $encoded, 'now' => $now);
-        $this->addSql('INSERT INTO user(`id`, `email`, `roles`, `password`, `name`, `last_name`, `phone`, `photo`, `created_at`) VALUES (null,"admin@admin.org",\'["ROLE_ADMIN", "ROLE_USER"]\',:encoded,"admin","admin","admin","+33126273849",:now)', $user);
+        $this->addSql('INSERT INTO user(`id`, `email`, `roles`, `password`, `name`, `last_name`, `phone`, `photo`, `created_at`) VALUES (null,"admin@admin.org",\'["ROLE_ADMIN", "ROLE_USER"]\',:encoded,"admin","admin","+33126273849","default.jpg",:now)', $user);
 
     }
 
