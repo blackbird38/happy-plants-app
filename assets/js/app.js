@@ -189,7 +189,7 @@ $(document).ready(function() {
 }
 
     if (plant_form) {
-//for both the new place and edit place forms
+//for both the new plant and edit plant forms
         plant_form.addEventListener('submit', function (event) {
             event.preventDefault();
             //cropper.zoomTo(1);
@@ -335,7 +335,8 @@ $(document).ready(function() {
             .then((response) => {
                 console.log(response);
                // window.location = '/user/account'; //to redirect to /user/account page (the route was exposed) v1
-                window.location = '/user/account/places';
+               // window.location = '/user/account/places';
+                window.location = `/user/view/plant/with/${url_id}`;
             })
             .catch((error) => {
                 console.error(error)

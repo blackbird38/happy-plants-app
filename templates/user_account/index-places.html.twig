@@ -46,14 +46,14 @@
 
                             <div class="bg-white shadow-xl rounded-lg overflow-hidden" id="happy-fadeIn">
                                 <div class="bg-cover bg-center h-56 p-4 happy-touch" style="background-image: url({{asset('build/images/plants/places/'~ place.photo ~'')}})">
-                                    <div class="flex justify-end">
+                             <!--       <div class="flex justify-end">
                                         <svg class="h-6 w-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                             <path d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"></path>
                                         </svg>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="p-4">
-                                    <p class="text-left"><a href="{{ path('user-view-place', { 'id': place.id }) }}" class="hover:no-underline"><span class="text-3xl text-gray-900 happy-color">{{ place.name | e     }} </span></a><span>•</span> <span class="happy-color uppercase tracking-wide text-sm font-bold text-gray-700">{{      place.plants.count}}</span> <span class="uppercase tracking-wide text-sm font-bold text-gray-700 text-right">plants</span></p>
+                                    <p class="text-left"><span class="text-3xl text-gray-900"><a href="{{ path('user-view-place', { 'id': place.id }) }}">{{ place.name | e     }} </a></span><span>•</span> <span class="happy-color uppercase tracking-wide text-sm font-bold text-gray-700">{{      place.plants.count}}</span> <span class="uppercase tracking-wide text-sm font-bold text-gray-700 text-right">plants</span></p>
                                 </div>
                                 <div class="flex p-4 border-t border-gray-300 text-gray-700">
                                     <div class="flex-1 inline-flex items-center">
@@ -99,6 +99,7 @@
                                             <label class="block p-5 leading-normal cursor-pointer" for="tab-multi-one-{{place.id}}">View Plants</label>
                                             <div id="{{ 'plants-for-'~place.id }}" class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
                                                 <p class="p-1">
+                                                    {% if place.plants.count !=  0 %}
                                                     {% for plant in place.plants %}
                                             <!-- https://tailwindgrids.com/#/ -->
                                                     <div class="flex flex-wrap -mx-2 overflow-hidden sm:-mx-2 md:-mx-3 lg:-mx-4 xl:-mx-3">
@@ -107,7 +108,7 @@
                                                         <div class="flex items-center pt-2">
                                                             <div class="bg-cover bg-center w-20 h-20 rounded-full mx-4" style="background-image: url('{{asset('build/images/plants/'~ plant.getPhoto ~'')}}')"></div>
                                                             <div>
-                                                                <div class="mx-1"><a href="{{ path ('user-view-plant', { 'id': plant.id }) }}" class="hover:no-underline"><span class="text-base happy-color font-bold">{{plant.getName}}</span> </a> • <span class="text-sm"> {{plant.getBirthdate |time_diff(date())}} old</span></div>
+                                                                <div class="mx-1"><a href="{{ path ('user-view-plant', { 'id': plant.id }) }}"><span class="text-base font-bold">{{plant.getName}}</span> </a> • <span class="text-sm"> {{plant.getBirthdate |time_diff(date())}} old</span></div>
                                                 <div class="mx-1"> <span class="text-xs">•{{ plant.getIdSpecies.getName |upper }}</span> • <span class="text-sm"> {{ plant.getIdMedium.getName |lower }}</span></div>
                                                  <div class="text-base mx-1 happy-color"> •{{ plant.getIdStage.getName }} •</div>
                                                 <div class="m-3 flex">
@@ -135,7 +136,9 @@
                                                     </div>
                                                 </div>
                                                {% endfor %}
-                                                </p>
+                                                {% else %}
+                                                    <span class="text-base"> No plants here yet. </span>
+                                                {% endif  %}
                                             </div>
                                         </div>
                                         {#

@@ -1057,7 +1057,7 @@ class UserAccountController extends AbstractController
     }
 
     /**
-     * @Route("/user/view/plant/with/{id}", name="user-view-plant")
+     * @Route("/user/view/plant/with/{id}", name="user-view-plant", options={"expose"=true})
      */
     public function displayPlant($id){
         $plant= $this->plantRepository->find($id);

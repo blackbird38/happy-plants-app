@@ -1,3 +1,5 @@
+{# to display a plant with a given id #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -6,11 +8,7 @@
 {% endblock %}
 
 {% block body %}
-
-
         {% include('navbar-places.html.twig') %}
-
-
     <div class="card container mt-3 bg-light mb-3">
         <div class="card-body">
             {% if is_granted("ROLE_ADMIN") %}
@@ -30,7 +28,6 @@
                     <!--Main Col-->
                     <div id="profile" class="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
 
-
                         <div class="p-4 md:p-12 text-center lg:text-left happy-background">
                             <!-- Image for mobile view-->
                             <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center" style="background-image: url('{{asset('build/images/plants/'~ plant.getPhoto ~'')}}')"></div>
@@ -47,7 +44,7 @@
                                 <div class="flex-initial">
                                     <div class="mx-3 flex">
                                         <div class="text-base flex-initial ">{{ plant.getStageHistories.count }} </div>
-                                        <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/record.svg')}}')"></div>
+                                        <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add photo and stage for this plant"><div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/record.svg')}}')"></div></a>
                                     </div>
                                 </div>
                                 <div class="flex-initial">
@@ -57,10 +54,7 @@
                                         <div class="bg-cover flex-initial bg-center w-5 h-5" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div>
                                         <div class="text-sm happy-color flex-initial"> {% if plant.getActionHistories.count %} {{ plant.getActionHistories[plant.getActionHistories.count - 1].getDate |time_diff(date()) }} ago {% endif %}</div>
                                     </div>
-
-
                                 </div>
-
                             </div>
 
                             <div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-white-500 opacity-25"></div>
@@ -75,6 +69,7 @@
                             </div>
   -->
                         </div>
+
 
                     </div>
 
