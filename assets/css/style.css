@@ -187,3 +187,19 @@ a:active { /*selected*/
         text-decoration:none;
 
 }
+/*--------footer--------*/
+#page-container {
+        position: relative;
+        min-height: 82.5vh;
+}
+
+#content-wrap {
+        height: 1rem;
+}
+
+#footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 5rem;            /* Footer height */
+}

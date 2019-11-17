@@ -28,7 +28,7 @@
                 {% elseif is_granted("ROLE_USER") %}
                     <h4 class="card-title">Hi, {{ app.user.name }}!</h4>
             {% for message in app.flashes('success') %}
-                <div class="alert alert-success text-white">
+                <div class="alert alert-success happy-color text-white">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -45,7 +45,7 @@
                                     {% for place in places %}
                                         <li>
                                             <img src="{{asset('build/images/plants/places/'~ place.photo ~'')}}" class="img-fluid rounded-circle img-thumbnail" style="max-width: 5%;">  {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}
-                                            <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
+                                            <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="happy-color">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit happy-color"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
                                         </li>
                                         {#   <li>{{ dump(place) }}  </li> #}
                                     {% endfor %}
@@ -68,13 +68,13 @@
                                                 </div>
 
                                                 <div class="flex-1 my-2 px-2 w-3/4  ">
-                                                    <h1><span class="badge badge-success">{{ plant.name|e }}</span> </h1>
-                                                    <div>                                         is of type <span class="badge badge-success">{{ plant.idSpecies.name|e }}</span>,
-                                                        it's planted in <i class="badge badge-success"> {{ plant.idMedium.name|e }}</i>,
-                                                        placed in <span class="badge badge-success"> {{ plant.idPlace.name|e }}</span>,
-                                                        and <span class="badge badge-success">{{ plant.idStage.name|e }}</span> right now.
-                                                        <a href="{{ path('user-edit-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this plant"><i class="fas fa-edit text-success"></i></a>
-                                                        <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add photo and stage for this plant"><i class="far fa-images text-success"></i></a>
+                                                    <h1><span class="badge badge-success happy-background">{{ plant.name|e }}</span> </h1>
+                                                    <div>                                         is of type <span class="badge badge-success happy-background">{{ plant.idSpecies.name|e }}</span>,
+                                                        it's planted in <i class="badge badge-success happy-background"> {{ plant.idMedium.name|e }}</i>,
+                                                        placed in <span class="badge badge-success happy-background"> {{ plant.idPlace.name|e }}</span>,
+                                                        and <span class="badge badge-success happy-background">{{ plant.idStage.name|e }}</span> right now.
+                                                        <a href="{{ path('user-edit-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this plant"><i class="fas fa-edit happy-color"></i></a>
+                                                        <a href="{{ path('user-plant-add-photos-and-stage', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add photo and stage for this plant"><i class="far fa-images happy-color"></i></a>
                                                         <a href="{{ path('user-delete-plant', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this plant and all the associated photos and history, if any"><i class="far fa-trash-alt text-danger"></i></a>
                                                         <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Add an action on this plant">   <i class="fas fa-water"></i></a>
                                                     </div>
@@ -118,7 +118,7 @@
                                                 {% endfor %}
                                                 {% if timesLastWatered[plant.id] %}
                                                     {#<li>{{ dump(timesLastWatered[plant.id][0].date) }}</li>#}
-                                                    <li>last time watered <span class="badge bg-success text-white">{{ timesLastWatered[plant.id][0].date | time_diff }} ago </span></li>
+                                                    <li>last time watered <span class="badge happy-background text-white">{{ timesLastWatered[plant.id][0].date | time_diff }} ago </span></li>
                                                 {% endif %}
                                             </ul>
                                         </div>
@@ -153,7 +153,7 @@
                                             </div>
                                             <div class="my-2 px-2 w-4/7  ">
                                                 <!-- Column Content -->
-                                                {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="text-success">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit text-success"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
+                                                {{ place.name|e }}   {{ place.humidity}}%   {{ place.orientation}}  <a href="{{ path ('user-add-plant', { 'id': place.id }) }}" class="happy-color">Add a new plant here</a> <a href="{{ path ('user-edit-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Edit this place"><i class="fas fa-edit happy-color"></i></a> <a href="{{ path ('user-delete-place', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Delete this place and all the associated plants, if any"><i class="far fa-trash-alt text-danger"></i></a>
 
                                             </div>
 
