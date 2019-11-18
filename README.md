@@ -36,10 +36,13 @@ The purpose of this application is to track the watering and the health of our g
     - Ability to add or remove a plant from a place
     - Ability to add or remove a photo of a plant
     - List all plants by location. Know for how long a plant has not been watered.
+    
+ ![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture23.PNG?token=AMGZT2Q2X3ZN7PKT3KFDQHS52HRQE "Printscreen")
  
+ ![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture26.PNG?token=AMGZT2UHUDYJLHVMWPWKAH252HRLY "Printscreen")
+ 
+![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture22.PNG?token=AMGZT2S6GAO2F7IOIZSEZKK52HROG "Printscreen")
 
-![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture22.PNG "Printscreen")
 
-![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture26.PNG "Printscreen")
 
 
