@@ -38,5 +38,8 @@ The purpose of this application is to track the watering and the health of our g
     - List all plants by location. Know for how long a plant has not been watered.
  
 
-![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture22.PNG?token=AMGZT2RIG7FXJGFX6OF53CK52HPIW "Printscreen")
+![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture22.PNG "Printscreen")
+
+![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture26.PNG "Printscreen")
+
 
