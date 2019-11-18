@@ -42,7 +42,7 @@ The purpose of this application is to track the watering and the health of our g
  ![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture26.PNG?token=AMGZT2UHUDYJLHVMWPWKAH252HRLY "Printscreen")
  
   
- ![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture24.PNG?token=AMGZT2V7PVDM5L6QO4BZQXS52HRVA "Printscreen")
+ ![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture27.PNG?token=AMGZT2WKK6LHA5XRJ64DJHK52HSBW "Printscreen")
  
 ![alt text](https://raw.githubusercontent.com/blackbird38/happy-plants-app/master/steps/printscreens/Capture22.PNG?token=AMGZT2S6GAO2F7IOIZSEZKK52HROG "Printscreen")
 
