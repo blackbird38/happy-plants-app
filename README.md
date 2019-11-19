@@ -50,3 +50,5 @@ The purpose of this application is to track the watering and the health of our g
 
 ![alt text](https://1.bp.blogspot.com/-B80m-4wfFkU/XdREWxDeKlI/AAAAAAAAACs/KHPt8GO6fGo_I_fX8OlfcCgJ_ZVT2QNOACKgBGAsYHg/s1600/Capture22.PNG "Printscreen")
 
+
+![alt text](https://1.bp.blogspot.com/-5g692bQh03g/XdR_4CJ4AfI/AAAAAAAAADQ/xJ1whGaKPWwY8yHs_-8t-8ROOSnajoZ5gCKgBGAsYHg/s1600/Capture28.PNG "Printscreen")
