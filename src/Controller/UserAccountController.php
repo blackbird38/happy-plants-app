@@ -1118,4 +1118,43 @@ class UserAccountController extends AbstractController
             'id' => $plantId));
     }
 
+    /**
+     * @Route("/user/account/plants", name="user_account_plants")
+     */
+    public function indexPlants(UserInterface $user, Request $request)
+    {
+        //checking to see if the user has any plants, if they don't have, encourage them to upload
+        $userID = $user->getId();
+        //to be able to add new plants, an user must first add a place
+        $places = $this->userRepository->find($userID)->getPlaces();
+        $nPlaces = count($places);
+        $plants = $this->userRepository->find($userID)->getPlants();
+        $nPlants = count($plants);
+        //if there isn't any places, redirect the user to add a place (on the places page)
+        if ($nPlaces == 0 || $nPlants == 0){
+            return $this->redirectToRoute('user_account_places');
+        }
+        //else, there is at least one plant, display it
+
+        //saving the time last watered in an array
+        $timesLastWatered = [];
+        foreach ($plants as $plant) {
+            $timeLastWatered = $this->plantRepository->getLastTimeWatered($plant->getId());
+            $timesLastWatered[$plant->getId()] = $timeLastWatered;
+        }
+        foreach ($plants as $plant){
+            foreach ($plant->getStageHistories() as $rec){
+
+            }
+
+        }
+
+        return $this->render('user_account/index-plants.html.twig', [
+            'numberOfPlants' =>  $nPlants,
+            'numberOfPlaces' =>  $nPlaces,
+            'plants' => $plants
+        ]);
+    }
+
+
 }

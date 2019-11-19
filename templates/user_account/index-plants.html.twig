@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    - My plants
+{% endblock %}
+
+{% block body %}
+    {% include('navbar.html.twig') %}
+    {# user is here only if it has at least a plant in the repo#}
+    <div class="card container mt-3 bg-light mb-3">
+        <div class="card-body">
+            <p>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <h4 class="card-title">Hi, {{ app.user.name }}, you can go to the admin dashboard, <a href="{{ path('admin') }}">here!</a></h4>
+                {% elseif is_granted("ROLE_USER") %}
+                    <h4 class="card-title">Hi, {{ app.user.name }}!</h4>
+                      {% for message in app.flashes('success') %}
+                            <div class="alert alert-success happy-color text-white">
+                                  {{ message }}
+                            </div>
+                      {% endfor %}
+                      {% if numberOfPlants == 0 %}
+                             <p> It seems that you don't have any plants yet.</p>
+                            </p>
+                        {% else %} {# numberOfPlants > 0 #}
+
+        {% set needCare = false %}
+        {% for plant in plants %}
+            {% if plant.getActionHistories.count == 0 %} {#plant has never been watered#}
+                {% set needCare = true %}
+            {% elseif plant.getActionHistories.count %}  {#if there are any watering actions#}
+                {% set difference = date(plant.getActionHistories[plant.getActionHistories.count - 1].getDate|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+                {% if difference.days >= 3 %}
+                   {% set needCare = true %}
+                {% endif %}
+            {% endif %}
+         {% endfor %}
+         {% if needCare %} {# to display the message before the grid #}
+              <div class="my-2">There are plants that need your care:</div>
+         {% endif %}
+
+          <div class="flex flex-wrap  happy-background rounded-lg">
+              {% set toDisplay = false  %}
+
+            {% for plant in plants %}
+                {#displaying plants that haven't been watered in the past 3 days, if any, or the ones never watered#}
+                {% if not plant.getActionHistories.count %}
+                   {% set toDisplay = true  %}
+                {% elseif plant.getActionHistories.count %}  {#if there are any watering actions#}
+                    {% set difference = date(plant.getActionHistories[plant.getActionHistories.count - 1].getDate|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+                     {% if difference.days >= 3 %}
+                         {% set toDisplay = true  %}
+                     {% endif %}
+                {% endif %}
+
+                {% if toDisplay == true  %}
+                         <div class="my-2 px-2 w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
+                         <!-- Column Content -->
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden flex-1 flex flex-col">
+                                <a href="{{ path ('user-view-plant', { 'id': plant.id }) }}"><div class="bg-cover h-48" style="background-image: url({{asset('build/images/plants/'~ plant.photo ~'')}});"></div> </a>
+                                <h3 class="my-1 px-2 text-2xl text-center">{{ plant.name|e }}</h3>
+                                <div class="flex mx-4 justify-center">
+                                    <div class="flex my-4">
+                                         <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Water this plant"><div class="bg-cover flex-initial bg-center w-8 h-8" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div></a>
+                                        <div class="mx-1  text-sm happy-color text-2xl">
+                                            {% if plant.getActionHistories.count %}
+                                                {{ plant.getActionHistories[plant.getActionHistories.count - 1].getDate |time_diff(date()) }} ago
+                                                {% else %}
+                                                never
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                {% endif %}
+                {% set toDisplay = false  %}
+            {% endfor %}
+          </div> {# grid plants 1#}
+
+                {# displaying the other plants #}
+                            {% set toDisplay = false %}
+                            {% for plant in plants %}
+                                {% if plant.getActionHistories.count %}  {#checking to see if there are plants watered in the past 3 days#}
+                                    {% set difference = date(plant.getActionHistories[plant.getActionHistories.count - 1].getDate|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+                                        {% if difference.days < 3 %}
+                                            {% set toDisplay = true  %}
+                                        {% endif %}
+                                    {% endif %}
+                            {% endfor %}
+
+                            {%  if toDisplay %} {# there are plants left to be displayed, showing a message and displaying#}
+                                <div class="mt-3 mb-1"> Here are your happy plants: </div>
+                            <div class="flex flex-wrap rounded-lg my-2" style="background-color: #d1fff3">
+
+                                {% for plant in plants %}
+                                    {#displaying plants that have been watered in the past 3 days#}
+                                    {% if plant.getActionHistories.count %}  {#checking to see if there are plants watered in the past 3 days#}
+                                        {% set difference = date(plant.getActionHistories[plant.getActionHistories.count - 1].getDate|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+                                            {% if difference.days < 3 %}
+                                            <div class="my-2 px-2 w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
+                                                <!-- Column Content -->
+                                                <div class="bg-white rounded-lg shadow-lg overflow-hidden flex-1 flex flex-col">
+                                                    <a href="{{ path ('user-view-plant', { 'id': plant.id }) }}"><div class="bg-cover h-48 happy-touch" style="background-image: url({{asset('build/images/plants/'~ plant.photo ~'')}});"></div> </a>
+                                                    <h3 class="my-1 px-2 text-2xl">{{ plant.name|e }}</h3>
+                                                    <div class="flex mx-4 justify-center">
+                                                        <div class="flex my-2 justify-center">
+                                                            <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Water this plant"><div class="bg-cover flex-initial bg-center w-8 h-8" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div></a>
+                                                            <div class="mx-1 text-sm happy-color text-2xl"> {% if plant.getActionHistories.count %} {{ plant.getActionHistories[plant.getActionHistories.count - 1].getDate |time_diff(date()) }} ago {% endif %}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+
+                                {% endfor %}
+                            </div> {# grid plants 2#}
+                                {% endif %}
+
+
+
+        {% endif %}  {# numberOfPlants #}
+    {% endif %} {#ROLE#}
+    </p>
+
+    </div>
+    </div>
+
+
+
+{% endblock %}
