@@ -122,7 +122,12 @@
 </div>
 <div>
 
-    <!-- <div> Care journal for the {{ plant.getName }}</div> -->
+
+      <div class="mx-4 happy-background text-white"> Care journal for the {{ plant.getName }}</div>
+    {% if not plant.getActionHistories.count  %}
+        <div class="mx-4">No records yet.</div>
+    {% endif %}
+
                     <div class="flex flex-wrap mx-4 overflow-hidden">
                         {% if plant.getActionHistories.count  %}
 

@@ -58,7 +58,7 @@
                          <div class="my-2 px-2 w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
                          <!-- Column Content -->
                             <div class="bg-white rounded-lg shadow-lg overflow-hidden flex-1 flex flex-col">
-                                <a href="{{ path ('user-view-plant', { 'id': plant.id }) }}"><div class="bg-cover h-48" style="background-image: url({{asset('build/images/plants/'~ plant.photo ~'')}});"></div> </a>
+                                <a href="{{ path ('user-view-plant', { 'id': plant.id }) }}"><div class="bg-cover h-48 happy-touch" style="background-image: url({{asset('build/images/plants/'~ plant.photo ~'')}});"></div> </a>
                                 <h3 class="my-1 px-2 text-2xl text-center">{{ plant.name|e }}</h3>
                                 <div class="flex mx-4 justify-center">
                                     <div class="flex my-4">
@@ -103,7 +103,7 @@
                                                 <!-- Column Content -->
                                                 <div class="bg-white rounded-lg shadow-lg overflow-hidden flex-1 flex flex-col">
                                                     <a href="{{ path ('user-view-plant', { 'id': plant.id }) }}"><div class="bg-cover h-48 happy-touch" style="background-image: url({{asset('build/images/plants/'~ plant.photo ~'')}});"></div> </a>
-                                                    <h3 class="my-1 px-2 text-2xl">{{ plant.name|e }}</h3>
+                                                    <h3 class="my-1 px-2 text-2xl text-center">{{ plant.name|e }}</h3>
                                                     <div class="flex mx-4 justify-center">
                                                         <div class="flex my-2 justify-center">
                                                             <a href="{{ path('user-plant-add-action', { 'id': plant.id }) }}" data-toggle="tooltip" data-placement="top" title="Water this plant"><div class="bg-cover flex-initial bg-center w-8 h-8" style="background-image: url('{{asset('build/images/svg/drop.svg')}}')"></div></a>
