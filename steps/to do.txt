@@ -1,4 +1,4 @@
-admin panel: delete selected user OR add Easy Admin
+admin panel: delete selected users/etc OR add Easy Admin
 page of a place (?)
 date field -> restrict period
 after adding a new plant, redirect to the page of its place (or the page of the plant) - done
